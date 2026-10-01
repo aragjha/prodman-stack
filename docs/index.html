@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Prodman Stack — AI skills for product managers</title>
+<meta name="description" content="Free, MIT-licensed AI skills for product managers. Turn work you cannot show into a portfolio you can send.">
+<meta property="og:title" content="Prodman Stack">
+<meta property="og:description" content="You have shipped things for years and cannot show a single one of them. These skills fix that.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#07080a; --panel:#101318; --panel2:#151921;
+  --line:#1e232c; --line2:#2a313d;
+  --ink:#e8ecf2; --dim:#8b95a5; --faint:#5a6474;
+  --sig:#c3f53c; --sig-dim:#7f9e26; --ok:#3ddc84; --crit:#ff4d4d;
+  --mono:'JetBrains Mono',ui-monospace,monospace;
+  --disp:'Syne',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  background:var(--bg);color:var(--ink);font-family:var(--mono);font-size:14px;line-height:1.65;
+  padding:0 0 90px;
+  background-image:
+    radial-gradient(900px 520px at 78% -8%,rgba(195,245,60,.06),transparent 62%),
+    radial-gradient(700px 420px at 8% 0%,rgba(195,245,60,.03),transparent 60%);
+}
+body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:99;opacity:.025;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)'/%3E%3C/svg%3E")}
+.wrap{max-width:720px;margin:0 auto;padding:0 24px}
+.fade{opacity:0;transform:translateY(10px);animation:f .6s cubic-bezier(.2,.8,.2,1) forwards}
+@keyframes f{to{opacity:1;transform:none}}
+
+header{padding:60px 0 0}
+.eyebrow{font-size:10px;letter-spacing:.22em;color:var(--sig);text-transform:uppercase;margin-bottom:22px}
+h1{font-family:var(--disp);font-size:clamp(30px,6vw,48px);font-weight:800;line-height:1.05;letter-spacing:-.03em;margin-bottom:24px}
+.lede{font-size:15px;color:var(--dim);line-height:1.75;max-width:60ch}
+.lede b{color:var(--ink);font-weight:500}
+.pull{font-family:var(--disp);font-size:clamp(17px,2.6vw,21px);font-weight:700;line-height:1.35;letter-spacing:-.015em;
+  margin:34px 0;padding:22px 26px;border-left:2px solid var(--sig);background:linear-gradient(90deg,rgba(195,245,60,.07),transparent)}
+
+h2{font-family:var(--disp);font-size:12px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;
+  margin:56px 0 18px;padding-bottom:9px;border-bottom:1px solid var(--line);color:var(--dim)}
+
+.skill{border:1px solid var(--line);border-radius:5px;background:var(--panel);padding:20px 22px;margin-bottom:11px}
+.skill .nm{font-family:var(--disp);font-size:16px;font-weight:700;color:var(--sig);letter-spacing:-.01em}
+.skill .pr{font-size:13px;color:var(--dim);margin-top:7px;line-height:1.6}
+.skill .pr i{color:var(--ink);font-style:italic}
+
+pre{background:var(--panel2);border:1px solid var(--line);border-radius:5px;padding:17px 19px;overflow-x:auto;
+  font-size:12.5px;color:var(--sig);line-height:1.8;margin:16px 0}
+
+.limits{border:1px solid var(--line);border-radius:5px;overflow:hidden}
+.lim{display:flex;gap:14px;padding:13px 19px;border-bottom:1px solid var(--line);font-size:13px;align-items:baseline}
+.lim:last-child{border-bottom:none}
+.lim b{color:var(--crit);font-weight:500;min-width:15px}
+.lim span{color:var(--dim)}
+
+/* form */
+.cap{border:1px solid var(--sig-dim);border-radius:6px;background:linear-gradient(145deg,rgba(195,245,60,.07),var(--panel));padding:30px;margin:56px 0 0}
+.cap h3{font-family:var(--disp);font-size:19px;font-weight:700;margin-bottom:11px;letter-spacing:-.015em}
+.cap p{font-size:13px;color:var(--dim);margin-bottom:20px;line-height:1.7}
+.frm{display:flex;gap:9px;flex-wrap:wrap}
+.frm input{flex:1;min-width:230px;background:var(--bg);border:1px solid var(--line2);color:var(--ink);
+  font-family:var(--mono);font-size:14px;padding:14px 16px;border-radius:4px}
+.frm input::placeholder{color:var(--faint)}
+.frm input:focus{outline:none;border-color:var(--sig-dim)}
+.frm button{background:var(--sig);border:none;color:#0a0c06;font-family:var(--mono);font-size:13px;font-weight:700;
+  letter-spacing:.05em;padding:14px 28px;border-radius:4px;cursor:pointer;transition:.18s}
+.frm button:hover{box-shadow:0 0 26px rgba(195,245,60,.3)}
+.frm button:disabled{opacity:.5;cursor:default;box-shadow:none}
+.msg{margin-top:14px;font-size:13px;min-height:20px}
+.msg.ok{color:var(--ok)} .msg.err{color:var(--crit)}
+.fine{font-size:11.5px;color:var(--faint);margin-top:15px;line-height:1.6}
+
+.cta{display:inline-block;margin-top:26px;border:1px solid var(--line2);color:var(--ink);text-decoration:none;
+  font-size:13px;padding:13px 24px;border-radius:4px;transition:.18s}
+.cta:hover{border-color:var(--sig-dim);color:var(--sig);background:rgba(195,245,60,.06)}
+
+footer{margin-top:64px;padding-top:24px;border-top:1px solid var(--line);font-size:11.5px;color:var(--faint);line-height:1.9}
+footer a{color:var(--dim)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="fade">
+  <div class="eyebrow">Free · MIT · for product managers</div>
+  <h1>Your PM work<br>is invisible.</h1>
+  <p class="lede">
+    You have shipped things. Real things, for years. And you cannot show a single one of them.
+    The PRDs are in a Confluence you no longer have access to. The roadmap belongs to a company that owns it.
+    The research is full of customer names you cannot say out loud. Meanwhile every job post wants
+    <b>"AI experience"</b>, and every portfolio you see belongs to a designer or an engineer who can just
+    link the thing they built.
+  </p>
+  <div class="pull">You are not behind on AI.<br>You are sitting on ten years of work you are not allowed to show.</div>
+</header>
+
+<h2>The skills</h2>
+<div class="skill fade" style="animation-delay:.05s">
+  <div class="nm">portfolio-from-work</div>
+  <div class="pr"><i>"Ten years of work and I can't show any of it."</i><br>
+  Interviews you from memory — you do not need the documents. De-identifies everything before it writes a word,
+  and shows you exactly what it stripped. You end with case studies you can send and one artifact that opens.</div>
+</div>
+<div class="skill fade" style="animation-delay:.1s">
+  <div class="nm">launch-minimum</div>
+  <div class="pr"><i>"I keep not launching and I can't say why."</i><br>
+  Eight things that must exist before you launch, and nothing else. Audits what you have, names what is
+  missing in funnel order, and refuses to let you build a ninth thing.</div>
+</div>
+
+<h2>Start in 15 minutes</h2>
+<pre>git clone https://github.com/aragjha/prodman-stack
+cd prodman-stack
+claude
+
+→ Read skills/portfolio-from-work/SKILL.md and run it on my last project.</pre>
+<a class="cta" href="https://github.com/aragjha/prodman-stack" target="_blank" rel="noopener">Open the repo on GitHub →</a>
+
+<h2>What this cannot do</h2>
+<div class="limits fade">
+  <div class="lim"><b>✕</b><span><b style="color:var(--ink)">It will not remember you.</b> Every session starts from zero. You re-explain your product each time.</span></div>
+  <div class="lim"><b>✕</b><span><b style="color:var(--ink)">It cannot tell you if the output is right.</b> It produces. It does not check.</span></div>
+  <div class="lim"><b>✕</b><span><b style="color:var(--ink)">It does not improve because you used it.</b> Your corrections die when the session closes.</span></div>
+</div>
+<p class="fine">Those are the difference between a folder of skills and a system. They are stated here because you
+will hit them by day three, and they are not bugs. This repo is genuinely yours under MIT either way.</p>
+
+<!-- CAPTURE -->
+<div class="cap fade" id="cap">
+  <h3>Get each new skill the day it ships</h3>
+  <p>One new skill lands in this repo every week. Drop your email and you get it the day it ships — plus the
+  <b style="color:var(--ink)">eval golden sets</b>: the frozen adversarial inputs each skill is tested against, with
+  the traps documented. That is how you check whether a skill actually works instead of just producing output.</p>
+  <form class="frm" id="f">
+    <input type="email" name="email" placeholder="you@work.com" required autocomplete="email">
+    <input type="hidden" name="access_key" value="c1fa0d07-68f7-4951-bfcb-caf1191da755">
+    <input type="hidden" name="subject" value="Prodman Stack — new signup">
+    <input type="hidden" name="from_name" value="Prodman Stack">
+    <input type="checkbox" name="botcheck" style="display:none" tabindex="-1" autocomplete="off">
+    <button type="submit" id="btn">SEND IT</button>
+  </form>
+  <div class="msg" id="m"></div>
+  <p class="fine">No newsletter. No drip sequence. A skill, when there is a skill.</p>
+</div>
+
+<footer>
+  Built by a product manager who publishes what breaks as well as what works.<br>
+  MIT licensed — fork it, sell what you build with it, no attribution needed.<br>
+  <a href="https://github.com/aragjha/prodman-stack">github.com/aragjha/prodman-stack</a>
+</footer>
+
+</div>
+
+<script>
+const f=document.getElementById('f'),m=document.getElementById('m'),btn=document.getElementById('btn');
+f.addEventListener('submit',async e=>{
+  e.preventDefault();
+  m.className='msg'; m.textContent='Sending…'; btn.disabled=true;
+  try{
+    const r=await fetch('https://api.web3forms.com/submit',{
+      method:'POST',
+      headers:{'Content-Type':'application/json',Accept:'application/json'},
+      body:JSON.stringify(Object.fromEntries(new FormData(f)))
+    });
+    const j=await r.json().catch(()=>({}));
+    if(r.ok&&j.success){
+      m.className='msg ok';
+      m.textContent='✓ In. You get the next skill the day it ships.';
+      f.style.display='none';
+    } else {
+      throw new Error(j.message||('HTTP '+r.status));
+    }
+  }catch(err){
+    /* never swallow a failure and pretend it worked */
+    m.className='msg err';
+    m.textContent='✕ That did not send ('+err.message+'). Mail hello@airox.games and I will add you by hand.';
+    btn.disabled=false;
+  }
+});
+</script>
+</body>
+</html>

@@ -88,7 +88,7 @@ the paid OS is for — and if they do not, this repo is genuinely yours under MI
 
 New skills land here as they are built and tested. If you want them as they ship:
 
-**→ [Drop your email here](https://prodman.ai/list)** and each new skill arrives the day it ships, free.
+**→ [Drop your email here](https://aragjha.github.io/prodman-stack/)** and each new skill arrives the day it ships, free.
 
 You also get the part that is not in this repo yet: the **eval golden sets** — the frozen adversarial
 inputs each skill is tested against, with the traps documented. That is how you check whether a skill
