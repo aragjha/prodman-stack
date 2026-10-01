@@ -1,0 +1,7 @@
+outputs/portfolio/
+outputs/**/deidentification-log.md
+.DS_Store
+.env
+# Never publish personal data of real people
+distribution/
+*.csv
