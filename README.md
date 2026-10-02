@@ -60,8 +60,12 @@ If you cannot tell whether something is safe to publish, the skill flags it and 
 prodman-stack/
 ├── README.md                       ← you are here
 ├── skills/
-│   └── portfolio-from-work/
-│       └── SKILL.md                ← the skill
+│   ├── portfolio-from-work/SKILL.md    ← work you can't show → work you can send
+│   └── launch-minimum/SKILL.md         ← the eight things, and nothing else
+├── evals/
+│   ├── README.md                   ← the autonomy ladder, and how to score a run
+│   ├── golden-sets/                ← 5 frozen adversarial inputs per skill, traps documented
+│   └── scoreboards/                ← results, with the failures left on them
 ├── examples/
 │   └── worked-example.md           ← one real case study, start to finish
 └── LICENSE                         ← MIT, use it commercially
@@ -90,9 +94,9 @@ New skills land here as they are built and tested. If you want them as they ship
 
 **→ [Drop your email here](https://prodman.ai)** and each new skill arrives the day it ships, free.
 
-You also get the part that is not in this repo yet: the **eval golden sets** — the frozen adversarial
-inputs each skill is tested against, with the traps documented. That is how you check whether a skill
-is actually doing its job rather than just producing output.
+The **eval golden sets** are already in here, free — `evals/golden-sets/`, five frozen adversarial
+inputs per skill with every trap written down, so you can audit the checks instead of trusting them.
+Scoreboards land in `evals/scoreboards/` as runs happen, **with the failures left on them.**
 
 No newsletter. No drip sequence. A skill, when there is a skill.
 
