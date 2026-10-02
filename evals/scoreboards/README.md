@@ -1,9 +1,11 @@
 # Scoreboards
 
-Empty, honestly.
+One per skill. **Red rows stay** — a scoreboard with no failures is a scoreboard nobody believes.
 
-The golden sets exist (`../golden-sets/`), the VERIFY contracts are written inside each `SKILL.md`,
-and **no run has happened yet.** When one does, the scoreboard lands here with its failures visible —
-including the rung history and every red row, which are appended to and never overwritten.
+| Skill | Rung | Score | Last run |
+|---|---|---:|---|
+| [`launch-minimum`](launch-minimum.md) | **Observer** | **3/5** | 2026-10-02 |
+| `portfolio-from-work` | Observer | not run | — |
 
-Saying "coming soon" here would be the exact failure this repo is about. So: not run yet.
+`launch-minimum` declared Advisor in its own VERIFY block and scored 3/5 against the bar of 4/5.
+**The rung was an assertion; the measurement disagreed.** It is Observer until it is fixed and re-run.

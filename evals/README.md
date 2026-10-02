@@ -65,7 +65,12 @@ check. If you think a trap is wrong, the file is right there and the fix is a pu
 | | |
 |---|---|
 | Golden sets written | **2 skills × 5 inputs** |
-| Scoreboards published | **0** |
+| Scoreboards published | **1** |
+| `launch-minimum` | **Observer** — scored **3/5**, below the 4/5 Advisor bar |
+| `portfolio-from-work` | not run |
 
-No scoreboard has been run yet. When one is, **it is published with its failures on it** — a
-scoreboard you can only pass is not a scoreboard.
+The first scoreboard ran on 2026-10-02 and **the skill failed to earn the rung it had declared.**
+Both failing runs are published unedited in [`runs/`](runs/). So are the three defects found in the
+test harness itself, one of which let a real failure through.
+
+A scoreboard you can only pass is not a scoreboard.
