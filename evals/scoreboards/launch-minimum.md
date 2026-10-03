@@ -23,6 +23,7 @@ The skill's `## VERIFY` block *declares* Advisor. Advisor requires **5 runs, ≥
 |---|---|---|
 | 2026-09-30 | Advisor *(claimed)* | Written into the VERIFY block. Never measured |
 | **2026-10-02** | **Observer** | First real run: 3/5. Below the ≥4/5 Advisor bar |
+| 2026-10-03 | Observer *(rung void)* | Both fixes applied to `SKILL.md`. **Any edit invalidates the rung** — the 3/5 below describes the previous version. Re-run pending |
 
 ---
 

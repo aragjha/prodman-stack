@@ -84,6 +84,10 @@ move on. This step is the whole point of the skill — it is where launches actu
 State it plainly:
 
 - **All eight real** → launch today. Name the first action and the hour.
+- **A single ⚠️ or ❌ anywhere** → the verdict is **GO \<date\>**, never GO today. The date falls
+  after the last gap closes, not the same morning. *(Step 1 already says a ⚠️ is a ❌. It is restated
+  here because this is where the verdict gets written, and run 3 of 2026-10-02 broke the rule
+  precisely because step 5 did not repeat it.)*
 - **One or two missing** → name them, size them in hours, and give a date that is this week.
 - **Three or more missing** → not a launch, a build. Say so, and sequence them in funnel order.
 
@@ -102,7 +106,7 @@ which is why item 6 must be verified with a real transaction before it is marked
 | 3 | Gaps in funnel order | Missing items listed earliest-first | auto | ordered by ease instead |
 | 4 | No ⚠️ marked as ready | Partial counts as missing | auto | a partial is in the go column |
 | 5 | The ninth-thing list exists | `AFTER` is written, even if empty | auto | absent |
-| 6 | Smallest version proposed | Each gap has a version sized in hours | adversarial | a gap is sized in weeks |
+| 6 | Smallest version proposed | **Every populated `Smallest fix` cell** — not only gaps — is sized in minutes or hours | adversarial | any proposed fix is unsized, or sized in weeks |
 | 7 | A real verdict | Go, or a dated plan. Never "nearly" | adversarial | hedged |
 
 **Red flags (any one = rung 0):**
