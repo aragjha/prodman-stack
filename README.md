@@ -61,7 +61,8 @@ prodman-stack/
 ├── README.md                       ← you are here
 ├── skills/
 │   ├── portfolio-from-work/SKILL.md    ← work you can't show → work you can send
-│   └── launch-minimum/SKILL.md         ← the eight things, and nothing else
+│   ├── launch-minimum/SKILL.md         ← the eight things, and nothing else
+│   └── eval-write/SKILL.md             ← the set a skill has to survive
 ├── evals/
 │   ├── README.md                   ← the autonomy ladder, and how to score a run
 │   ├── golden-sets/                ← 5 frozen adversarial inputs per skill, traps documented
