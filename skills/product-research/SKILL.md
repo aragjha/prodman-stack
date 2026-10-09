@@ -5,7 +5,13 @@ disable-model-invocation: false
 user-invocable: true
 ---
 
-# /product-research — the map, not the reading
+# /product-research — the research that argues against you
+
+**Most AI research agrees with you.** Tell a model what you believe before it searches and it is
+measurably more likely to confirm it (Wang et al., *When Truth Is Overridden*, arXiv 2508.02087:
+"first-person prompts ('I believe...') consistently induce higher sycophancy rates than
+third-person"). This skill is built to do the opposite: it writes down what would prove you wrong,
+goes looking for that first, and ends in a verdict on your belief.
 
 Most product research fails before it starts. Nobody wrote down what decision it was for, so it
 cannot be wrong — and a document that cannot be wrong changes nothing. It gets filed under
@@ -40,7 +46,7 @@ Write it back in under a page and get it confirmed:
 |---|---|
 | **Decision** | What will be chosen differently depending on what is found. Build · buy · position · price · enter · kill |
 | **Goal it serves** | The number that is supposed to move, from your own strategy — never the web's |
-| **Belief** | What you currently think is true, in one sentence a stranger could disagree with |
+| **Belief** | What the user currently thinks is true, **written in the third person** (*"The PM believes ops leads want…"*, never *"I believe"*), in one sentence a stranger could disagree with. Split a compound belief into **B1 / B2** here |
 | **Falsifier** | What finding would make you drop the belief. **A belief that cannot lose is not a belief; it is a conclusion waiting for footnotes** |
 | **Already known** | What you have already seen, so the run does not re-find it |
 
@@ -74,6 +80,11 @@ keys before searching: **problem phrase + platform + company + angle word.**
 **Show the map and the keys before searching.** The user cuts angles that do not bear on the
 decision. Eight full angles for a decision that needed three is not thorough; it is expensive.
 
+**Read `FRAMEWORKS.md` (this skill's folder) before writing angle 5.** It says what each framework
+predicts and the misuse to avoid — Kano is measured from customers, never from competitor counts; the
+Mom Test is an interview method, not a theory. Each angle-5 row: *framework · what it predicts here ·
+what the evidence says · agrees / disagrees*.
+
 **The canon is the spine, not an angle you can cut.** A PM trusts a map that speaks their language.
 Angle 5 is never cut, and every other angle's **Insight** names the framework it is read through —
 *"through JTBD, the job here is…"*, *"Kano: this is a basic, so its absence costs, its presence
@@ -82,6 +93,11 @@ framework name with no prediction is decoration.
 
 ### 3. Search, and open
 The one rule: **a search snippet is not a source.** Open the page. If it cannot be opened, say so.
+
+**Search against the belief first.** Write the contradicting search keys before the confirming ones
+(*"<feature> nobody used"*, *"<feature> shut down"*, *"<claim> wrong"*, *"why we stopped <X>"*)
+and run them first. Read the belief out of your working notes while you collect; look at it again
+only in step 5.
 
 Every claim carries a mark:
 
@@ -108,6 +124,14 @@ Rungs that work, so you do not re-climb dead ones:
 Capture **verbatim** to `SOURCES.md`: angle · quote · URL · date read · engagement · mark. A
 paraphrase is not evidence. A quote is.
 
+**Then prove the quotes are verbatim.** A page-reading tool returns a model's version of the page,
+not the page; three scoreboard rounds failed on quotes that were almost exact. Before step 4, run
+`python3 verify_quotes.py SOURCES.md` (in this skill's folder). It fetches each raw page and string-
+matches every quote. For each line it reports: **MISMATCH** → fix the quote from the raw text, or
+downgrade the row to MEDIUM and drop the quotation marks · **CUT** → add the "…" where the quote starts
+or ends mid-sentence · **UNREACHABLE** (JavaScript-built page) → MEDIUM, unless you read the text from
+an API or JSON endpoint the row names. The output goes in section 4.
+
 **Patterns need three.** A claim that something is *common*, *a trend* or *what most people do*
 needs three independent sources. Fewer is a *weak signal*, labelled as such. **Adjacent evidence** —
 engineers describing a problem you are researching for PMs, a US market standing in for an Indian
@@ -132,12 +156,17 @@ build written where the belief status should be is the most common way a map sto
 An insight with no stated impact is a fact with nowhere to go, and it does not go in the map.
 
 ### 5. Close against the ground truth
+**Sweep by text, not by label.** Re-read every section-2 row's *Finding* and *Also changes* text and ask:
+does this weaken, limit or complicate the belief, whatever its label says? Relabel any that do — the
+labels were written while the belief was in your head, which is when agreement bias lands.
+
 **List first, then judge.** Before writing a word of the verdict, list by id every section-2 row whose
 **Belief** column says *contradicts* (including weak or adjacent ones, which say so in **Mark** or
 **Also changes**, never in Belief). The *Contradicting evidence* line must cite every id on that list, or say which one
 was dropped and why. **The verdict may never cite fewer contradicting rows than section 2 labelled.**
 A verdict built from memory of the map is the failure this skill exists to prevent; it happened on
-the first scoreboard's control, with every fact in the map correct.
+the first scoreboard's control, with every fact in the map correct. Write **Dropped:** with the ids
+you left out and why — *"Dropped: none"* is allowed only after that explicit line.
 
 The verdict, in this order:
 
@@ -145,10 +174,12 @@ The verdict, in this order:
 2. **The falsifier:** did it fire? One line.
 3. **Contradicting evidence**, listed, not buried. If there is none, say *none found* and name what was searched.
 4. **Top three insights** ranked by impact on the goal — not by how interesting they were.
-5. **Next step** — exactly one of: *decide* (the decision can be made now) · *spec* (the question is
+5. **Next step** — one sentence, no "and", no "plus". Exactly one of: *decide* (the decision can be made now) · *spec* (the question is
    answered; write it) · *one named gap* (precisely what is still unknown, and where to look).
    Never *"more research needed."* **If the decision would reverse on a number the map does not
    have, the step is *one named gap* — that number — not a *decide* with a caveat. Never both.**
+6. **Other gaps — not needed for this decision:** everything else still unknown goes here, on its
+   own line, so the next step can stay one sentence.
 
 Then the self-check: the auto checks from the VERIFY block, with actual values. **It is not a
 scoreboard** — a run grading itself is a claim, not a check — but it makes the claim auditable.
@@ -219,7 +250,9 @@ research/<YYYY-MM-DD>-<slug>/
 **Falsifier:** fired · did not fire
 **Contradicting evidence:** … | none found — searched …
 **Top three, by impact on the goal:** 1 … 2 … 3 …
-**Next step:** decide · spec · one named gap — …
+**Dropped:** <ids and why> | none
+**Next step:** decide · spec · one named gap — <one sentence>
+**Other gaps — not needed for this decision:** …
 
 ## 4 · Self-check (not a scoreboard)
 | Check | Actual value |
