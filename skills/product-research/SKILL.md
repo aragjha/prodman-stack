@@ -9,8 +9,8 @@ user-invocable: true
 
 **Most AI research agrees with you.** Tell a model what you believe before it searches and it is
 measurably more likely to confirm it (Wang et al., *When Truth Is Overridden*, arXiv 2508.02087:
-"first-person prompts ('I believe...') consistently induce higher sycophancy rates than
-third-person"). This skill is built to do the opposite: it writes down what would prove you wrong,
+"first-person prompts (``I believe...'') consistently induce higher sycophancy rates than
+third-person framings (``They believe...'')"). This skill is built to do the opposite: it writes down what would prove you wrong,
 goes looking for that first, and ends in a verdict on your belief.
 
 Most product research fails before it starts. Nobody wrote down what decision it was for, so it
