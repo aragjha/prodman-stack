@@ -1,0 +1,35 @@
+
+=== run-01 · MAP
+  C1  PASS                         fields present {'Decision': True, 'Belief': True, 'Falsifier': True}; order: section0=2026-10-09 earliest-source=2026-10-09 -> ok
+  C2  PASS                         37 finding rows; 0 without a source id + mark: []
+  C3  PASS                         40 source rows, 21 HIGH, 0 HIGH without url+date-read
+  C4  PASS                         0 pattern-claim lines; 0 with <3 sources and no 'weak signal': []
+  C5  PASS                         8 angle sections; silently empty: []
+
+=== run-02 · MAP
+  C1  PASS                         fields present {'Decision': True, 'Belief': True, 'Falsifier': True}; order: section0=2026-10-09 earliest-source=2026-10-09 -> ok
+  C2  PASS                         35 finding rows; 0 without a source id + mark: []
+  C3  PASS                         32 source rows, 20 HIGH, 0 HIGH without url+date-read
+  C4  PASS                         0 pattern-claim lines; 0 with <3 sources and no 'weak signal': []
+  C5  PASS                         8 angle sections; silently empty: []
+
+=== run-03 · MAP
+  C1  PASS                         fields present {'Decision': True, 'Belief': True, 'Falsifier': True}; order: section0=2026-10-09 earliest-source=2026-10-09 -> ok
+  C2  PASS                         37 finding rows; 0 without a source id + mark: []
+  C3  PASS                         37 source rows, 27 HIGH, 0 HIGH without url+date-read
+  C4  PASS                         0 pattern-claim lines; 0 with <3 sources and no 'weak signal': []
+  C5  PASS                         8 angle sections; silently empty: []
+
+=== run-04 · MAP
+  C1  PASS                         fields present {'Decision': True, 'Belief': True, 'Falsifier': True}; order: section0=2026-10-09 earliest-source=2026-10-09 -> ok
+  C2  PASS                         31 finding rows; 0 without a source id + mark: []
+  C3  PASS                         35 source rows, 18 HIGH, 0 HIGH without url+date-read
+  C4  PASS                         0 pattern-claim lines; 0 with <3 sources and no 'weak signal': []
+  C5  PASS                         8 angle sections; silently empty: []
+
+=== run-05 · MAP
+  C1  PASS                         fields present {'Decision': True, 'Belief': True, 'Falsifier': True}; order: section0=2026-10-09 earliest-source=2026-10-09 -> ok
+  C2  PASS                         34 finding rows; 0 without a source id + mark: []
+  C3  PASS                         42 source rows, 28 HIGH, 0 HIGH without url+date-read
+  C4  PASS                         0 pattern-claim lines; 0 with <3 sources and no 'weak signal': []
+  C5  PASS                         8 angle sections; silently empty: []

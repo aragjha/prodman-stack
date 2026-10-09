@@ -1,0 +1,35 @@
+
+=== run-01 · MAP
+  C1  PASS                         fields present {'Decision': True, 'Belief': True, 'Falsifier': True}; order: section0=2026-10-09 earliest-source=2026-10-09 -> ok
+  C2  FAIL                         35 finding rows; 1 without a source id + mark: ['Needed before planning: Q1 expansion tar']
+  C3  FAIL                         39 source rows, 32 HIGH, 2 HIGH without url+date-read
+  C4  PASS                         0 pattern-claim lines; 0 with <3 sources and no 'weak signal': []
+  C5  PASS                         8 angle sections; silently empty: []
+
+=== run-02 · STOPPED (no MAP.md)
+  C1  N/A                          no map produced
+  C2  N/A                          no map produced
+  C3  N/A                          no map produced
+  C4  N/A                          no map produced
+  C5  N/A                          no map produced
+
+=== run-03 · STOPPED (no MAP.md)
+  C1  N/A                          no map produced
+  C2  N/A                          no map produced
+  C3  N/A                          no map produced
+  C4  N/A                          no map produced
+  C5  N/A                          no map produced
+
+=== run-04 · MAP
+  C1  PASS                         fields present {'Decision': True, 'Belief': True, 'Falsifier': True}; order: section0=2026-10-09 earliest-source=2026-10-09 -> ok
+  C2  FAIL                         38 finding rows; 1 without a source id + mark: ['Evidence that *AI categorisation specifi']
+  C3  PASS                         28 source rows, 23 HIGH, 0 HIGH without url+date-read
+  C4  PASS                         0 pattern-claim lines; 0 with <3 sources and no 'weak signal': []
+  C5  PASS                         10 angle sections; silently empty: []
+
+=== run-05 · MAP
+  C1  PASS                         fields present {'Decision': True, 'Belief': True, 'Falsifier': True}; order: SOURCES has no date-read column
+  C2  PASS                         19 finding rows; 0 without a source id + mark: []
+  C3  FAIL                         32 source rows, 26 HIGH, 26 HIGH without url+date-read (SOURCES has NO date-read column; the skill's format promises one)
+  C4  PASS                         1 pattern-claim lines; 0 with <3 sources and no 'weak signal': []
+  C5  PASS                         8 angle sections; silently empty: []

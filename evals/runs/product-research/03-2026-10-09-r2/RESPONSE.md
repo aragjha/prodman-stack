@@ -1,0 +1,15 @@
+Ran it. One thing said plainly first, as the skill requires: the map contains what contradicts the belief, in its own section (3 · Verdict → *Contradicting evidence*), kept out of the findings so you can choose what goes on a slide. The deck is yours; the map is complete. I did not stop to ask — the decision exists, so I drafted the belief and falsifier from your request and marked both *unconfirmed* in section 0.
+
+**Ground truth (drafted, unconfirmed):** Decision = build the in-app assistant; Thursday can still choose build-as-decided, a narrower first slice, or hold. Belief = data teams at mid-size companies want it, and competitors who shipped it gained measurable usage or revenue. Falsifier = no unprompted demand, or competitors report low adoption, accuracy failures, or retired it. Goal number = not given (S1, ASK) — the one thing only you hold.
+
+**What the map found (37 sources, 28 opened pages marked HIGH):**
+- Every competitor opened has shipped it: Amplitude, Mixpanel (2023, renamed Mixpanel Agent), PostHog, ThoughtSpot, Power BI, Metabase. Strongest supporting numbers: ThoughtSpot's "more than 52% of ThoughtSpot customers were actively leveraging" Spotter (S26) and Amplitude's 219,578 prompts in 2025 (S2) — both vendor self-reports, and Amplitude's works out to ≈49 prompts per customer per year.
+- Unprompted demand is real but comes from non-technical users and execs ("can we just ask our data questions in english", S11); the data teams named as your users talk about trust failures — the top-voted thread found is six weeks of wrong numbers after the best-adopted rollout they'd ever had (S12).
+- The hard constraint: on real enterprise schemas the best agent solved 21.3% of Spider 2.0 tasks (S31); an engineer puts messy-schema accuracy at "20-30%" without a semantic layer (S16); Microsoft's own docs warn Copilot "can misinterpret the data and return generic or inaccurate results" (S32).
+- PostHog killed its assistant Max — "The broader vision (AI woven through every product) wasn't landing." — and folded AI into the product, doubling down on technical users (S28, S29). The most-starred open text-to-SQL repo, Vanna, is archived (S21).
+
+**Verdict:** belief still unknown — demand confirmed, "measurable usage or revenue" unproven (no revenue number exists in any opened source). Falsifier fired in part on accuracy failures. Top insight by impact on the goal: accuracy on real schemas, not demand, decides this build — so the first slice is semantic layer + metric definitions + verified answers, then the chat surface.
+
+**Next step — one named gap:** the accuracy an assistant hits on *your* customers' real schemas. A 50-question, join-heavy eval across five real accounts, built with your data team, before the build is scoped. A week's work; it decides whether slice one is an assistant or a semantic layer. Bring that and the goal number to Thursday.
+
+Files: `run-03/MAP.md` (map, ~7 pages) · `run-03/SOURCES.md` (37 rows, verbatim, URL, date read, mark).

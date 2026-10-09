@@ -64,9 +64,10 @@ check. If you think a trap is wrong, the file is right there and the fix is a pu
 
 | | |
 |---|---|
-| Golden sets written | **4 skills × 5 inputs** |
-| Scoreboards published | **1** |
+| Golden sets written | **5 skills × 5 inputs** |
+| Scoreboards published | **2** |
 | `launch-minimum` | **Observer** — scored **3/5**, below the 4/5 Advisor bar |
+| `product-research` | **Observer** — scored **1/5**, 1 red flag, **the control failed**. Golden set written before the skill; it still failed |
 | `portfolio-from-work` | not run |
 | `eval-write` | not run |
 | `deidentify` | not run |
