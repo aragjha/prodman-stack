@@ -1,0 +1,28 @@
+S5	HIGH	OK	The India personal finance software market size reached USD 44.5 Milli
+S6	MEDIUM	OK	…India emerged as the world's leading market for finance apps, garneri
+S7	HIGH	OK	Google Pay has started rolling out a new Gemini AI-powered feature tha
+S8	HIGH	OK	Ask it to break down last month's spending, for instance, and the chat
+S9	HIGH	OK	…axio App is an SMS-based money management app that makes managing mon
+S10	HIGH	OK	Almost all online transactions are captured twice or sometimes even 5 
+S11	HIGH	OK	…My recent transactions or spending from a specific bank is not automa
+S12	HIGH	OK	However, the same transaction amount is not deducted from the Balance 
+S13	HIGH	OK	Now it has been made complex and half the time jewels are not credited
+S14	HIGH	OK	There's no customer service option available.
+S16	HIGH	OK	…I only visit money tab only after an app update in jupiter, just to s
+S17	HIGH	OK	…custom categories will go a long way to make insights actually insigh
+S18	HIGH	OK	…Thank you. I really like to use Jupiter to full potential but it’s di
+S19	HIGH	UNREACHABLE	https://arctic-shift.photon-reddit.com/api/comments/search?link_id=1v5dow1&limit=40
+S20	HIGH	OK	…Neobank Fi Money is restructuring its business and moving away from s
+S21	HIGH	OK	…Fi's core lending business failed to scale, with weak monetisation ac
+S22	HIGH	OK	…India's neobank Fi is discontinuing banking services on its platform 
+S23	MEDIUM	OK	…77% state that fewer than half of their customers actively use these 
+S24	MEDIUM	OK	…nearly 18% increase in the average daily session for their customers 
+S25	MEDIUM	OK	17% of Spending Habit users have made repeat visits
+S26	HIGH	OK	…Frequency of use was associated with stronger outcomes.
+S29	HIGH	OK	a firm offering the ability to manage financial well-being better
+S31	HIGH	OK	…SMS-based money management…
+S31	HIGH	OK	…apps that track and manage budget…
+S32	MEDIUM	OK	…MeitY notified the Digital Personal Data Protection Rules, 2025 on 13
+S33	MEDIUM	OK	…14 May 2027, when the remaining substantive obligations, and the pena
+
+1 HIGH row(s) need fixing or downgrading

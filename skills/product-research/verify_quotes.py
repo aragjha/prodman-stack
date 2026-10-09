@@ -90,5 +90,22 @@ def main(path: str) -> int:
     return 1 if bad else 0
 
 
+def crosscheck(doc: str, sources: str) -> int:
+    """Every quoted string in doc (MAP.md / RESPONSE.md) must appear verbatim in SOURCES.md."""
+    src = norm(open(sources, encoding="utf-8").read())
+    bad = 0
+    for q in re.findall(r'"([^"]{12,})"', open(doc, encoding="utf-8").read()):
+        if q != q.strip() or not re.search(r"[A-Za-z]{3}", q):
+            continue
+        frags = [norm(f) for f in re.split(r"\s*(?:…|\.\.\.)\s*", q) if len(f.strip()) > 3]
+        if not all(f in src for f in frags):
+            print(f"NOT-IN-SOURCES\t{q[:80]}")
+            bad += 1
+    print(f"\n{bad} quote(s) in {doc} not found verbatim in {sources}")
+    return 1 if bad else 0
+
+
 if __name__ == "__main__":
+    if sys.argv[1] == "--crosscheck":
+        sys.exit(crosscheck(sys.argv[2], sys.argv[3]))
     sys.exit(main(sys.argv[1]))

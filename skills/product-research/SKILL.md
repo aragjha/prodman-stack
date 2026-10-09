@@ -130,7 +130,9 @@ not the page; three scoreboard rounds failed on quotes that were almost exact. B
 matches every quote. For each line it reports: **MISMATCH** → fix the quote from the raw text, or
 downgrade the row to MEDIUM and drop the quotation marks · **CUT** → add the "…" where the quote starts
 or ends mid-sentence · **UNREACHABLE** (JavaScript-built page) → MEDIUM, unless you read the text from
-an API or JSON endpoint the row names. The output goes in section 4.
+an API or JSON endpoint the row names. The output goes in section 4. Then run `python3 verify_quotes.py --crosscheck MAP.md SOURCES.md` and the same for
+RESPONSE.md: every quote in the map or the message must appear, character for character, in SOURCES.md. Never
+re-cut a quote while writing the map; an ellipsis may only stand where whole sentences or list items were left out.
 
 **Patterns need three.** A claim that something is *common*, *a trend* or *what most people do*
 needs three independent sources. Fewer is a *weak signal*, labelled as such. **Adjacent evidence** —
@@ -156,7 +158,9 @@ build written where the belief status should be is the most common way a map sto
 An insight with no stated impact is a fact with nowhere to go, and it does not go in the map.
 
 ### 5. Close against the ground truth
-**Sweep by text, not by label.** Re-read every section-2 row's *Finding* and *Also changes* text and ask:
+**Sweep by text, not by label — and leave the table.** Write `### Sweep` at the top of section 3 with one
+line per section-2 row: `<id> · weakens? yes / no · cited in verdict? yes / dropped because …`. A verdict with
+no Sweep table fails.  Re-read every section-2 row's *Finding* and *Also changes* text and ask:
 does this weaken, limit or complicate the belief, whatever its label says? Relabel any that do — the
 labels were written while the belief was in your head, which is when agreement bias lands.
 
@@ -178,6 +182,9 @@ The verdict, in this order:
    answered; write it) · *one named gap* (precisely what is still unknown, and where to look).
    Never *"more research needed."* **If the decision would reverse on a number the map does not
    have, the step is *one named gap* — that number — not a *decide* with a caveat. Never both.**
+**RESPONSE.md repeats the verdict's next step word for word and adds no new ask.** The user message is the
+verdict in plain words, never a second verdict.
+
 6. **Other gaps — not needed for this decision:** everything else still unknown goes here, on its
    own line, so the next step can stay one sentence.
 
@@ -267,6 +274,8 @@ research/<YYYY-MM-DD>-<slug>/
 | S2 | 2 | searched: "<the exact search string>" | — | 2026-10-09 | — | NONE |
 | S3 | 1 | asked the user for: <what> | — | 2026-10-09 | — | ASK |
 ```
+
+**Quotation marks are for source text only.** Beliefs, labels, your own phrasing go in *italics*, never in quotes.
 
 **Verbatim means verbatim.** Inside quotation marks, nothing is cut without an ellipsis, and never
 mid-clause. The first scoreboard's one red flag was nine words silently removed from a quote.

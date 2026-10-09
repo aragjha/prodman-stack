@@ -1,0 +1,20 @@
+S4	HIGH	OK	In my day to day as a Product Manager working in a team that ships AI 
+S5	HIGH	OK	Evals come up a lot these days for PMs.
+S5	HIGH	OK	Evals are the language of GenAI.
+S7	HIGH	OK	Beyond vibe checks: A PM's complete guide to evals
+S8	HIGH	OK	Product Management skills framework built on battle-tested methods for
+S9	HIGH	OK	A hands-on learning and working repo for Product Managers who need to 
+S10	HIGH	OK	Skills that guide AI coding agents to help you build LLM evaluations.
+S11	HIGH	OK	We've refined this material with over 5,000 engineers and PMs from tea
+S12	HIGH	OK	Plus a typed decision layer: which skill, is it safe, ship or slip.
+S13	HIGH	OK	…A hands-on workshop for product managers who want to understand how t
+S14	HIGH	OK	Writing evals is quickly becoming a core skill for anyone building AI 
+S15	HIGH	OK	AI evals is the most important new skill for PMs.
+S16	HIGH	OK	…there's surprisingly little guidance on how Product Managers and AI E
+S17	HIGH	OK	Evals are the new PRD
+S18	HIGH	OK	The product manager owns the launch. The engineer owns the meaning of 
+S19	HIGH	OK	Most AI teams don't need evals. They need logging, QA, and taste.
+S20	HIGH	OK	It is now uncommon to find a serious AI product with no eval suite.
+S20	HIGH	OK	…people who had built eval suites, run them for a year, and quietly no
+
+0 HIGH row(s) need fixing or downgrading
