@@ -1,0 +1,19 @@
+{
+  "name": "prodman-stack",
+  "owner": { "name": "Anurag Jha", "url": "https://prodman.ai" },
+  "metadata": {
+    "description": "ProdMan.AI skills for product managers, each shipped with the frozen tests it must pass.",
+    "version": "1.0.0"
+  },
+  "plugins": [
+    {
+      "name": "prodman",
+      "source": "./",
+      "description": "One entry point for PM work plus specialist skills for research, launches, portfolios, de-identification and evals.",
+      "version": "1.0.0",
+      "author": { "name": "Anurag Jha" },
+      "category": "productivity",
+      "keywords": ["product-management", "pm", "prd", "roadmap", "research", "evals"]
+    }
+  ]
+}

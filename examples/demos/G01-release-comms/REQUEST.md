@@ -1,0 +1,1 @@
+Release 4.2 goes out on 20 October and I need the release notes drafted. The scope at code freeze and a description of who reads our notes are in examples/demos/G01-release-comms/input/. Write what each audience should get, and I'll review everything before it's published or sent.

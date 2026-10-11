@@ -1,0 +1,1656 @@
+{
+  "name": "ProdMan.AI outside resources",
+  "checked_on": "2026-10-11",
+  "method": "Each resource scored 1 to 5 on seven criteria with fixed weights; weighted_score = sum(weight x score / 5). Quality of output comes from the round 3 blind research benchmark where a resource was tested; otherwise it is null and the total uses the plain Claude baseline (4). Three pass or fail checks come first: licence read at source, privacy and security, and a commit in the last 180 days (or a vendor documenting a hosted service as current).",
+  "weights": {
+    "real_world_pm_usefulness": 25,
+    "quality_of_output": 20,
+    "ease_of_setup_and_usability": 15,
+    "integration_with_claude": 15,
+    "reusability_across_workflows": 10,
+    "transparency_licence_and_cost": 10,
+    "maintenance_and_reliability": 5
+  },
+  "families": {
+    "A": "product documentation",
+    "B": "product research",
+    "C": "roadmapping and planning",
+    "D": "product design and UX",
+    "E": "analytics and success metrics",
+    "F": "PM evaluations",
+    "G": "delivery and communication",
+    "H": "career and portfolio"
+  },
+  "linked_not_copied": true,
+  "resources": [
+    {
+      "id": "anthropic-knowledge-work-plugins",
+      "name": "Anthropic knowledge work plugins: product management, design and data",
+      "url": "https://github.com/anthropics/knowledge-work-plugins",
+      "owner": "Anthropic",
+      "stars": 28972,
+      "stars_date": "2026-10-11",
+      "last_commit": "2026-10-11 (02ffa99)",
+      "licence": "Apache-2.0",
+      "licence_read_date": "2026-10-11",
+      "licence_evidence": "Root LICENSE and product-management/LICENSE and data/LICENSE are Apache License 2.0. design/ has no file of its own and is covered by the root licence.",
+      "families": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "G"
+      ],
+      "install": "claude plugin marketplace add anthropics/knowledge-work-plugins, then claude plugin install product-management@knowledge-work-plugins (add design@knowledge-work-plugins and data@knowledge-work-plugins if you want them)",
+      "prerequisites": "Claude Code or Claude Cowork. Optional: sign in to the connectors you use (Jira, Linear, Notion, Figma, Amplitude and others) for live context. Without them you paste the context in.",
+      "executes_code": {
+        "value": true,
+        "what": "The product management and design plugins are markdown only. The data plugin ships one Python script (data/skills/data-context-extractor/scripts/package_data_skill.py) used by one skill."
+      },
+      "sends_data": {
+        "value": true,
+        "where": "Each plugin's .mcp.json registers remote connectors. Product management lists Slack, Linear, Asana, monday.com, ClickUp, Atlassian, Notion, Figma, Amplitude, Pendo, Intercom, Fireflies and Similarweb; data adds BigQuery, Hex and Definite. A connector asks you to sign in before it reads anything; after that, data moves between that service and Claude."
+      },
+      "scores": {
+        "real_world_pm_usefulness": {
+          "score": 5,
+          "why": "Spec, roadmap update, sprint plan, stakeholder update, research synthesis, metrics review and design critique: weekly PM work across six families."
+        },
+        "quality_of_output": {
+          "score": null,
+          "why": "Not benchmarked. For the total only, the plain Claude baseline (4 of 5, round 3) is used, because there is no evidence it does better or worse than Claude alone.",
+          "value_used_in_total": 4
+        },
+        "ease_of_setup_and_usability": {
+          "score": 5,
+          "why": "Two commands, markdown only, works with no connector."
+        },
+        "integration_with_claude": {
+          "score": 5,
+          "why": "Anthropic's own plugins, built for Cowork and Claude Code, with connectors already wired."
+        },
+        "reusability_across_workflows": {
+          "score": 5,
+          "why": "Skills name tool categories (project tracker, knowledge base) instead of products, so one skill runs on Jira or Linear alike."
+        },
+        "transparency_licence_and_cost": {
+          "score": 4,
+          "why": "Apache 2.0 and free. One point off: the README lists skill names (feature-spec, roadmap-management) that differ from the folders (write-spec, roadmap-update), and 16 connector endpoints are registered on install."
+        },
+        "maintenance_and_reliability": {
+          "score": 5,
+          "why": "Last commit 2026-10-11, the day of this check."
+        }
+      },
+      "benchmarked": {
+        "value": false
+      },
+      "skills": [
+        {
+          "name": "write-spec",
+          "path_url": "https://github.com/anthropics/knowledge-work-plugins/blob/main/product-management/skills/write-spec/SKILL.md",
+          "what_it_does": "Turns a problem statement or feature idea into a spec or PRD with goals, non goals, success metrics and acceptance criteria."
+        },
+        {
+          "name": "roadmap-update",
+          "path_url": "https://github.com/anthropics/knowledge-work-plugins/blob/main/product-management/skills/roadmap-update/SKILL.md",
+          "what_it_does": "Adds, moves or reprioritizes roadmap items when plans or dependencies change."
+        },
+        {
+          "name": "sprint-planning",
+          "path_url": "https://github.com/anthropics/knowledge-work-plugins/blob/main/product-management/skills/sprint-planning/SKILL.md",
+          "what_it_does": "Scopes a sprint against team capacity and drafts the sprint plan."
+        },
+        {
+          "name": "stakeholder-update",
+          "path_url": "https://github.com/anthropics/knowledge-work-plugins/blob/main/product-management/skills/stakeholder-update/SKILL.md",
+          "what_it_does": "Writes a weekly, monthly or launch update for executives, engineers or customers."
+        },
+        {
+          "name": "synthesize-research",
+          "path_url": "https://github.com/anthropics/knowledge-work-plugins/blob/main/product-management/skills/synthesize-research/SKILL.md",
+          "what_it_does": "Turns interview notes, surveys and support tickets into ranked themes."
+        },
+        {
+          "name": "competitive-brief",
+          "path_url": "https://github.com/anthropics/knowledge-work-plugins/blob/main/product-management/skills/competitive-brief/SKILL.md",
+          "what_it_does": "Writes a competitive brief with feature comparison and positioning."
+        },
+        {
+          "name": "metrics-review",
+          "path_url": "https://github.com/anthropics/knowledge-work-plugins/blob/main/product-management/skills/metrics-review/SKILL.md",
+          "what_it_does": "Reviews product metrics against targets and explains spikes and drops."
+        },
+        {
+          "name": "design-critique",
+          "path_url": "https://github.com/anthropics/knowledge-work-plugins/blob/main/design/skills/design-critique/SKILL.md",
+          "what_it_does": "Gives structured feedback on a mockup or screen: usability, hierarchy, consistency."
+        },
+        {
+          "name": "ux-copy",
+          "path_url": "https://github.com/anthropics/knowledge-work-plugins/blob/main/design/skills/ux-copy/SKILL.md",
+          "what_it_does": "Writes or reviews button labels, error messages and empty states."
+        },
+        {
+          "name": "accessibility-review",
+          "path_url": "https://github.com/anthropics/knowledge-work-plugins/blob/main/design/skills/accessibility-review/SKILL.md",
+          "what_it_does": "Audits a design or page against WCAG 2.1 AA."
+        },
+        {
+          "name": "analyze",
+          "path_url": "https://github.com/anthropics/knowledge-work-plugins/blob/main/data/skills/analyze/SKILL.md",
+          "what_it_does": "Answers data questions, from one metric to a full analysis."
+        },
+        {
+          "name": "statistical-analysis",
+          "path_url": "https://github.com/anthropics/knowledge-work-plugins/blob/main/data/skills/statistical-analysis/SKILL.md",
+          "what_it_does": "Runs significance tests, trend analysis and outlier checks."
+        }
+      ],
+      "attribution": "Product management, design and data plugins by Anthropic, Apache License 2.0. Linked, not copied.",
+      "checks": {
+        "licence": "pass",
+        "privacy_security": "pass, flagged: registers 16 remote connectors on install",
+        "maintained": "pass"
+      },
+      "weighted_score": 94,
+      "weighted_score_if_quality_were_1_to_5": [
+        82,
+        98
+      ]
+    },
+    {
+      "id": "atlassian-mcp-server",
+      "name": "Atlassian MCP server (Jira and Confluence) with its skills",
+      "url": "https://github.com/atlassian/atlassian-mcp-server",
+      "owner": "Atlassian",
+      "stars": 1089,
+      "stars_date": "2026-10-11",
+      "last_commit": "2026-10-07 (repository). The server itself is hosted by Atlassian.",
+      "licence": "Apache-2.0 for the repository (skills and configuration); the hosted server is used under Atlassian's terms",
+      "licence_read_date": "2026-10-11",
+      "licence_evidence": "LICENSE in the repository is Apache License 2.0. The server code is not in the repository.",
+      "families": [
+        "A",
+        "C",
+        "G"
+      ],
+      "install": "claude mcp add --transport http atlassian https://mcp.atlassian.com/v2/mcp, then run /mcp in a session to sign in",
+      "prerequisites": "An Atlassian Cloud site. An admin can limit which AI tools connect and can enforce IP allowlists; signing in with an API token needs admin approval; delete and manage tools stay off until an admin enables them.",
+      "executes_code": {
+        "value": true,
+        "what": "The server runs at Atlassian. One bundled skill (generate-status-report) includes a Python helper, scripts/jql_builder.py."
+      },
+      "sends_data": {
+        "value": true,
+        "where": "Jira, Confluence and other Atlassian data you can already see moves between Atlassian Cloud and Claude. Atlassian records every tool call in your organization's audit log."
+      },
+      "scores": {
+        "real_world_pm_usefulness": {
+          "score": 5,
+          "why": "Reads and writes Jira and Confluence, the most common enterprise tracker and wiki, and ships six PM skills."
+        },
+        "quality_of_output": {
+          "score": null,
+          "why": "Not benchmarked. For the total only, the plain Claude baseline (4 of 5, round 3) is used, because there is no evidence it does better or worse than Claude alone.",
+          "value_used_in_total": 4
+        },
+        "ease_of_setup_and_usability": {
+          "score": 4,
+          "why": "One command and a sign in, but admin settings (allowlists, token approval) can block it."
+        },
+        "integration_with_claude": {
+          "score": 5,
+          "why": "Official server with a documented Claude Code command, a Claude directory connector and a Claude Code plugin."
+        },
+        "reusability_across_workflows": {
+          "score": 5,
+          "why": "Specs, backlogs, status reports, sprint reviews and knowledge search all run on the same connection."
+        },
+        "transparency_licence_and_cost": {
+          "score": 4,
+          "why": "Apache 2.0 repository and clear security notes, but the server is closed and runs under Atlassian's terms."
+        },
+        "maintenance_and_reliability": {
+          "score": 5,
+          "why": "Generally available; repository commit 2026-10-07."
+        }
+      },
+      "benchmarked": {
+        "value": false
+      },
+      "skills": [
+        {
+          "name": "spec-to-backlog",
+          "path_url": "https://github.com/atlassian/atlassian-mcp-server/blob/main/skills/spec-to-backlog/SKILL.md",
+          "what_it_does": "Turns a Confluence spec into Jira epics and tickets."
+        },
+        {
+          "name": "generate-status-report",
+          "path_url": "https://github.com/atlassian/atlassian-mcp-server/blob/main/skills/generate-status-report/SKILL.md",
+          "what_it_does": "Builds a project status report from Jira and can publish it to Confluence."
+        },
+        {
+          "name": "capture-tasks-from-meeting-notes",
+          "path_url": "https://github.com/atlassian/atlassian-mcp-server/blob/main/skills/capture-tasks-from-meeting-notes/SKILL.md",
+          "what_it_does": "Finds action items in meeting notes and creates Jira tasks for them."
+        },
+        {
+          "name": "jira-sprint-dashboard",
+          "path_url": "https://github.com/atlassian/atlassian-mcp-server/blob/main/skills/jira-sprint-dashboard/SKILL.md",
+          "what_it_does": "Makes a visual sprint dashboard for standups and sprint reviews."
+        },
+        {
+          "name": "search-company-knowledge",
+          "path_url": "https://github.com/atlassian/atlassian-mcp-server/blob/main/skills/search-company-knowledge/SKILL.md",
+          "what_it_does": "Searches Confluence and Jira to explain internal terms and processes."
+        },
+        {
+          "name": "triage-issue",
+          "path_url": "https://github.com/atlassian/atlassian-mcp-server/blob/main/skills/triage-issue/SKILL.md",
+          "what_it_does": "Checks a bug report for duplicates in Jira before filing or commenting."
+        }
+      ],
+      "attribution": "Atlassian MCP Server by Atlassian. Repository under Apache License 2.0; hosted server used under Atlassian's terms. Jira and Confluence are trademarks of Atlassian.",
+      "checks": {
+        "licence": "pass",
+        "privacy_security": "pass, flagged: writes to Jira and Confluence",
+        "maintained": "pass"
+      },
+      "weighted_score": 91,
+      "weighted_score_if_quality_were_1_to_5": [
+        79,
+        95
+      ]
+    },
+    {
+      "id": "menkesu-awesome-pm-skills",
+      "name": "Awesome PM Skills (Udi Menkes)",
+      "url": "https://github.com/menkesu/awesome-pm-skills",
+      "owner": "Udi Menkes",
+      "stars": 435,
+      "stars_date": "2026-10-11",
+      "last_commit": "2026-10-06",
+      "licence": "MIT for the authored material; quoted podcast material keeps its original rights",
+      "licence_read_date": "2026-10-11",
+      "licence_evidence": "LICENSE is the MIT License (GitHub reports NOASSERTION because an attribution section follows the licence text). README: attributed third party material retains its original rights.",
+      "families": [
+        "A",
+        "B",
+        "C",
+        "E",
+        "F",
+        "G",
+        "H"
+      ],
+      "install": "/plugin marketplace add menkesu/awesome-pm-skills, then /plugin install awesome-pm-skills@awesome-pm-skills",
+      "prerequisites": "Claude Code. No API key, other service or extra runtime.",
+      "executes_code": {
+        "value": false,
+        "what": "Skills are markdown. The repository's Python files (check_quotes.py, scripts/validate_repo.py, tests) are maintainer checks, not run by the skills."
+      },
+      "sends_data": {
+        "value": false,
+        "where": "Nothing beyond your Claude session."
+      },
+      "scores": {
+        "real_world_pm_usefulness": {
+          "score": 5,
+          "why": "25 workflows that each produce a deliverable and grade the one you already have: spec, interviews, prioritization, metrics, experiments, eval plan, exec comms, career."
+        },
+        "quality_of_output": {
+          "score": null,
+          "why": "Not benchmarked. For the total only, the plain Claude baseline (4 of 5, round 3) is used, because there is no evidence it does better or worse than Claude alone.",
+          "value_used_in_total": 4
+        },
+        "ease_of_setup_and_usability": {
+          "score": 5,
+          "why": "Two commands; the README says it needs no API key, service or runtime."
+        },
+        "integration_with_claude": {
+          "score": 4,
+          "why": "Claude Code plugin; no documented route for the Claude apps."
+        },
+        "reusability_across_workflows": {
+          "score": 4,
+          "why": "Each skill diagnoses, picks a framework and grades, so it fits many situations; skills are separate rather than chained."
+        },
+        "transparency_licence_and_cost": {
+          "score": 4,
+          "why": "MIT and free, but the podcast quotes inside keep their owners' rights."
+        },
+        "maintenance_and_reliability": {
+          "score": 5,
+          "why": "Last commit 2026-10-06; version 2 shipped with a migration guide."
+        }
+      },
+      "benchmarked": {
+        "value": false
+      },
+      "skills": [
+        {
+          "name": "spec",
+          "path_url": "https://github.com/menkesu/awesome-pm-skills/blob/main/skills/spec/SKILL.md",
+          "what_it_does": "Writes or rewrites a spec, PRD or PR/FAQ, then grades it and returns the top three fixes."
+        },
+        {
+          "name": "customer-interviews",
+          "path_url": "https://github.com/menkesu/awesome-pm-skills/blob/main/skills/customer-interviews/SKILL.md",
+          "what_it_does": "Writes an interview guide and turns transcripts into forces, jobs and opportunities."
+        },
+        {
+          "name": "prioritize",
+          "path_url": "https://github.com/menkesu/awesome-pm-skills/blob/main/skills/prioritize/SKILL.md",
+          "what_it_does": "Turns a pile of requests into a confidence scored roadmap and goals."
+        },
+        {
+          "name": "decide",
+          "path_url": "https://github.com/menkesu/awesome-pm-skills/blob/main/skills/decide/SKILL.md",
+          "what_it_does": "Turns a hard call into a one page decision memo with kill criteria and a review date."
+        },
+        {
+          "name": "metrics",
+          "path_url": "https://github.com/menkesu/awesome-pm-skills/blob/main/skills/metrics/SKILL.md",
+          "what_it_does": "Builds a north star, a metric tree with guardrails and a review cadence."
+        },
+        {
+          "name": "experiment",
+          "path_url": "https://github.com/menkesu/awesome-pm-skills/blob/main/skills/experiment/SKILL.md",
+          "what_it_does": "Designs and reads out A/B tests and holdouts with a ship, hold or replicate call."
+        },
+        {
+          "name": "eval-plan",
+          "path_url": "https://github.com/menkesu/awesome-pm-skills/blob/main/skills/eval-plan/SKILL.md",
+          "what_it_does": "Builds an eval plan for an AI feature, from error analysis to a launch bar."
+        },
+        {
+          "name": "exec-comms",
+          "path_url": "https://github.com/menkesu/awesome-pm-skills/blob/main/skills/exec-comms/SKILL.md",
+          "what_it_does": "Rewrites an exec update or memo so it lands with senior readers, with a score."
+        },
+        {
+          "name": "launch",
+          "path_url": "https://github.com/menkesu/awesome-pm-skills/blob/main/skills/launch/SKILL.md",
+          "what_it_does": "Builds a launch plan and drafts the announcement copy."
+        },
+        {
+          "name": "career",
+          "path_url": "https://github.com/menkesu/awesome-pm-skills/blob/main/skills/career/SKILL.md",
+          "what_it_does": "Turns a career question into a plan, promotion case or negotiation script."
+        }
+      ],
+      "attribution": "Awesome PM Skills by Udi Menkes, MIT License for the authored material. Frameworks and quotes are credited to Lenny Rachitsky and his podcast guests and keep their original rights. An independent project, not endorsed by Lenny's Podcast.",
+      "checks": {
+        "licence": "pass",
+        "privacy_security": "pass",
+        "maintained": "pass"
+      },
+      "weighted_score": 89,
+      "weighted_score_if_quality_were_1_to_5": [
+        77,
+        93
+      ]
+    },
+    {
+      "id": "amplitude-mcp-server",
+      "name": "Amplitude MCP server and plugin",
+      "url": "https://amplitude.com/docs/amplitude-ai/amplitude-mcp",
+      "owner": "Amplitude",
+      "plugin_url": "https://github.com/amplitude/mcp-marketplace",
+      "stars": null,
+      "stars_date": "2026-10-11",
+      "stars_note": "The plugin repository amplitude/mcp-marketplace had 43 stars; the server is hosted.",
+      "last_commit": "2026-10-02 (plugin repository). The server is hosted by Amplitude.",
+      "licence": "MIT for the plugin and its skills (amplitude/mcp-marketplace); the hosted server is used under Amplitude's terms",
+      "licence_read_date": "2026-10-11",
+      "licence_evidence": "amplitude/mcp-marketplace LICENSE: MIT License, Copyright (c) 2026 Amplitude, Inc. Anthropic's official plugin directory (claude-plugins-official) lists the amplitude plugin from this repository.",
+      "families": [
+        "B",
+        "D",
+        "E"
+      ],
+      "install": "claude plugin install amplitude@claude-plugins-official (Amplitude's plugin with skills, from Anthropic's plugin directory), or the server alone: claude mcp add -t http -s user Amplitude \"https://mcp.amplitude.com/mcp\"",
+      "prerequisites": "An Amplitude account with project access. Editing the tracking plan or creating cohorts needs extra permissions. EU customers use https://mcp.eu.amplitude.com/mcp.",
+      "executes_code": {
+        "value": false,
+        "what": "The server runs at Amplitude and the plugin's main skills are markdown. Only the separate amplitude-experimental plugin ships Python scripts."
+      },
+      "sends_data": {
+        "value": true,
+        "where": "Amplitude says the AI service you use processes your Amplitude data. Some tools write: dashboards, cohorts (including syncs to destinations such as Braze or S3), experiments and the tracking plan."
+      },
+      "scores": {
+        "real_world_pm_usefulness": {
+          "score": 5,
+          "why": "Opportunity discovery with RICE, feedback themes, experiment design and readouts, chart diagnosis and replay based UX audits on your own product data."
+        },
+        "quality_of_output": {
+          "score": null,
+          "why": "Not benchmarked. For the total only, the plain Claude baseline (4 of 5, round 3) is used, because there is no evidence it does better or worse than Claude alone.",
+          "value_used_in_total": 4
+        },
+        "ease_of_setup_and_usability": {
+          "score": 4,
+          "why": "One command and OAuth, no API keys; some write tools need permissions."
+        },
+        "integration_with_claude": {
+          "score": 5,
+          "why": "Amplitude publishes a Claude Code setup page; its plugin is in Anthropic's plugin directory and it is in Anthropic's PM plugin connector list."
+        },
+        "reusability_across_workflows": {
+          "score": 4,
+          "why": "Feeds metrics reviews, experiment readouts, research and roadmap input."
+        },
+        "transparency_licence_and_cost": {
+          "score": 4,
+          "why": "MIT plugin and plain data handling notes; the server itself is closed."
+        },
+        "maintenance_and_reliability": {
+          "score": 5,
+          "why": "Plugin commit 2026-10-02; US and EU servers documented."
+        }
+      },
+      "benchmarked": {
+        "value": false
+      },
+      "skills": [
+        {
+          "name": "discover-opportunities",
+          "path_url": "https://github.com/amplitude/mcp-marketplace/blob/main/plugins/amplitude/skills/discover-opportunities/SKILL.md",
+          "what_it_does": "Finds product opportunities across analytics, experiments, replays and feedback and ranks them with RICE."
+        },
+        {
+          "name": "analyze-feedback",
+          "path_url": "https://github.com/amplitude/mcp-marketplace/blob/main/plugins/amplitude/skills/analyze-feedback/SKILL.md",
+          "what_it_does": "Turns customer feedback into themes: requests, bugs, pain points and praise."
+        },
+        {
+          "name": "analyze-experiment",
+          "path_url": "https://github.com/amplitude/mcp-marketplace/blob/main/plugins/amplitude/skills/analyze-experiment/SKILL.md",
+          "what_it_does": "Designs A/B tests and interprets running or finished experiments."
+        },
+        {
+          "name": "analyze-chart",
+          "path_url": "https://github.com/amplitude/mcp-marketplace/blob/main/plugins/amplitude/skills/analyze-chart/SKILL.md",
+          "what_it_does": "Explains a spike, drop or trend in one chart and its likely drivers."
+        },
+        {
+          "name": "compare-user-journeys",
+          "path_url": "https://github.com/amplitude/mcp-marketplace/blob/main/plugins/amplitude/skills/compare-user-journeys/SKILL.md",
+          "what_it_does": "Shows what one user group does that another does not."
+        },
+        {
+          "name": "replay-ux-audit",
+          "path_url": "https://github.com/amplitude/mcp-marketplace/blob/main/plugins/amplitude/skills/replay-ux-audit/SKILL.md",
+          "what_it_does": "Ranks where users struggle or abandon across session replays."
+        },
+        {
+          "name": "daily-brief",
+          "path_url": "https://github.com/amplitude/mcp-marketplace/blob/main/plugins/amplitude/skills/daily-brief/SKILL.md",
+          "what_it_does": "Summarizes the most important changes in your Amplitude data each day."
+        }
+      ],
+      "tools": [
+        {
+          "name": "Amplitude MCP tools",
+          "doc_url": "https://amplitude.com/docs/amplitude-ai/amplitude-mcp",
+          "what_it_does": "Search charts and dashboards; run segmentation, funnel and retention queries; manage cohorts and experiments; search session replays; analyze feedback themes."
+        }
+      ],
+      "attribution": "Amplitude MCP server and plugin by Amplitude. Plugin under the MIT License; hosted server used under Amplitude's terms. Amplitude is a trademark of its owner.",
+      "checks": {
+        "licence": "pass",
+        "privacy_security": "pass, flagged: write tools including cohort syncs to other services",
+        "maintained": "pass"
+      },
+      "weighted_score": 89,
+      "weighted_score_if_quality_were_1_to_5": [
+        77,
+        93
+      ]
+    },
+    {
+      "id": "phuryn-pm-skills",
+      "name": "PM Skills Marketplace (Pawel Huryn)",
+      "url": "https://github.com/phuryn/pm-skills",
+      "owner": "Pawel Huryn",
+      "stars": 26878,
+      "stars_date": "2026-10-11",
+      "last_commit": "2026-10-10 (release v2.2.0)",
+      "licence": "MIT",
+      "licence_read_date": "2026-10-11",
+      "licence_evidence": "LICENSE: MIT License, Copyright (c) 2026 Pawel Huryn.",
+      "families": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "G",
+        "H"
+      ],
+      "install": "claude plugin marketplace add phuryn/pm-skills, then claude plugin install pm-execution@pm-skills (and any of the other eight plugins)",
+      "prerequisites": "Claude Code or Claude Cowork.",
+      "executes_code": {
+        "value": false,
+        "what": "Skills are markdown. The repository's Python files (validate_plugins.py, tests/) are maintainer checks."
+      },
+      "sends_data": {
+        "value": false,
+        "where": "Nothing beyond your Claude session; some skills ask Claude to search the web."
+      },
+      "scores": {
+        "real_world_pm_usefulness": {
+          "score": 5,
+          "why": "69 skills and 42 chained workflows across discovery, strategy, execution, analytics and go to market."
+        },
+        "quality_of_output": {
+          "score": 3,
+          "why": "Round 3 blind benchmark, skill 'competitor-analysis': 17 of 25 and 60% accuracy at source. Score = (total/25 + accuracy) / 2 x 5 = 3.20, rounded. It tested one research skill on one task, not the whole collection."
+        },
+        "ease_of_setup_and_usability": {
+          "score": 4,
+          "why": "Two commands per plugin, nine plugins to choose from."
+        },
+        "integration_with_claude": {
+          "score": 5,
+          "why": "Plugin marketplace for Claude Code and Cowork."
+        },
+        "reusability_across_workflows": {
+          "score": 4,
+          "why": "Skills are shared by several chained commands."
+        },
+        "transparency_licence_and_cost": {
+          "score": 5,
+          "why": "MIT, free, all markdown."
+        },
+        "maintenance_and_reliability": {
+          "score": 5,
+          "why": "Last commit 2026-10-10 with a tagged release."
+        }
+      },
+      "benchmarked": {
+        "value": true,
+        "round": 3,
+        "skill": "competitor-analysis",
+        "total": "17/25",
+        "accuracy": "60%",
+        "quality_score": 3,
+        "note": "Below plain Claude with no skill (22/25, 67%). Route research questions to product-research, not to this skill."
+      },
+      "skills": [
+        {
+          "name": "create-prd",
+          "path_url": "https://github.com/phuryn/pm-skills/blob/main/pm-execution/skills/create-prd/SKILL.md",
+          "what_it_does": "Writes a lean PRD from an 8 section template."
+        },
+        {
+          "name": "outcome-roadmap",
+          "path_url": "https://github.com/phuryn/pm-skills/blob/main/pm-execution/skills/outcome-roadmap/SKILL.md",
+          "what_it_does": "Rewrites an output roadmap as outcomes."
+        },
+        {
+          "name": "prioritization-frameworks",
+          "path_url": "https://github.com/phuryn/pm-skills/blob/main/pm-execution/skills/prioritization-frameworks/SKILL.md",
+          "what_it_does": "Explains and applies RICE, ICE, Kano, MoSCoW and five more."
+        },
+        {
+          "name": "brainstorm-okrs",
+          "path_url": "https://github.com/phuryn/pm-skills/blob/main/pm-execution/skills/brainstorm-okrs/SKILL.md",
+          "what_it_does": "Drafts team OKRs tied to company goals."
+        },
+        {
+          "name": "pre-mortem",
+          "path_url": "https://github.com/phuryn/pm-skills/blob/main/pm-execution/skills/pre-mortem/SKILL.md",
+          "what_it_does": "Runs a pre-mortem on a PRD or launch plan and sorts the risks."
+        },
+        {
+          "name": "release-notes",
+          "path_url": "https://github.com/phuryn/pm-skills/blob/main/pm-execution/skills/release-notes/SKILL.md",
+          "what_it_does": "Writes user facing release notes from tickets or a changelog."
+        },
+        {
+          "name": "summarize-meeting",
+          "path_url": "https://github.com/phuryn/pm-skills/blob/main/pm-execution/skills/summarize-meeting/SKILL.md",
+          "what_it_does": "Turns a meeting transcript into decisions and action items."
+        },
+        {
+          "name": "ab-test-analysis",
+          "path_url": "https://github.com/phuryn/pm-skills/blob/main/pm-data-analytics/skills/ab-test-analysis/SKILL.md",
+          "what_it_does": "Checks an A/B result for significance and sample size, then recommends ship, extend or stop."
+        },
+        {
+          "name": "cohort-analysis",
+          "path_url": "https://github.com/phuryn/pm-skills/blob/main/pm-data-analytics/skills/cohort-analysis/SKILL.md",
+          "what_it_does": "Builds retention curves and adoption trends by cohort."
+        },
+        {
+          "name": "north-star-metric",
+          "path_url": "https://github.com/phuryn/pm-skills/blob/main/pm-marketing-growth/skills/north-star-metric/SKILL.md",
+          "what_it_does": "Defines a north star and its input metrics."
+        },
+        {
+          "name": "interview-script",
+          "path_url": "https://github.com/phuryn/pm-skills/blob/main/pm-product-discovery/skills/interview-script/SKILL.md",
+          "what_it_does": "Writes a customer interview script that avoids leading questions."
+        },
+        {
+          "name": "opportunity-solution-tree",
+          "path_url": "https://github.com/phuryn/pm-skills/blob/main/pm-product-discovery/skills/opportunity-solution-tree/SKILL.md",
+          "what_it_does": "Maps an outcome to opportunities, solutions and experiments."
+        },
+        {
+          "name": "customer-journey-map",
+          "path_url": "https://github.com/phuryn/pm-skills/blob/main/pm-market-research/skills/customer-journey-map/SKILL.md",
+          "what_it_does": "Maps stages, touchpoints, pain points and opportunities."
+        },
+        {
+          "name": "review-resume",
+          "path_url": "https://github.com/phuryn/pm-skills/blob/main/pm-toolkit/skills/review-resume/SKILL.md",
+          "what_it_does": "Reviews and tailors a PM resume to a job."
+        }
+      ],
+      "attribution": "PM Skills Marketplace by Pawel Huryn, MIT License.",
+      "checks": {
+        "licence": "pass",
+        "privacy_security": "pass",
+        "maintained": "pass"
+      },
+      "weighted_score": 87
+    },
+    {
+      "id": "deanpeters-product-manager-skills",
+      "name": "Product Manager Skills (Dean Peters)",
+      "url": "https://github.com/deanpeters/Product-Manager-Skills",
+      "owner": "Dean Peters",
+      "stars": 7237,
+      "stars_date": "2026-10-11",
+      "last_commit": "2026-09-01",
+      "licence": "CC-BY-NC-SA-4.0 (the author's README allows use in your day job and forbids selling or repackaging without written permission)",
+      "licence_read_date": "2026-10-11",
+      "licence_evidence": "LICENSE: Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International. README 'In plain terms': use at a for profit company is allowed; repackaging into a paid product, course or service is not.",
+      "families": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "G",
+        "H"
+      ],
+      "install": "/plugin marketplace add deanpeters/Product-Manager-Skills, then /plugin install prd-development@pm-skills (one install per skill)",
+      "prerequisites": "Claude Code, or Claude Desktop and web through the ZIP packs on the releases page.",
+      "executes_code": {
+        "value": true,
+        "what": "Two skills include Python helpers that Claude may run: tam-sam-som-calculator/scripts/market-sizing.py and user-story/scripts/user-story-template.py. The optional local app (app/main.py) is separate."
+      },
+      "sends_data": {
+        "value": false,
+        "where": "Nothing beyond your Claude session."
+      },
+      "scores": {
+        "real_world_pm_usefulness": {
+          "score": 5,
+          "why": "77 skills: PRDs, user stories, roadmaps, JTBD, journey maps, SaaS metrics, stakeholder maps, interview and promotion prep."
+        },
+        "quality_of_output": {
+          "score": 4,
+          "why": "Round 3 blind benchmark, skill 'competitive-research-snapshot': 17 of 25 and 75% accuracy at source. Score = (total/25 + accuracy) / 2 x 5 = 3.58, rounded. It tested one research skill on one task, not the whole collection."
+        },
+        "ease_of_setup_and_usability": {
+          "score": 4,
+          "why": "Marketplace add, then one install command per skill, or ZIP packs for the Claude apps."
+        },
+        "integration_with_claude": {
+          "score": 5,
+          "why": "Claude Code marketplace, Claude Desktop and web packs, Cowork."
+        },
+        "reusability_across_workflows": {
+          "score": 4,
+          "why": "Skills teach the why and are grouped into themed packs."
+        },
+        "transparency_licence_and_cost": {
+          "score": 3,
+          "why": "Free, but CC BY-NC-SA: fine at work per the author, not for resale; two skills run Python."
+        },
+        "maintenance_and_reliability": {
+          "score": 4,
+          "why": "Last commit 2026-09-01, versioned releases (v0.84)."
+        }
+      },
+      "benchmarked": {
+        "value": true,
+        "round": 3,
+        "skill": "competitive-research-snapshot",
+        "total": "17/25",
+        "accuracy": "75%",
+        "quality_score": 4
+      },
+      "skills": [
+        {
+          "name": "prd-development",
+          "path_url": "https://github.com/deanpeters/Product-Manager-Skills/blob/main/skills/prd-development/SKILL.md",
+          "what_it_does": "Builds a PRD that connects problem, users, solution and success criteria."
+        },
+        {
+          "name": "user-story",
+          "path_url": "https://github.com/deanpeters/Product-Manager-Skills/blob/main/skills/user-story/SKILL.md",
+          "what_it_does": "Writes user stories with Gherkin acceptance criteria."
+        },
+        {
+          "name": "roadmap-planning",
+          "path_url": "https://github.com/deanpeters/Product-Manager-Skills/blob/main/skills/roadmap-planning/SKILL.md",
+          "what_it_does": "Turns strategy into a sequenced release plan."
+        },
+        {
+          "name": "prioritization-advisor",
+          "path_url": "https://github.com/deanpeters/Product-Manager-Skills/blob/main/skills/prioritization-advisor/SKILL.md",
+          "what_it_does": "Picks the right prioritization framework for your stage and team."
+        },
+        {
+          "name": "discovery-interview-prep",
+          "path_url": "https://github.com/deanpeters/Product-Manager-Skills/blob/main/skills/discovery-interview-prep/SKILL.md",
+          "what_it_does": "Plans discovery interviews: goal, segment and method."
+        },
+        {
+          "name": "jobs-to-be-done",
+          "path_url": "https://github.com/deanpeters/Product-Manager-Skills/blob/main/skills/jobs-to-be-done/SKILL.md",
+          "what_it_does": "Lays out customer jobs, pains and gains."
+        },
+        {
+          "name": "customer-journey-map",
+          "path_url": "https://github.com/deanpeters/Product-Manager-Skills/blob/main/skills/customer-journey-map/SKILL.md",
+          "what_it_does": "Maps stages, actions, emotions and metrics across the journey."
+        },
+        {
+          "name": "lean-ux-canvas",
+          "path_url": "https://github.com/deanpeters/Product-Manager-Skills/blob/main/skills/lean-ux-canvas/SKILL.md",
+          "what_it_does": "Frames a business problem and the next thing to learn."
+        },
+        {
+          "name": "saas-revenue-growth-metrics",
+          "path_url": "https://github.com/deanpeters/Product-Manager-Skills/blob/main/skills/saas-revenue-growth-metrics/SKILL.md",
+          "what_it_does": "Calculates SaaS revenue, retention and growth metrics."
+        },
+        {
+          "name": "stakeholder-mapping",
+          "path_url": "https://github.com/deanpeters/Product-Manager-Skills/blob/main/skills/stakeholder-mapping/SKILL.md",
+          "what_it_does": "Prioritizes stakeholders on two grids and sets engagement."
+        },
+        {
+          "name": "product-sense-interview-answer",
+          "path_url": "https://github.com/deanpeters/Product-Manager-Skills/blob/main/skills/product-sense-interview-answer/SKILL.md",
+          "what_it_does": "Structures a spoken answer to a product sense interview question."
+        },
+        {
+          "name": "director-readiness-advisor",
+          "path_url": "https://github.com/deanpeters/Product-Manager-Skills/blob/main/skills/director-readiness-advisor/SKILL.md",
+          "what_it_does": "Coaches the move from PM to director."
+        }
+      ],
+      "attribution": "Product Manager Skills by Dean Peters, CC BY-NC-SA 4.0. Linked only. Do not copy these skills into anything sold, including a paid ProdMan.AI tier.",
+      "checks": {
+        "licence": "pass, on the author's written permission for day job use",
+        "privacy_security": "pass, flagged: two skills ship Python helpers",
+        "maintained": "pass"
+      },
+      "weighted_score": 86
+    },
+    {
+      "id": "product-on-purpose-pm-skills",
+      "name": "PM skills (Product on Purpose)",
+      "url": "https://github.com/product-on-purpose/pm-skills",
+      "owner": "Product on Purpose",
+      "stars": 716,
+      "stars_date": "2026-10-11",
+      "last_commit": "2026-09-10",
+      "licence": "Apache-2.0",
+      "licence_read_date": "2026-10-11",
+      "licence_evidence": "LICENSE: Apache License 2.0.",
+      "families": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G"
+      ],
+      "install": "/plugin marketplace add product-on-purpose/agent-plugins, then /plugin install pm-skills@product-on-purpose",
+      "prerequisites": "Claude Code. Node.js runs the plugin's two hooks. Optional project memory file: .claude/pm-skills.local.md.",
+      "executes_code": {
+        "value": true,
+        "what": "Two Claude Code hooks run Node scripts: a SessionStart phase router that is on by default (reads .git/HEAD and file names in your folder) and a write guardrail that stays off unless you enable it. Its PRIVACY.md says the plugin does not execute code; the hooks contradict that."
+      },
+      "sends_data": {
+        "value": false,
+        "where": "PRIVACY.md states no telemetry and no network requests; the hooks read local files only."
+      },
+      "scores": {
+        "real_world_pm_usefulness": {
+          "score": 5,
+          "why": "68 skills across discovery, definition, delivery and measurement, plus design sprint and foundation sprint tools."
+        },
+        "quality_of_output": {
+          "score": 3,
+          "why": "Round 3 blind benchmark, skill 'discover-competitive-analysis': 19 of 25 and 60% accuracy at source. Score = (total/25 + accuracy) / 2 x 5 = 3.40, rounded. It tested one research skill on one task, not the whole collection."
+        },
+        "ease_of_setup_and_usability": {
+          "score": 4,
+          "why": "Two commands; hooks need Node."
+        },
+        "integration_with_claude": {
+          "score": 5,
+          "why": "Claude Code plugin with hooks, plus an MCP server for other clients."
+        },
+        "reusability_across_workflows": {
+          "score": 5,
+          "why": "Skills are tagged by phase, chained in workflows, and eight read a shared project memory file."
+        },
+        "transparency_licence_and_cost": {
+          "score": 4,
+          "why": "Apache 2.0 and free; one point off because PRIVACY.md says no code runs while a hook runs on every session start."
+        },
+        "maintenance_and_reliability": {
+          "score": 4,
+          "why": "Last commit 2026-09-10 on main; CI checks and release notes."
+        }
+      },
+      "benchmarked": {
+        "value": true,
+        "round": 3,
+        "skill": "discover-competitive-analysis",
+        "total": "19/25",
+        "accuracy": "60%",
+        "quality_score": 3,
+        "note": "Its lead pricing claim was wrong in the benchmark. Route research questions to product-research."
+      },
+      "skills": [
+        {
+          "name": "deliver-prd",
+          "path_url": "https://github.com/product-on-purpose/pm-skills/blob/main/skills/deliver-prd/SKILL.md",
+          "what_it_does": "Writes a PRD for engineering handoff."
+        },
+        {
+          "name": "deliver-acceptance-criteria",
+          "path_url": "https://github.com/product-on-purpose/pm-skills/blob/main/skills/deliver-acceptance-criteria/SKILL.md",
+          "what_it_does": "Writes Given/When/Then acceptance criteria, failure cases included."
+        },
+        {
+          "name": "discover-interview-synthesis",
+          "path_url": "https://github.com/product-on-purpose/pm-skills/blob/main/skills/discover-interview-synthesis/SKILL.md",
+          "what_it_does": "Synthesizes interviews into patterns and recommendations."
+        },
+        {
+          "name": "define-opportunity-tree",
+          "path_url": "https://github.com/product-on-purpose/pm-skills/blob/main/skills/define-opportunity-tree/SKILL.md",
+          "what_it_does": "Builds an opportunity solution tree from a desired outcome."
+        },
+        {
+          "name": "define-prioritization-framework",
+          "path_url": "https://github.com/product-on-purpose/pm-skills/blob/main/skills/define-prioritization-framework/SKILL.md",
+          "what_it_does": "Runs RICE, ICE, MoSCoW, weighted scoring and Kano side by side."
+        },
+        {
+          "name": "measure-experiment-design",
+          "path_url": "https://github.com/product-on-purpose/pm-skills/blob/main/skills/measure-experiment-design/SKILL.md",
+          "what_it_does": "Designs an A/B test with sample size and duration."
+        },
+        {
+          "name": "measure-instrumentation-spec",
+          "path_url": "https://github.com/product-on-purpose/pm-skills/blob/main/skills/measure-instrumentation-spec/SKILL.md",
+          "what_it_does": "Specifies the analytics events a feature must fire."
+        },
+        {
+          "name": "measure-dashboard-requirements",
+          "path_url": "https://github.com/product-on-purpose/pm-skills/blob/main/skills/measure-dashboard-requirements/SKILL.md",
+          "what_it_does": "Specifies the questions a dashboard must answer."
+        },
+        {
+          "name": "tool-design-sprint-prototype-plan",
+          "path_url": "https://github.com/product-on-purpose/pm-skills/blob/main/skills/tool-design-sprint-prototype-plan/SKILL.md",
+          "what_it_does": "Plans the prototype day of a design sprint."
+        },
+        {
+          "name": "foundation-stakeholder-update",
+          "path_url": "https://github.com/product-on-purpose/pm-skills/blob/main/skills/foundation-stakeholder-update/SKILL.md",
+          "what_it_does": "Turns meeting outcomes into an update for people who were not there."
+        },
+        {
+          "name": "deliver-release-notes",
+          "path_url": "https://github.com/product-on-purpose/pm-skills/blob/main/skills/deliver-release-notes/SKILL.md",
+          "what_it_does": "Writes user facing release notes."
+        },
+        {
+          "name": "utility-pm-skill-validate",
+          "path_url": "https://github.com/product-on-purpose/pm-skills/blob/main/skills/utility-pm-skill-validate/SKILL.md",
+          "what_it_does": "Audits a skill against structure and quality checks."
+        }
+      ],
+      "attribution": "PM skills by Product on Purpose, Apache License 2.0.",
+      "checks": {
+        "licence": "pass",
+        "privacy_security": "pass, flagged: a SessionStart hook runs Node by default, contrary to PRIVACY.md",
+        "maintained": "pass"
+      },
+      "weighted_score": 86
+    },
+    {
+      "id": "linear-mcp-server",
+      "name": "Linear MCP server",
+      "url": "https://linear.app/docs/mcp",
+      "owner": "Linear",
+      "stars": null,
+      "stars_date": "2026-10-11",
+      "last_commit": "Not public: a hosted service. Documentation read 2026-10-11.",
+      "licence": "Proprietary hosted service, used under Linear's terms (no licence file)",
+      "licence_read_date": "2026-10-11",
+      "licence_evidence": "No licence file applies; Linear documents the server for its customers at linear.app/docs/mcp.",
+      "families": [
+        "C",
+        "G"
+      ],
+      "install": "claude mcp add --transport http linear-server https://mcp.linear.app/mcp, then run /mcp to sign in",
+      "prerequisites": "A Linear workspace.",
+      "executes_code": {
+        "value": false,
+        "what": "Runs on Linear's servers."
+      },
+      "sends_data": {
+        "value": true,
+        "where": "Issues, projects and comments you can access move between Linear and Claude. It can create and update issues."
+      },
+      "scores": {
+        "real_world_pm_usefulness": {
+          "score": 4,
+          "why": "Find, create and update issues, projects and comments from a conversation."
+        },
+        "quality_of_output": {
+          "score": null,
+          "why": "Not benchmarked. For the total only, the plain Claude baseline (4 of 5, round 3) is used, because there is no evidence it does better or worse than Claude alone.",
+          "value_used_in_total": 4
+        },
+        "ease_of_setup_and_usability": {
+          "score": 5,
+          "why": "One documented command and an OAuth sign in."
+        },
+        "integration_with_claude": {
+          "score": 5,
+          "why": "Documented Claude Code command; in Anthropic's PM plugin connector list."
+        },
+        "reusability_across_workflows": {
+          "score": 4,
+          "why": "Feeds roadmap, sprint and status workflows."
+        },
+        "transparency_licence_and_cost": {
+          "score": 4,
+          "why": "Clear documentation; closed hosted service under Linear's terms."
+        },
+        "maintenance_and_reliability": {
+          "score": 4,
+          "why": "Vendor documents it as current; no public commit history to check."
+        }
+      },
+      "benchmarked": {
+        "value": false
+      },
+      "skills": [],
+      "tools": [
+        {
+          "name": "Linear MCP tools",
+          "doc_url": "https://linear.app/docs/mcp",
+          "what_it_does": "Finds, creates and updates issues, projects and comments."
+        }
+      ],
+      "attribution": "Linear MCP server by Linear, used under Linear's terms. Linear is a trademark of its owner.",
+      "checks": {
+        "licence": "pass (vendor terms)",
+        "privacy_security": "pass, flagged: write access to issues",
+        "maintained": "pass (vendor documents it as current)"
+      },
+      "weighted_score": 86,
+      "weighted_score_if_quality_were_1_to_5": [
+        74,
+        90
+      ]
+    },
+    {
+      "id": "notion-mcp-server",
+      "name": "Notion MCP server (hosted)",
+      "url": "https://developers.notion.com/docs/mcp",
+      "owner": "Notion",
+      "stars": null,
+      "stars_date": "2026-10-11",
+      "last_commit": "Not public: a hosted service. Documentation read 2026-10-11.",
+      "licence": "Proprietary hosted service, used under Notion's terms",
+      "licence_read_date": "2026-10-11",
+      "licence_evidence": "No licence file applies. The older self hosted repository (makenotion/notion-mcp-server, MIT) says it is no longer actively maintained and points to this hosted server.",
+      "families": [
+        "A",
+        "C"
+      ],
+      "install": "claude mcp add --transport http notion https://mcp.notion.com/mcp, then run /mcp to sign in",
+      "prerequisites": "A Notion workspace.",
+      "executes_code": {
+        "value": false,
+        "what": "Runs on Notion's servers."
+      },
+      "sends_data": {
+        "value": true,
+        "where": "Pages and databases you can access move between Notion and Claude. It can update content."
+      },
+      "scores": {
+        "real_world_pm_usefulness": {
+          "score": 4,
+          "why": "Search, read and update the specs, research notes and roadmaps that live in Notion."
+        },
+        "quality_of_output": {
+          "score": null,
+          "why": "Not benchmarked. For the total only, the plain Claude baseline (4 of 5, round 3) is used, because there is no evidence it does better or worse than Claude alone.",
+          "value_used_in_total": 4
+        },
+        "ease_of_setup_and_usability": {
+          "score": 5,
+          "why": "One documented command and an OAuth sign in."
+        },
+        "integration_with_claude": {
+          "score": 5,
+          "why": "Documented Claude Code command; in Anthropic's PM plugin connector list."
+        },
+        "reusability_across_workflows": {
+          "score": 4,
+          "why": "Any workflow that needs your existing docs can use it."
+        },
+        "transparency_licence_and_cost": {
+          "score": 4,
+          "why": "Clear documentation; closed hosted service under Notion's terms."
+        },
+        "maintenance_and_reliability": {
+          "score": 4,
+          "why": "Notion says this is the server it actively supports."
+        }
+      },
+      "benchmarked": {
+        "value": false
+      },
+      "skills": [],
+      "tools": [
+        {
+          "name": "Notion MCP tools",
+          "doc_url": "https://developers.notion.com/docs/get-started-with-mcp",
+          "what_it_does": "Searches the workspace, reads and updates pages, uploads files up to 20 MiB."
+        }
+      ],
+      "attribution": "Notion MCP by Notion, used under Notion's terms. Notion is a trademark of its owner.",
+      "notes": "Notion's Claude Code plugin (github.com/makenotion/claude-code-notion-plugin) has no licence file and no commit since 2026-01-22, so we point to the hosted server with the command Notion documents.",
+      "checks": {
+        "licence": "pass (vendor terms)",
+        "privacy_security": "pass, flagged: write access to pages",
+        "maintained": "pass (vendor documents it as current)"
+      },
+      "weighted_score": 86,
+      "weighted_score_if_quality_were_1_to_5": [
+        74,
+        90
+      ]
+    },
+    {
+      "id": "pm-pilot",
+      "name": "PM Pilot (Shadman Rahman)",
+      "url": "https://github.com/mshadmanrahman/pm-pilot",
+      "owner": "Shadman Rahman",
+      "stars": 22,
+      "stars_date": "2026-10-11",
+      "last_commit": "2026-10-02",
+      "licence": "MIT",
+      "licence_read_date": "2026-10-11",
+      "licence_evidence": "LICENSE: MIT License, Copyright (c) 2026 Shadman Rahman.",
+      "families": [
+        "A",
+        "B",
+        "C",
+        "G"
+      ],
+      "install": "claude plugin marketplace add mshadmanrahman/pm-pilot, then claude plugin install pm-core@pm-pilot",
+      "prerequisites": "Claude Code or Cowork. Meeting prep and weekly status read Jira, Slack, Calendar and Granola through MCP servers you connect; prd, prioritize and critique need none.",
+      "executes_code": {
+        "value": false,
+        "what": "The pm-core and pm-discovery skills are markdown. A separate plugin we do not list (bug-shepherd) runs agents against a live site."
+      },
+      "sends_data": {
+        "value": false,
+        "where": "Nothing of its own; skills read the connectors you add. people-sync writes notes about colleagues to local files, so keep them out of shared repositories. The README links a community Atlassian server rather than Atlassian's official one."
+      },
+      "scores": {
+        "real_world_pm_usefulness": {
+          "score": 4,
+          "why": "Decision briefs with sources and counter evidence, interview synthesis, PRDs, prioritization, critique, weekly status and meeting prep."
+        },
+        "quality_of_output": {
+          "score": 4,
+          "why": "Round 3 blind benchmark, skill 'brief': 21 of 25 and 80% accuracy at source. Score = (total/25 + accuracy) / 2 x 5 = 4.10, rounded. It tested one research skill on one task, not the whole collection."
+        },
+        "ease_of_setup_and_usability": {
+          "score": 4,
+          "why": "Two commands; the best skills want connectors."
+        },
+        "integration_with_claude": {
+          "score": 5,
+          "why": "Plugin marketplace for Claude Code and Cowork; skills also paste into claude.ai."
+        },
+        "reusability_across_workflows": {
+          "score": 4,
+          "why": "Eight independent plugins; critique works on any document."
+        },
+        "transparency_licence_and_cost": {
+          "score": 5,
+          "why": "MIT, free, markdown."
+        },
+        "maintenance_and_reliability": {
+          "score": 4,
+          "why": "Last commit 2026-10-02, but one maintainer and 22 stars."
+        }
+      },
+      "benchmarked": {
+        "value": true,
+        "round": 3,
+        "skill": "brief",
+        "total": "21/25",
+        "accuracy": "80%",
+        "quality_score": 4,
+        "note": "Best outside skill in the benchmark, one point under plain Claude (22/25) on total and higher on accuracy (80% against 67%)."
+      },
+      "skills": [
+        {
+          "name": "brief",
+          "path_url": "https://github.com/mshadmanrahman/pm-pilot/blob/main/plugins/pm-core/skills/brief/SKILL.md",
+          "what_it_does": "Turns one decision question into a brief where every claim has a source and missing evidence is named."
+        },
+        {
+          "name": "synthesize-interviews",
+          "path_url": "https://github.com/mshadmanrahman/pm-pilot/blob/main/plugins/pm-core/skills/synthesize-interviews/SKILL.md",
+          "what_it_does": "Turns interviews and feedback into themes, pain points and recommendations."
+        },
+        {
+          "name": "interview-snapshot",
+          "path_url": "https://github.com/mshadmanrahman/pm-pilot/blob/main/plugins/pm-discovery/skills/interview-snapshot/SKILL.md",
+          "what_it_does": "Turns one interview transcript into a five section snapshot."
+        },
+        {
+          "name": "prd",
+          "path_url": "https://github.com/mshadmanrahman/pm-pilot/blob/main/plugins/pm-core/skills/prd/SKILL.md",
+          "what_it_does": "Writes a one pager, brief, full PRD or RFC at the depth the context needs."
+        },
+        {
+          "name": "prioritize",
+          "path_url": "https://github.com/mshadmanrahman/pm-pilot/blob/main/plugins/pm-core/skills/prioritize/SKILL.md",
+          "what_it_does": "Ranks features with RICE, ICE, WSJF, Kano and others."
+        },
+        {
+          "name": "critique",
+          "path_url": "https://github.com/mshadmanrahman/pm-pilot/blob/main/plugins/pm-core/skills/critique/SKILL.md",
+          "what_it_does": "Pressure tests any PM document for gaps and unsupported claims."
+        },
+        {
+          "name": "weekly-status",
+          "path_url": "https://github.com/mshadmanrahman/pm-pilot/blob/main/plugins/pm-core/skills/weekly-status/SKILL.md",
+          "what_it_does": "Builds a weekly status report from Jira, GitHub, Confluence and Slack."
+        },
+        {
+          "name": "meeting-prep",
+          "path_url": "https://github.com/mshadmanrahman/pm-pilot/blob/main/plugins/pm-core/skills/meeting-prep/SKILL.md",
+          "what_it_does": "Gathers open items and talking points before a meeting."
+        }
+      ],
+      "attribution": "PM Pilot by Shadman Rahman, MIT License.",
+      "checks": {
+        "licence": "pass",
+        "privacy_security": "pass, flagged: people-sync stores notes about colleagues locally",
+        "maintained": "pass"
+      },
+      "weighted_score": 85
+    },
+    {
+      "id": "mixpanel-mcp-server",
+      "name": "Mixpanel MCP server",
+      "url": "https://docs.mixpanel.com/docs/features/mcp",
+      "owner": "Mixpanel",
+      "stars": null,
+      "stars_date": "2026-10-11",
+      "last_commit": "Not public: a hosted service. Documentation read 2026-10-11.",
+      "licence": "Proprietary hosted service, used under Mixpanel's terms",
+      "licence_read_date": "2026-10-11",
+      "licence_evidence": "No licence file applies; Mixpanel documents the server for its customers.",
+      "families": [
+        "E"
+      ],
+      "install": "claude mcp add --transport http mixpanel https://mcp.mixpanel.com/mcp, then run /mcp to sign in (EU and India have their own URLs)",
+      "prerequisites": "A Mixpanel account. On by default for free and growth accounts created after 1 August 2026; for all other accounts an organization admin must enable MCP first.",
+      "executes_code": {
+        "value": false,
+        "what": "Runs on Mixpanel's servers."
+      },
+      "sends_data": {
+        "value": true,
+        "where": "Mixpanel says your Mixpanel data is sent to whichever AI provider you use. Tools can also edit events and properties and create or delete dashboards, cohorts and feature flags."
+      },
+      "scores": {
+        "real_world_pm_usefulness": {
+          "score": 4,
+          "why": "Queries, reports, dashboards, cohorts, experiments and feature flags from a conversation."
+        },
+        "quality_of_output": {
+          "score": null,
+          "why": "Not benchmarked. For the total only, the plain Claude baseline (4 of 5, round 3) is used, because there is no evidence it does better or worse than Claude alone.",
+          "value_used_in_total": 4
+        },
+        "ease_of_setup_and_usability": {
+          "score": 4,
+          "why": "One command and OAuth, but older accounts need an admin to switch it on."
+        },
+        "integration_with_claude": {
+          "score": 5,
+          "why": "Documented Claude Code command; Mixpanel also mentions a Claude Code plugin with skills (not opened)."
+        },
+        "reusability_across_workflows": {
+          "score": 4,
+          "why": "Feeds metrics reviews, experiment readouts and dashboards."
+        },
+        "transparency_licence_and_cost": {
+          "score": 4,
+          "why": "Data handling stated plainly; closed hosted service."
+        },
+        "maintenance_and_reliability": {
+          "score": 4,
+          "why": "Vendor documents it as current; service accounts still in beta."
+        }
+      },
+      "benchmarked": {
+        "value": false
+      },
+      "skills": [],
+      "tools": [
+        {
+          "name": "Mixpanel MCP tools",
+          "doc_url": "https://docs.mixpanel.com/docs/features/mcp",
+          "what_it_does": "Run queries and reports; manage dashboards, cohorts, metrics, experiments and feature flags; edit the event lexicon."
+        }
+      ],
+      "attribution": "Mixpanel MCP server by Mixpanel, used under Mixpanel's terms. Mixpanel is a trademark of its owner.",
+      "checks": {
+        "licence": "pass (vendor terms)",
+        "privacy_security": "pass, flagged: write and delete tools",
+        "maintained": "pass (vendor documents it as current)"
+      },
+      "weighted_score": 83,
+      "weighted_score_if_quality_were_1_to_5": [
+        71,
+        87
+      ]
+    },
+    {
+      "id": "anthropic-example-skills",
+      "name": "Anthropic example skills: internal-comms and skill-creator",
+      "url": "https://github.com/anthropics/skills",
+      "owner": "Anthropic",
+      "stars": 180407,
+      "stars_date": "2026-10-11",
+      "last_commit": "2026-10-09",
+      "licence": "Apache-2.0 for internal-comms and skill-creator (each skill's LICENSE.txt)",
+      "licence_read_date": "2026-10-11",
+      "licence_evidence": "skills/internal-comms/LICENSE.txt and skills/skill-creator/LICENSE.txt are Apache License 2.0. The repository has no top level licence. Its docx, pdf, pptx and xlsx skills carry an Anthropic licence that forbids extracting them from Anthropic's services, keeping copies outside them, reproducing them or adapting them, and doc-coauthoring has no licence file; none of those are part of this listing. README: 'These skills are provided for demonstration and educational purposes only.'",
+      "families": [
+        "F",
+        "G"
+      ],
+      "install": "Already available in the Claude apps on paid plans. In Claude Code: /plugin marketplace add anthropics/skills, then /plugin install example-skills@anthropic-agent-skills",
+      "prerequisites": "A paid Claude plan for the apps, or Claude Code. The example-skills plugin also installs ten other examples, including doc-coauthoring, which has no licence file.",
+      "executes_code": {
+        "value": true,
+        "what": "skill-creator runs Python scripts (10 files) to run and compare evals. internal-comms is markdown."
+      },
+      "sends_data": {
+        "value": false,
+        "where": "No service beyond Anthropic."
+      },
+      "scores": {
+        "real_world_pm_usefulness": {
+          "score": 3,
+          "why": "internal-comms writes status reports and leadership updates; skill-creator builds and tests skills with evals; the other examples are not PM work."
+        },
+        "quality_of_output": {
+          "score": null,
+          "why": "Not benchmarked. For the total only, the plain Claude baseline (4 of 5, round 3) is used, because there is no evidence it does better or worse than Claude alone.",
+          "value_used_in_total": 4
+        },
+        "ease_of_setup_and_usability": {
+          "score": 5,
+          "why": "Already on in the Claude apps on paid plans; two commands in Claude Code."
+        },
+        "integration_with_claude": {
+          "score": 5,
+          "why": "Anthropic's own skills, in its own marketplace."
+        },
+        "reusability_across_workflows": {
+          "score": 3,
+          "why": "Two narrow skills: one for internal updates, one for building and testing skills."
+        },
+        "transparency_licence_and_cost": {
+          "score": 4,
+          "why": "Apache 2.0 per skill and free, but no top level licence and three licence situations in one repository."
+        },
+        "maintenance_and_reliability": {
+          "score": 4,
+          "why": "Last commit 2026-10-09, but the README calls them demonstration and educational examples."
+        }
+      },
+      "benchmarked": {
+        "value": false
+      },
+      "skills": [
+        {
+          "name": "internal-comms",
+          "path_url": "https://github.com/anthropics/skills/blob/main/skills/internal-comms/SKILL.md",
+          "what_it_does": "Writes status reports, leadership updates, FAQs and incident reports in your company's formats."
+        },
+        {
+          "name": "skill-creator",
+          "path_url": "https://github.com/anthropics/skills/blob/main/skills/skill-creator/SKILL.md",
+          "what_it_does": "Creates or improves a skill and runs evals to measure it."
+        }
+      ],
+      "attribution": "internal-comms and skill-creator by Anthropic, Apache License 2.0 (each skill's LICENSE.txt). Linked, not copied.",
+      "notes": "Anthropic's docx, pdf, pptx and xlsx skills power Claude's own file creation on paid plans. Their licence forbids copying them or keeping them outside Anthropic's services, so they fail our licence check as files to point to. Use the built in file creation in the Claude apps and never copy those folders.",
+      "checks": {
+        "licence": "pass for internal-comms and skill-creator; the document skills and doc-coauthoring fail and are not listed",
+        "privacy_security": "pass, flagged: skill-creator runs Python",
+        "maintained": "pass"
+      },
+      "weighted_score": 79,
+      "weighted_score_if_quality_were_1_to_5": [
+        67,
+        83
+      ]
+    },
+    {
+      "id": "posthog-mcp-server",
+      "name": "PostHog MCP server",
+      "url": "https://posthog.com/docs/model-context-protocol",
+      "owner": "PostHog",
+      "stars": null,
+      "stars_date": "2026-10-11",
+      "last_commit": "2026-10-11 (services/mcp in PostHog/posthog, branch master)",
+      "licence": "MIT for the server code (services/mcp sits outside the ee/ folder); hosted at mcp.posthog.com under PostHog's terms",
+      "licence_read_date": "2026-10-11",
+      "licence_evidence": "PostHog/posthog LICENSE: content outside ee/ is under the MIT Expat licence; services/mcp/package.json declares MIT.",
+      "families": [
+        "E"
+      ],
+      "install": "npx @posthog/wizard@latest mcp add (PostHog's installer), or add https://mcp.posthog.com/mcp by hand with a personal API key",
+      "prerequisites": "A PostHog account and Node.js for the installer.",
+      "executes_code": {
+        "value": true,
+        "what": "The installer runs an npm package on your machine (@posthog/wizard); the manual route runs mcp-remote through npx."
+      },
+      "sends_data": {
+        "value": true,
+        "where": "PostHog data moves between PostHog and Claude. Connecting is free, but some tools use LLMs inside PostHog and may be billed as PostHog AI spend; those need AI data processing switched on. Tools can create feature flags and experiments."
+      },
+      "scores": {
+        "real_world_pm_usefulness": {
+          "score": 4,
+          "why": "Analytics and SQL, dashboards, experiments, feature flags, surveys, replays and error tracking."
+        },
+        "quality_of_output": {
+          "score": null,
+          "why": "Not benchmarked. For the total only, the plain Claude baseline (4 of 5, round 3) is used, because there is no evidence it does better or worse than Claude alone.",
+          "value_used_in_total": 4
+        },
+        "ease_of_setup_and_usability": {
+          "score": 3,
+          "why": "Needs Node and an installer, or a personal API key."
+        },
+        "integration_with_claude": {
+          "score": 4,
+          "why": "Installer supports Claude Code; not in Anthropic's PM plugin connector list."
+        },
+        "reusability_across_workflows": {
+          "score": 4,
+          "why": "Feeds metrics reviews, experiment readouts and incident checks."
+        },
+        "transparency_licence_and_cost": {
+          "score": 4,
+          "why": "MIT code you can read; some tools add PostHog AI spend."
+        },
+        "maintenance_and_reliability": {
+          "score": 5,
+          "why": "Commit to services/mcp on 2026-10-11."
+        }
+      },
+      "benchmarked": {
+        "value": false
+      },
+      "skills": [],
+      "tools": [
+        {
+          "name": "PostHog MCP tools",
+          "doc_url": "https://posthog.com/docs/model-context-protocol",
+          "what_it_does": "Analytics queries and SQL, dashboards, experiments, feature flags, surveys, session replay and error tracking."
+        }
+      ],
+      "attribution": "PostHog MCP server by PostHog, MIT License for the code; the hosted server is used under PostHog's terms.",
+      "notes": "PostHog also lists a Claude Code plugin in Anthropic's plugin directory (github.com/PostHog/ai-plugin). That repository has no licence file, and its SessionEnd hook sends your Claude Code session to PostHog LLM Analytics if you set POSTHOG_LLMA_CC_ENABLED and an API key. We point to the server instead.",
+      "checks": {
+        "licence": "pass",
+        "privacy_security": "pass, flagged: installer runs npm code; write tools; possible AI spend",
+        "maintained": "pass"
+      },
+      "weighted_score": 78,
+      "weighted_score_if_quality_were_1_to_5": [
+        66,
+        82
+      ]
+    },
+    {
+      "id": "ai-evals-course-evals-skills",
+      "name": "Eval skills (Shreya Shankar and Hamel Husain)",
+      "url": "https://github.com/ai-evals-course/evals-skills",
+      "owner": "ai-evals-course (Shreya Shankar and Hamel Husain)",
+      "stars": 1482,
+      "stars_date": "2026-10-11",
+      "last_commit": "2026-09-24",
+      "licence": "Apache-2.0",
+      "licence_read_date": "2026-10-11",
+      "licence_evidence": "LICENSE: Apache License 2.0. The earlier repository hamelsmu/evals-skills is archived and points here.",
+      "families": [
+        "F"
+      ],
+      "install": "/plugin marketplace add ai-evals-course/evals-skills, then /plugin install evals@ai-evals-course (taken from the repository's marketplace file), or the documented npx skills add https://github.com/ai-evals-course/evals-skills",
+      "prerequisites": "Claude Code, Python 3 for the review app, and your AI feature's outputs or traces as JSONL, CSV or JSON.",
+      "executes_code": {
+        "value": true,
+        "what": "error-discovery has Claude build an HTML review app and serve it with a local Python standard library server. The npx route runs the skills command line tool."
+      },
+      "sends_data": {
+        "value": false,
+        "where": "Reads your trace files locally; nothing beyond your Claude session."
+      },
+      "scores": {
+        "real_world_pm_usefulness": {
+          "score": 3,
+          "why": "The method PMs need before shipping an AI feature, but only for AI features."
+        },
+        "quality_of_output": {
+          "score": null,
+          "why": "Not benchmarked. For the total only, the plain Claude baseline (4 of 5, round 3) is used, because there is no evidence it does better or worse than Claude alone.",
+          "value_used_in_total": 4
+        },
+        "ease_of_setup_and_usability": {
+          "score": 4,
+          "why": "One documented npx command, or two plugin commands; needs real traces and Python for the review app."
+        },
+        "integration_with_claude": {
+          "score": 4,
+          "why": "Claude Code plugin and npx skills; no Claude app route documented."
+        },
+        "reusability_across_workflows": {
+          "score": 3,
+          "why": "One job, evals, used in every AI feature cycle."
+        },
+        "transparency_licence_and_cost": {
+          "score": 5,
+          "why": "Apache 2.0 and free; the course is a separate paid offer."
+        },
+        "maintenance_and_reliability": {
+          "score": 5,
+          "why": "Last commit 2026-09-24; two named maintainers."
+        }
+      },
+      "benchmarked": {
+        "value": false
+      },
+      "skills": [
+        {
+          "name": "evals-start",
+          "path_url": "https://github.com/ai-evals-course/evals-skills/blob/main/skills/evals-start/SKILL.md",
+          "what_it_does": "Entry point that routes you to the right eval skill."
+        },
+        {
+          "name": "eval-audit",
+          "path_url": "https://github.com/ai-evals-course/evals-skills/blob/main/skills/eval-audit/SKILL.md",
+          "what_it_does": "Audits an existing eval pipeline and ranks its problems."
+        },
+        {
+          "name": "error-discovery",
+          "path_url": "https://github.com/ai-evals-course/evals-skills/blob/main/skills/error-discovery/SKILL.md",
+          "what_it_does": "Builds a review app, samples traces and turns your notes into failure modes."
+        },
+        {
+          "name": "write-judge-prompt",
+          "path_url": "https://github.com/ai-evals-course/evals-skills/blob/main/skills/write-judge-prompt/SKILL.md",
+          "what_it_does": "Designs an LLM judge for a failure mode that code cannot check."
+        },
+        {
+          "name": "validate-evaluator",
+          "path_url": "https://github.com/ai-evals-course/evals-skills/blob/main/skills/validate-evaluator/SKILL.md",
+          "what_it_does": "Checks an LLM judge against human labels before you trust it."
+        },
+        {
+          "name": "generate-synthetic-data",
+          "path_url": "https://github.com/ai-evals-course/evals-skills/blob/main/skills/generate-synthetic-data/SKILL.md",
+          "what_it_does": "Creates varied test inputs when real data is thin."
+        }
+      ],
+      "attribution": "Eval skills by Shreya Shankar and Hamel Husain, Apache License 2.0.",
+      "checks": {
+        "licence": "pass",
+        "privacy_security": "pass, flagged: starts a local Python server",
+        "maintained": "pass"
+      },
+      "weighted_score": 76,
+      "weighted_score_if_quality_were_1_to_5": [
+        64,
+        80
+      ]
+    },
+    {
+      "id": "figma-mcp-server",
+      "name": "Figma MCP server and plugin",
+      "url": "https://github.com/figma/mcp-server-guide",
+      "owner": "Figma",
+      "stars": 2062,
+      "stars_date": "2026-10-11",
+      "last_commit": "2026-10-05 (guide repository). The server is hosted by Figma.",
+      "licence": "No licence file; use is under the Figma Developer Terms",
+      "licence_read_date": "2026-10-11",
+      "licence_evidence": "The repository has no LICENSE file (GitHub API 404). README: by using the server and its skills you agree to the Figma Developer Terms; the skills are a beta feature. The Developer Terms (last updated 5 May 2026, read 2026-10-11) grant a limited licence to use Figma's developer resources to develop, test and support an integration or connection with Figma as its developer documentation permits; the documented plugin is such a connection.",
+      "families": [
+        "C",
+        "D"
+      ],
+      "install": "claude plugin install figma@claude-plugins-official (or claude mcp add --transport http figma https://mcp.figma.com/mcp)",
+      "prerequisites": "A Figma account. The Starter plan and View or Collab seats get up to 6 tool calls a month; Dev or Full seats on paid plans get per minute limits.",
+      "executes_code": {
+        "value": false,
+        "what": "Runs at Figma; the listed skills are markdown."
+      },
+      "sends_data": {
+        "value": true,
+        "where": "Design files you open move between Figma and Claude. Writing to the canvas is free during the beta and will become a usage based paid feature; generate_image spends Figma AI credits after asking you."
+      },
+      "scores": {
+        "real_world_pm_usefulness": {
+          "score": 3,
+          "why": "Reads design context, draws FigJam diagrams and turns a PRD into a project plan board, but many PMs hold View or Collab seats capped at 6 calls a month."
+        },
+        "quality_of_output": {
+          "score": null,
+          "why": "Not benchmarked. For the total only, the plain Claude baseline (4 of 5, round 3) is used, because there is no evidence it does better or worse than Claude alone.",
+          "value_used_in_total": 4
+        },
+        "ease_of_setup_and_usability": {
+          "score": 3,
+          "why": "One command, then seat and plan limits decide how much you get."
+        },
+        "integration_with_claude": {
+          "score": 5,
+          "why": "Official plugin in Anthropic's claude-plugins-official marketplace."
+        },
+        "reusability_across_workflows": {
+          "score": 3,
+          "why": "Mostly design and design to code; FigJam boards help planning."
+        },
+        "transparency_licence_and_cost": {
+          "score": 3,
+          "why": "No open licence; canvas writing will be paid; image generation uses credits."
+        },
+        "maintenance_and_reliability": {
+          "score": 4,
+          "why": "Commit 2026-10-05; skills are in beta."
+        }
+      },
+      "benchmarked": {
+        "value": false
+      },
+      "skills": [
+        {
+          "name": "figma-use",
+          "path_url": "https://github.com/figma/mcp-server-guide/blob/main/skills/figma-use/SKILL.md",
+          "what_it_does": "Required before Claude writes to a Figma file through use_figma."
+        },
+        {
+          "name": "figma-use-figjam",
+          "path_url": "https://github.com/figma/mcp-server-guide/blob/main/skills/figma-use-figjam/SKILL.md",
+          "what_it_does": "Lets Claude work inside FigJam boards."
+        },
+        {
+          "name": "figma-generate-diagram",
+          "path_url": "https://github.com/figma/mcp-server-guide/blob/main/skills/figma-generate-diagram/SKILL.md",
+          "what_it_does": "Draws diagrams and flowcharts in Figma."
+        },
+        {
+          "name": "generate-project-plan",
+          "path_url": "https://github.com/figma/mcp-server-guide/blob/main/workflow-skills/generate-project-plan/SKILL.md",
+          "what_it_does": "Turns a PRD plus codebase context into a FigJam project plan board."
+        },
+        {
+          "name": "figma-design-to-code",
+          "path_url": "https://github.com/figma/mcp-server-guide/blob/main/skills/figma-design-to-code/SKILL.md",
+          "what_it_does": "Pulls design context so a design can be built as code."
+        }
+      ],
+      "attribution": "Figma MCP server and skills by Figma, used under the Figma Developer Terms. Figma and FigJam are trademarks of Figma.",
+      "checks": {
+        "licence": "pass under the Figma Developer Terms (medium confidence: the grant is written for integrations)",
+        "privacy_security": "pass, flagged: future paid canvas writes, AI credit use",
+        "maintained": "pass"
+      },
+      "weighted_score": 71,
+      "weighted_score_if_quality_were_1_to_5": [
+        59,
+        75
+      ]
+    }
+  ]
+}

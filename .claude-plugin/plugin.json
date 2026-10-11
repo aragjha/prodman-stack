@@ -1,0 +1,10 @@
+{
+  "name": "prodman",
+  "description": "ProdMan.AI: free, open source AI skills for product managers. One entry point (pm) turns a plain language PM problem into a decision, routes it to the right specialist skills and checks the result. Every skill ships the frozen tests it must pass.",
+  "version": "1.0.0",
+  "author": { "name": "Anurag Jha", "url": "https://prodman.ai" },
+  "homepage": "https://prodman.ai",
+  "repository": "https://github.com/aragjha/prodman-stack",
+  "license": "MIT",
+  "keywords": ["product-management", "pm", "prd", "roadmap", "research", "evals"]
+}

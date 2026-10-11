@@ -5,3 +5,12 @@ outputs/**/deidentification-log.md
 # Never publish personal data of real people
 distribution/
 *.csv
+# Your runs and your product context stay on your machine (2026-10-11)
+outputs/*
+!outputs/README.md
+context/*.md
+!context/README.md
+!context/*.template.md
+__pycache__/
+# Run transcripts carry local paths; they stay on the machine that ran them
+evals/runs/**/transcript.jsonl

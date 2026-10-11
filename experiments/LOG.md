@@ -34,6 +34,22 @@ hook long before your audience has seen it.**
 | E003 | | launch-minimum | transformation | You don't need a website to launch. A README is a surface. | r/ProductManagement | | | | | |
 | E004 | | launch-minimum | finding | 8 things must exist before you launch. Most people build a 9th. | X | | | | | |
 | E005 | | launch-minimum | rage-bait | "Nearly ready" is the phrase that costs the most weeks. | X | | | | | |
+| E006 | | benchmark-r3 | failure (builder story) | My research skill came last in a blind test I ran myself. I rebuilt it twice. Version 3 came first. | X | | | | | |
+| E007 | | benchmark-r3 | confession | My PM research skill lost to plain Claude. Do you test the skills you install? | r/ClaudeAI | | | | | |
+| E008 | | benchmark-r3 | failure (story led) | My research skill came last in a blind test I ran myself. | LinkedIn (only after an X winner) | | | | | |
+| E009 | | benchmark-r3 | transformation (before and after) | Version 1 of my research skill: 4,207 words, last of nine. Version 3: 867 words, first of nine. | X | | | | | |
+| E010 | | refusal-input-02 | self audit | I asked my research skill to map a market for me, with no decision attached. It refused to search. | X | | | | | |
+| E011 | | refusal-input-02 | question | Do you write the decision down before research starts? I've made it a hard rule. | r/ProductManagement | | | | | |
+| E012 | | benchmark-r3 | finding (bold claim) | The PM skill you installed might be making Claude worse. | X | | | | | |
+| E013 | | refusal-input-02 | self audit (story led) | I asked my research skill to map a market for me, with no decision attached. | LinkedIn (only after an X winner) | | | | | |
+| E014 | | benchmark-r3 | curiosity | The most surprising result in my blind test of PM research skills was the control. | X | | | | | |
+| E015 | | scoreboard-product-research | failure | My research skill did the exact thing I built it to prevent. | X | | | | | |
+| E016 | | benchmark-r3 | technical | Six blind AI graders, nine setups, one PM decision. My research skill went from 16 to 23 out of 25. | X | | | | | |
+| E017 | | pm-md | finding | The most useful AI PM tool I've built might be a Markdown file. | LinkedIn (only after an X winner) | | | | | |
+| E018 | | pm-md | finding | The most useful AI PM tool I've built might be a Markdown file. | X | | | | | |
+| E019 | | scoreboard-product-research | question | PMs who use AI for desk research: how do you catch it leaving out the evidence against you? | r/ProductManagement | | | | | |
+| E020 | | scoreboard-product-research | failure (story led) | My research skill did the exact thing I built it to prevent. | LinkedIn (only after an X winner) | | | | | |
+| E021 | | pm-md | question | PMs using Claude Code: what's in the file Claude reads every session? | r/ClaudeAI | | | | | |
 
 ---
 

@@ -1,112 +1,113 @@
-# Your PM work is invisible
+# ProdMan.AI · stop collecting AI tools
 
-You have shipped things. Real things, for years. And you cannot show a single one of them.
+**Free, open source AI skills for product managers. Describe a PM problem in plain words; one skill
+picks the right specialist skills, runs them in order, checks the result and tells you what still
+needs your judgment.** Every skill here ships the frozen tests it must pass, and every scored run
+is published, failures included.
 
-The PRDs are in a Confluence you no longer have access to. The roadmap belongs to a company that owns it. The research is full of customer names you cannot say out loud. Meanwhile every job post wants "AI experience" and every portfolio you see belongs to a designer or an engineer who can just link the thing they built.
+```text
+/prodman:pm  I have 20 messy product docs. Find the conflicting requirements
+             and tell me what to build first next quarter.
+```
 
-**You are not behind on AI. You are sitting on ten years of work you are not allowed to show.**
-
-This turns that work into something you can send.
-
----
-
-## What this does
-
-One skill. You point it at what you remember and whatever you are allowed to keep, and it produces:
-
-1. **De-identified case studies** — the decision you made and why, with every employer, customer and number stripped or replaced
-2. **One working artifact** — the highest-leverage project rebuilt as something a person can actually open and click
-3. **A portfolio page** — assembled from the above, ready to send to a recruiter or drop in a DM
-
-It runs in Claude Code. It takes about an hour for a first pass.
+[Install in two commands](#install) · [What is inside](#what-is-inside) · [The proof](#the-proof) ·
+[Workflows](workflows/INDEX.md) · [Resources](resources/README.md) · [Roadmap](https://prodman.ai/roadmap) ·
+[Free community](https://prodman.ai/join)
 
 ---
 
-## Start in 15 minutes
+## Install
+You need [Claude Code](https://code.claude.com/docs/en/overview).
+
+**As a plugin (recommended).** Inside Claude Code:
+
+```text
+/plugin marketplace add aragjha/prodman-stack
+/plugin install prodman@prodman-stack
+```
+
+Then, in any project, describe your problem or type `/prodman:pm`.
+
+**Or clone it and work inside the folder:**
 
 ```bash
-git clone https://github.com/<user>/prodman-stack
+git clone https://github.com/aragjha/prodman-stack
 cd prodman-stack
 claude
 ```
 
-Then:
+The folder's `CLAUDE.md` loads [PM.md](PM.md) at the start of every session, so the standards are
+in place before you type anything.
 
-```
-Read skills/portfolio-from-work/SKILL.md and run it on my last project.
-```
-
-It will interview you. **Answer from memory — you do not need to find the documents.** That is the point: your memory of a decision is not your employer's property, and it is the part that was always the interesting bit.
-
----
-
-## The de-identification gate
-
-This is the part everyone gets wrong, so it is built in rather than bolted on.
-
-**Nothing leaves this folder carrying your employer's name, your customers' names, or a number you are not free to publish.** The skill refuses to produce a case study until the de-identification pass has run, and it shows you exactly what it stripped so you can check.
-
-> "Reduced churn 18% for [named enterprise client]" becomes "cut monthly churn by roughly a fifth on a B2B subscription product."
-
-The second sentence is publishable, survives a legal review, and is **more** interesting to read — because it is about the decision rather than the logo.
-
-If you cannot tell whether something is safe to publish, the skill flags it and stops rather than guessing.
+**First ten minutes, worth it:** copy [context/PRODUCT.template.md](context/PRODUCT.template.md) to
+`context/PRODUCT.md` and fill it in. A skill that knows your users and the metric you are measured
+on asks fewer questions and guesses less. Your context files never leave your machine.
 
 ---
 
 ## What is inside
+| Part | What it does |
+|---|---|
+| [skills/pm](skills/pm/SKILL.md) | **The entry point.** Turns your request into a decision, routes it to a workflow, runs the skills, checks the result |
+| [PM.md](PM.md) | The PM standards every skill reads first: evidence rules, templates, rubric, human checkpoints, privacy |
+| [workflows/INDEX.md](workflows/INDEX.md) | PM use cases, each with inputs, the skills it combines, steps, checks and an honest tested status |
+| [resources/README.md](resources/README.md) | Outside PM skill collections, scored and licence checked, that the workflows can call |
+| [skills/product-research](skills/product-research/SKILL.md) | Research a product decision: argues against your belief first, checks every quote, makes the call |
+| [skills/launch-minimum](skills/launch-minimum/SKILL.md) | The eight things that must exist before a launch, and nothing else |
+| [skills/portfolio-from-work](skills/portfolio-from-work/SKILL.md) | Turns confidential PM work into de-identified case studies you can send |
+| [skills/deidentify](skills/deidentify/SKILL.md) | Strips employers, customers and traceable numbers from anything that leaves your machine |
+| [skills/eval-write](skills/eval-write/SKILL.md) | Writes the five frozen inputs a skill has to survive, before the skill exists |
+| [evals/](evals/README.md) | Golden sets, scoreboards and benchmarks, failures left on them |
+| [context/](context/README.md) | Templates for your product, decisions and corrections. Yours stay local |
 
-```
-prodman-stack/
-├── README.md                       ← you are here
-├── skills/
-│   ├── portfolio-from-work/SKILL.md    ← work you can't show → work you can send
-│   ├── launch-minimum/SKILL.md         ← the eight things, and nothing else
-│   ├── eval-write/SKILL.md             ← the set a skill has to survive
-│   ├── deidentify/SKILL.md             ← the gate before anything leaves
-│   └── product-research/SKILL.md       ← the map, not the reading
-├── evals/
-│   ├── README.md                   ← the autonomy ladder, and how to score a run
-│   ├── golden-sets/                ← 5 frozen adversarial inputs per skill, traps documented
-│   └── scoreboards/                ← results, with the failures left on them
-├── examples/
-│   └── worked-example.md           ← one real case study, start to finish
-└── LICENSE                         ← MIT, use it commercially
-```
+---
 
-That is deliberately small. **One skill that works beats forty that you never run.** More get added as they prove themselves on real work — not before.
+## The proof
+**We test in public, including when we lose.**
 
-### What this repo cannot do
+![Scores out of 25 for nine AI research setups on one PM task](evals/benchmarks/2026-10-11-research-head-to-head.png)
 
-Three things, stated plainly because you will hit them by day three and they are not bugs:
+On one PM research task, graded blind by six separate AI graders, with all nine setups on the same
+model, plain Claude with no skill scored 22 out of 25 and beat all five community PM research skills
+we tested (17 to 21). Our own first version came last at 16. Rebuilt twice after reading the graders'
+notes, version 3 scored 23. Read that honestly: it is one task, the graders were AI sessions rather than
+people, a one point lead is inside the grading noise, and version 3 paraphrased one number (accuracy 75
+percent), which version 4 fixes. Full method and every score: [the benchmark](evals/benchmarks/2026-10-11-research-head-to-head.md).
+
+Every skill also has a golden set, five inputs built to make it fail, with the trap in each one
+written down. Scores land in [evals/scoreboards](evals/scoreboards/README.md) with the failures left
+on them. The `product-research` skill scored 1 out of 5 on its first run, and that is published too.
+
+---
+
+## What this repo cannot do
+Stated plainly, because you will hit these by day three and they are not bugs.
 
 | | |
 |---|---|
-| **It will not remember you** | Every session starts from zero. You re-explain your product each time |
-| **It cannot tell you if the output is right** | It produces. It does not check |
-| **It does not get better because you used it** | Your corrections die when the session closes |
+| **It does not remember you across projects on its own** | Your context files help inside one folder. Anything you do not write down is forgotten when the session closes |
+| **It cannot reach your tools unless you connect them** | Workflows that need Jira, Linear or analytics data say so before they start, and work only from what you give them |
+| **Its checks are not a reviewer** | The pm skill grades its own output for quality. A score you publish should come from someone else |
+| **It does not save time you have not measured** | We cover tasks. We do not claim hours saved, because nobody has measured them yet |
 
-Those are the difference between a folder of skills and a system. If they matter to you, that is what
-the paid OS is for — and if they do not, this repo is genuinely yours under MIT, forever, with no catch.
-
----
-
-## Get the next ones
-
-New skills land here as they are built and tested. If you want them as they ship:
-
-**→ [Drop your email here](https://prodman.ai)** and each new skill arrives the day it ships, free.
-
-The **eval golden sets** are already in here, free — `evals/golden-sets/`, five frozen adversarial
-inputs per skill with every trap written down, so you can audit the checks instead of trusting them.
-Scoreboards land in `evals/scoreboards/` as runs happen, **with the failures left on them.**
-
-No newsletter. No drip sequence. A skill, when there is a skill.
+The paid [PM Second Brain](https://prodman.ai/second-brain) is where memory across projects and
+scored runs on your own work are being built. This repo stays free under MIT either way.
 
 ---
 
-## Who made this
+## Contributing
+New workflows and skills are welcome, on one condition: they arrive with their golden set. Write the
+five adversarial inputs first ([eval-write](skills/eval-write/SKILL.md) helps), then the skill, then
+open a pull request with one scored run attached. A skill nobody can fail does not get merged.
 
-A working product manager who builds the agents that do his own PM work, and publishes what breaks as well as what works.
+Found a wrong number, a dead link or a skill that misbehaved? Open an issue with the output.
 
-MIT licensed. Fork it, sell what you build with it, no attribution needed.
+---
+
+## Community and roadmap
+- **Free community:** a WhatsApp group for PMs who build with AI. [prodman.ai/join](https://prodman.ai/join)
+- **Roadmap, with honest statuses:** [prodman.ai/roadmap](https://prodman.ai/roadmap)
+- **Credits:** outside resources are linked, never copied, with their licences in [resources/README.md](resources/README.md).
+
+Built by Anurag Jha, a product manager who builds agents for real PM work and publishes
+what breaks as well as what works. MIT licensed: fork it, use it commercially, no attribution needed.
