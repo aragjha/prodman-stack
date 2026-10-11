@@ -105,7 +105,7 @@ Outside skills are optional. Each step that uses one also has a fallback the pm 
 
 **Effort.** 20 to 60 minutes of Claude time; 15 minutes of yours to review the conflicts
 
-**Tested.** demo run: run 2026-10-11 with skill version 2 on synthetic inputs, graded by a separate reviewer with an answer key: 9 of 10 answer key criteria, but failed 2 of 8 checks: customer quotes shortened without an ellipsis, and the self check covered 13 of 35 quotes. See examples/demos/A01-document-chaos/run-2026-10-11/GRADE.md
+**Tested.** demo run: run 2026-10-11 with skill version 2 on synthetic inputs, graded by a separate reviewer with an answer key: 9 of 10 answer key criteria, but failed 2 of 8 checks: customer quotes shortened without an ellipsis, and the self check covered 13 of 35 quotes. Rerun the same day with version 3: key 8 of 10, 1 red flag; both failed the skill's own checks. See examples/demos/A01-document-chaos/run-2026-10-11/GRADE.md
 
 **Example prompt.**
 
@@ -576,7 +576,7 @@ Fallback for brief: The pm skill writes the evidence table itself, one claim per
 
 **Effort.** 10 to 30 minutes of Claude time
 
-**Tested.** demo run: run 2026-10-11 with skill version 2 on synthetic inputs, graded by a separate reviewer with an answer key: 7 of 10 answer key criteria and 13 of 16 outside claims verified on their pages, but failed 2 of 8 checks: one quote came from a search summary, and the seat assumption is tested only after both squads are committed. See examples/demos/C01-idea-to-roadmap/run-2026-10-11/GRADE.md
+**Tested.** demo run: run 2026-10-11 with skill version 2 on synthetic inputs, graded by a separate reviewer with an answer key: 7 of 10 answer key criteria and 13 of 16 outside claims verified on their pages, but failed 2 of 8 checks: one quote came from a search summary, and the seat assumption is tested only after both squads are committed. Rerun the same day with version 3: key 7 of 10, 1 red flag, 7 of 14 web claims on their pages; both failed the skill's own checks. See examples/demos/C01-idea-to-roadmap/run-2026-10-11/GRADE.md
 
 **Example prompt.**
 
@@ -847,7 +847,7 @@ Fallback for stakeholder-mapping: The pm skill places each stakeholder on an inf
 
 **Effort.** 15 to 30 minutes of Claude time
 
-**Tested.** demo run: run 2026-10-11 with skill version 2 on synthetic inputs, graded by a separate reviewer with an answer key: 8 of 9 answer key criteria, which clears the key's bar, but failed 2 of 8 checks: the prototype it built shows wrong totals and was never read back. See examples/demos/D01-prd-to-experience/run-2026-10-11/GRADE.md
+**Tested.** demo run: run 2026-10-11 with skill version 2 on synthetic inputs, graded by a separate reviewer with an answer key: 8 of 9 answer key criteria, which clears the key's bar, but failed 2 of 8 checks: the prototype it built shows wrong totals and was never read back. Rerun the same day with version 3: key 9 of 9; both failed the skill's own checks. See examples/demos/D01-prd-to-experience/run-2026-10-11/GRADE.md
 
 **Example prompt.**
 
@@ -1046,7 +1046,7 @@ Fallback for replay-ux-audit: The pm skill works from the session notes you prov
 
 **Effort.** 15 to 30 minutes of Claude time
 
-**Tested.** demo run: run 2026-10-11 with skill version 2 on synthetic inputs, graded by a separate reviewer with an answer key: 7 of 10 answer key criteria: the drop dated to the right release and both decoys ruled out, but failed 2 of 8 checks and one red flag: a wrong count was passed by the self check. See examples/demos/E01-analytics-to-decisions/run-2026-10-11/GRADE.md
+**Tested.** demo run: run 2026-10-11 with skill version 2 on synthetic inputs, graded by a separate reviewer with an answer key: 7 of 10 answer key criteria: the drop dated to the right release and both decoys ruled out, but failed 2 of 8 checks and one red flag: a wrong count was passed by the self check. Rerun the same day with version 3: key 9 of 10, no red flag; both failed the skill's own checks. See examples/demos/E01-analytics-to-decisions/run-2026-10-11/GRADE.md
 
 **Example prompt.**
 
@@ -1592,7 +1592,7 @@ Our AI note taker wrote this summary of yesterday's customer call, and I'm about
 
 **Effort.** 10 to 20 minutes of Claude time
 
-**Tested.** demo run: run 2026-10-11 with skill version 2 on synthetic inputs, graded by a separate reviewer with an answer key: 6 of 9 answer key criteria, but failed 2 of 8 checks: it offered the partner an old API version as a fallback the scope never mentions. See examples/demos/G01-release-comms/run-2026-10-11/GRADE.md
+**Tested.** demo run: run 2026-10-11 with skill version 2 on synthetic inputs, graded by a separate reviewer with an answer key: 6 of 9 answer key criteria, but failed 2 of 8 checks: it offered the partner an old API version as a fallback the scope never mentions. Rerun the same day with version 3: key 6 of 9; both failed the skill's own checks. See examples/demos/G01-release-comms/run-2026-10-11/GRADE.md
 
 **Example prompt.**
 

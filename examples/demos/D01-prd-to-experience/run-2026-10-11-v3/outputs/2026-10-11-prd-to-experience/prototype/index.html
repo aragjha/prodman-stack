@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Client payment portal — clickable prototype (DRAFT, synthetic)</title>
+<style>
+  :root{
+    --firm:#1f6f54;          /* synthetic firm brand colour (R10) */
+    --firm-ink:#0f3d2e;
+    --bg:#eef1f4; --card:#fff; --ink:#1a1f24; --muted:#5b6670; --line:#dfe4e9;
+    --warn:#8a5a00; --warn-bg:#fff4dc; --bad:#8a1f1f; --bad-bg:#fdecec;
+    --ok:#1f6f54; --ok-bg:#e7f3ee; --draft:#5a3fa0; --draft-bg:#efeafc;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font:15px/1.45 -apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--ink)}
+  header.bar{background:#11181f;color:#fff;padding:10px 16px;display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+  header.bar b{font-size:14px}
+  .tag{font-size:11px;padding:2px 8px;border-radius:999px;background:#2b3742;color:#cfe}
+  .tag.draft{background:var(--draft-bg);color:var(--draft)}
+  .wrap{display:flex;gap:20px;align-items:flex-start;padding:18px;max-width:1100px;margin:0 auto}
+  nav.jump{flex:0 0 250px;background:#fff;border:1px solid var(--line);border-radius:10px;padding:12px;position:sticky;top:18px}
+  nav.jump h2{font-size:12px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);margin:10px 0 6px}
+  nav.jump a{display:block;padding:5px 8px;border-radius:6px;color:var(--ink);text-decoration:none;font-size:13px;cursor:pointer}
+  nav.jump a:hover{background:#f1f4f7}
+  nav.jump a .gap{color:var(--draft);font-size:11px}
+  .phone-area{flex:1;display:flex;flex-direction:column;align-items:center}
+  .phone{width:390px;max-width:100%;background:var(--card);border:1px solid var(--line);border-radius:22px;overflow:hidden;box-shadow:0 6px 26px rgba(0,0,0,.10)}
+  .firmhead{background:var(--firm);color:#fff;padding:14px 16px}
+  .firmhead .logo{display:flex;align-items:center;gap:10px}
+  .firmhead .logo .mark{width:30px;height:30px;border-radius:7px;background:#fff;color:var(--firm);display:grid;place-items:center;font-weight:700}
+  .firmhead .what{font-size:12px;opacity:.92;margin-top:6px}
+  .screen{display:none;padding:16px}
+  .screen.active{display:block}
+  .screen h1{font-size:18px;margin:2px 0 4px}
+  .sub{color:var(--muted);font-size:13px;margin:0 0 12px}
+  .total{background:var(--firm-ink);color:#fff;border-radius:10px;padding:12px 14px;margin-bottom:12px}
+  .total .lbl{font-size:12px;opacity:.85}
+  .total .amt{font-size:22px;font-weight:700}
+  .total .ccy-row{display:flex;justify-content:space-between;font-size:18px;font-weight:700;margin-top:4px}
+  .row{border:1px solid var(--line);border-radius:10px;padding:10px 12px;margin-bottom:8px;display:flex;gap:10px;align-items:center;cursor:pointer}
+  .row:hover{border-color:var(--firm)}
+  .row .cb{width:18px;height:18px;border:2px solid var(--line);border-radius:4px;flex:0 0 18px;display:none;place-items:center;font-size:12px}
+  .selectmode .row .cb{display:grid}
+  .row.sel .cb{background:var(--firm);border-color:var(--firm);color:#fff}
+  .row .main{flex:1;min-width:0}
+  .row .num{font-weight:600}
+  .row .meta{font-size:12px;color:var(--muted)}
+  .row .amt{font-weight:700;text-align:right;white-space:nowrap}
+  .pill{display:inline-block;font-size:11px;font-weight:600;padding:1px 7px;border-radius:999px;border:1px solid var(--line)}
+  .pill.open{background:#eef4ff;color:#204a8a;border-color:#cfe}
+  .pill.overdue{background:var(--bad-bg);color:var(--bad);border-color:#f3c6c6}
+  .pill.partial{background:var(--warn-bg);color:var(--warn);border-color:#eadaa6}
+  .pill.paid{background:var(--ok-bg);color:var(--ok);border-color:#bfe0d2}
+  .pill.proc{background:#eceff2;color:#4a5560}
+  .sectlabel{font-size:12px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);margin:14px 0 6px}
+  button{font:inherit;cursor:pointer}
+  .btn{display:block;width:100%;background:var(--firm);color:#fff;border:0;border-radius:10px;padding:12px;font-weight:600;margin-top:8px}
+  .btn.sec{background:#fff;color:var(--firm);border:1.5px solid var(--firm)}
+  .btn.ghost{background:#fff;color:var(--muted);border:1px solid var(--line)}
+  .note{border-radius:8px;padding:9px 11px;font-size:12.5px;margin:10px 0}
+  .note.draft{background:var(--draft-bg);color:var(--draft)}
+  .note.warn{background:var(--warn-bg);color:var(--warn)}
+  .note.ok{background:var(--ok-bg);color:var(--ok)}
+  .note.bad{background:var(--bad-bg);color:var(--bad)}
+  .big{font-size:34px;text-align:center;margin:18px 0 6px}
+  .center{text-align:center}
+  .kv{display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--line);font-size:14px}
+  .kv:last-child{border-bottom:0}
+  .bankbox{background:#f6f8fa;border:1px dashed var(--line);border-radius:8px;padding:12px;font-size:14px}
+  .amtinput{width:100%;padding:11px;font-size:18px;border:1.5px solid var(--line);border-radius:8px;margin:6px 0}
+  .caption{font-size:12px;color:var(--muted);margin-top:10px}
+  .back{background:none;border:0;color:var(--firm);padding:0;margin-bottom:8px;font-size:13px}
+  footer.legend{max-width:1100px;margin:0 auto;padding:0 18px 28px;color:var(--muted);font-size:12px}
+  .flag{font-size:11px;color:var(--draft);font-weight:600}
+</style>
+</head>
+<body>
+<header class="bar">
+  <b>Client payment portal — clickable prototype</b>
+  <span class="tag draft">DRAFT</span>
+  <span class="tag">Synthetic data — no real company, person or customer</span>
+  <span class="tag">D01 · walkthrough for design + eng</span>
+</header>
+
+<div class="wrap">
+  <nav class="jump">
+    <h2>Happy path</h2>
+    <a onclick="show('s-expired')">1 · Expired link</a>
+    <a onclick="show('s-home')">2 · Portal home</a>
+    <a onclick="show('s-detail')">3 · Invoice detail</a>
+    <a onclick="show('s-handoff')">4 · Card hand-off</a>
+    <a onclick="show('s-success')">4a · Success + receipt</a>
+    <h2>States &amp; unhappy paths</h2>
+    <a onclick="show('s-home-allpaid')">2b · All paid</a>
+    <a onclick="show('s-home-empty')">2c · Empty</a>
+    <a onclick="show('s-select')">5 · Pay selected <span class="gap">(G1)</span></a>
+    <a onclick="show('s-processing')">4b · Processing</a>
+    <a onclick="show('s-failed')">4c · Declined</a>
+    <a onclick="show('s-abandoned')">4d · Abandoned</a>
+    <a onclick="show('s-alreadypaid')">4e · Already paid</a>
+    <a onclick="show('s-bank')">6 · Bank transfer <span class="gap">(G2 draft)</span></a>
+    <a onclick="show('s-part')">7 · Pay part <span class="gap">(G4)</span></a>
+    <a onclick="show('s-pdf')">8 · Download PDF</a>
+    <a onclick="show('s-pdf-err')">8b · PDF unavailable</a>
+    <a onclick="show('s-checkmail')">U1 · Check your email <span class="gap">(G5)</span></a>
+  </nav>
+
+  <div class="phone-area">
+    <div class="phone">
+      <div class="firmhead">
+        <div class="logo"><span class="mark">R</span><b>Riverbank Books &amp; Co</b></div>
+        <div class="what">Secure payment page · no login needed · questions? call the firm on (555) 0100</div>
+      </div>
+
+      <!-- 1 Expired link -->
+      <section class="screen" id="s-expired">
+        <h1>This link has expired</h1>
+        <p class="sub">Invoice links stay active for 30 days (R1). This one is older than that.</p>
+        <div class="note warn">For your security the link no longer opens the portal.</div>
+        <button class="btn" onclick="show('s-checkmail')">Send me a new link</button>
+        <p class="caption flag">[G5] Whether the new link is sent automatically or by a person, how fast, and which email it goes to are decision-needed.</p>
+      </section>
+
+      <!-- U1 Check email -->
+      <section class="screen" id="s-checkmail">
+        <h1>Check your email</h1>
+        <div class="big">📬</div>
+        <p class="center sub">If an invoice was sent to <b>books@maple-synthetic.example</b>, a fresh link is on its way.</p>
+        <div class="note draft">[G5] Proposed behaviour only — delivery method and timing not yet decided.</div>
+        <button class="btn ghost" onclick="show('s-expired')">Back</button>
+      </section>
+
+      <!-- 2 Home (default) -->
+      <section class="screen active" id="s-home">
+        <h1>Invoices from Riverbank</h1>
+        <p class="sub">Everything you owe this firm, in one place. No login needed.</p>
+        <div class="total">
+          <div class="lbl">Total you owe</div>
+          <div class="ccy-row"><span>USD</span><span>$2,130.00</span></div>
+          <div class="ccy-row"><span>EUR</span><span>€300.00</span></div>
+        </div>
+        <div class="note draft">[G1] Shown per currency because open invoices span USD and EUR — a single combined total isn't definable. Each currency is paid separately. Decision-needed. The USD figure includes the $450.00 remaining on a partly-paid invoice [G4].</div>
+        <div class="sectlabel">Open — by due date</div>
+        <div class="row overdue-row" onclick="show('s-detail')">
+          <div class="main"><div class="num">INV-1042 <span class="pill overdue">Overdue</span></div><div class="meta">Issued 15 Sep 2026 · due 30 Sep 2026</div></div>
+          <div class="amt">$1,200.00</div>
+        </div>
+        <div class="row" onclick="show('s-detail')">
+          <div class="main"><div class="num">INV-1051 <span class="pill open">Open</span></div><div class="meta">Issued 28 Sep 2026 · due 15 Oct 2026</div></div>
+          <div class="amt">$480.00</div>
+        </div>
+        <div class="row" onclick="show('s-part')">
+          <div class="main"><div class="num">INV-1070 <span class="pill partial">Partially paid</span></div><div class="meta">Issued 05 Oct 2026 · due 25 Oct 2026 · $200.00 of $650.00 paid</div></div>
+          <div class="amt">$450.00</div>
+        </div>
+        <div class="row" onclick="show('s-detail')">
+          <div class="main"><div class="num">INV-1066 <span class="pill open">Open</span></div><div class="meta">Issued 02 Oct 2026 · due 20 Oct 2026</div></div>
+          <div class="amt">€300.00</div>
+        </div>
+        <button class="btn sec" onclick="enterSelect()">Select several to pay together</button>
+        <div class="sectlabel">Paid — last 12 months</div>
+        <div class="row" onclick="show('s-pdf')">
+          <div class="main"><div class="num">INV-1009 <span class="pill paid">Paid</span></div><div class="meta">Issued 01 Aug 2026 · paid 04 Aug 2026</div></div>
+          <div class="amt">$900.00</div>
+        </div>
+        <div class="row" onclick="show('s-pdf')">
+          <div class="main"><div class="num">INV-0998 <span class="pill paid">Paid</span></div><div class="meta">Issued 10 Jul 2026 · paid 18 Jul 2026</div></div>
+          <div class="amt">$540.00</div>
+        </div>
+      </section>
+
+      <!-- 5 Pay selected -->
+      <section class="screen" id="s-select">
+        <button class="back" onclick="show('s-home')">‹ Back</button>
+        <h1>Pay several together</h1>
+        <p class="sub">Tick the invoices to pay in one card payment (R5).</p>
+        <div class="note draft">[G1] A single card payment is one currency. EUR invoices are disabled while USD is selected — mixing currencies is blocked. Decision-needed.</div>
+        <div class="row sel"><div class="cb">✓</div><div class="main"><div class="num">INV-1042 <span class="pill overdue">Overdue</span></div><div class="meta">USD</div></div><div class="amt">$1,200.00</div></div>
+        <div class="row sel"><div class="cb">✓</div><div class="main"><div class="num">INV-1051 <span class="pill open">Open</span></div><div class="meta">USD</div></div><div class="amt">$480.00</div></div>
+        <div class="row" style="opacity:.5"><div class="cb"></div><div class="main"><div class="num">INV-1066 <span class="pill open">Open</span></div><div class="meta">EUR — different currency, can't combine</div></div><div class="amt">€300.00</div></div>
+        <div class="total"><div class="lbl">Selected total (before payment)</div><div class="amt">$1,680.00</div></div>
+        <button class="btn" onclick="show('s-handoff')">Pay $1,680.00 by card</button>
+      </section>
+
+      <!-- 3 Invoice detail -->
+      <section class="screen" id="s-detail">
+        <button class="back" onclick="show('s-home')">‹ Back</button>
+        <h1>INV-1051 <span class="pill open">Open</span></h1>
+        <div class="kv"><span>Issue date</span><b>28 Sep 2026</b></div>
+        <div class="kv"><span>Due date</span><b>15 Oct 2026</b></div>
+        <div class="kv"><span>Amount</span><b>$480.00</b></div>
+        <button class="btn" onclick="show('s-handoff')">Pay by card</button>
+        <button class="btn sec" onclick="show('s-bank')">Pay by bank transfer</button>
+        <button class="btn ghost" onclick="show('s-pdf')">Download PDF</button>
+        <p class="caption flag">"Pay part" appears here only when the firm allows partial payment for the invoice [G4].</p>
+      </section>
+
+      <!-- 4 Card hand-off -->
+      <section class="screen" id="s-handoff">
+        <h1>Taking you to our secure payments page</h1>
+        <div class="big">🔒</div>
+        <p class="center sub">Card details are entered on our payments partner's hosted page. We never see or store your card (R4; non-goal: no saved cards).</p>
+        <button class="btn" onclick="show('s-success')">Simulate: payment succeeds</button>
+        <button class="btn sec" onclick="show('s-failed')">Simulate: card declined</button>
+        <button class="btn ghost" onclick="show('s-processing')">Simulate: return before result</button>
+        <button class="btn ghost" onclick="show('s-abandoned')">Simulate: close without paying</button>
+      </section>
+
+      <!-- 4a Success -->
+      <section class="screen" id="s-success">
+        <div class="big">✅</div>
+        <h1 class="center">Payment received</h1>
+        <p class="center sub">The invoice is marked paid within a minute and a receipt is on its way to your email (R4).</p>
+        <div class="note ok">A receipt has been emailed. You can also re-download it from the paid invoice.</div>
+        <p class="caption flag">[G10] Exact receipt contents to confirm. For a multi-invoice payment, one payment marks every selected invoice paid (R5).</p>
+        <button class="btn" onclick="show('s-home')">Back to invoices</button>
+      </section>
+
+      <!-- 4b Processing -->
+      <section class="screen" id="s-processing">
+        <div class="big">⏳</div>
+        <h1 class="center">We're confirming your payment</h1>
+        <p class="center sub">This usually takes under a minute. We'll update the invoice as soon as it's confirmed — you don't need to pay again.</p>
+        <div class="note warn">[G9] Not a success and not a failure yet. Proposed state — needs sign-off.</div>
+        <button class="btn ghost" onclick="show('s-home')">Back to invoices</button>
+      </section>
+
+      <!-- 4c Failed -->
+      <section class="screen" id="s-failed">
+        <div class="big">⚠️</div>
+        <h1 class="center">That payment didn't go through</h1>
+        <p class="center sub">Your card was declined and the invoice is still open. Nothing was charged.</p>
+        <div class="note bad">[G9] Error path — proposed, needs sign-off.</div>
+        <button class="btn" onclick="show('s-handoff')">Try again</button>
+        <button class="btn sec" onclick="show('s-bank')">Pay by bank transfer instead</button>
+      </section>
+
+      <!-- 4d Abandoned -->
+      <section class="screen" id="s-abandoned">
+        <div class="big">↩️</div>
+        <h1 class="center">You came back without paying</h1>
+        <p class="center sub">INV-1051 is still open. No receipt was sent.</p>
+        <div class="note warn">[G9] Proposed state — needs sign-off.</div>
+        <button class="btn" onclick="show('s-detail')">Return to the invoice</button>
+      </section>
+
+      <!-- 4e Already paid -->
+      <section class="screen" id="s-alreadypaid">
+        <div class="big">✅</div>
+        <h1 class="center">This invoice is already paid</h1>
+        <p class="center sub">Someone at your business may have paid it in another tab. You haven't been charged twice.</p>
+        <div class="note ok">[G9] Double-payment guard — proposed, needs sign-off.</div>
+        <button class="btn ghost" onclick="show('s-home')">Back to invoices</button>
+      </section>
+
+      <!-- 6 Bank transfer -->
+      <section class="screen" id="s-bank">
+        <button class="back" onclick="show('s-detail')">‹ Back</button>
+        <h1>Pay by bank transfer</h1>
+        <div class="note draft">[G2] DRAFT — the PRD gives no acceptance criteria for bank transfer, and does not say who marks the invoice paid, or when. This screen cannot be finalised until that's decided. It affects the "days to paid" metric.</div>
+        <div class="bankbox">
+          <div class="kv"><span>Account name</span><b>Riverbank Books &amp; Co</b></div>
+          <div class="kv"><span>Sort / routing</span><b>00-00-00</b></div>
+          <div class="kv"><span>Account no.</span><b>0000 0000</b></div>
+          <div class="kv"><span>Reference</span><b>INV-1051</b></div>
+          <div class="kv"><span>Amount</span><b>$480.00</b></div>
+        </div>
+        <p class="caption">The invoice stays <b>Open / Awaiting transfer</b> until the firm reconciles the payment (proposed).</p>
+      </section>
+
+      <!-- 7 Pay part -->
+      <section class="screen" id="s-part">
+        <button class="back" onclick="show('s-home')">‹ Back</button>
+        <h1>INV-1070 <span class="pill partial">Partially paid</span></h1>
+        <div class="kv"><span>Invoice total</span><b>$650.00</b></div>
+        <div class="kv"><span>Already paid</span><b>$200.00</b></div>
+        <div class="kv"><span>Remaining</span><b>$450.00</b></div>
+        <p class="sub" style="margin-top:12px">Pay part of what's left (R8 — this firm allows partial payment on this invoice).</p>
+        <input class="amtinput" value="$150.00" aria-label="Amount to pay">
+        <div class="note draft">[G4] Minimum amount, repeat partials, partial-by-bank-transfer, and how a partially-paid invoice behaves in the total (R3) and in multi-select (R5) are decision-needed. "Partially paid" is a proposed status [G3].</div>
+        <button class="btn" onclick="show('s-handoff')">Pay $150.00 by card</button>
+      </section>
+
+      <!-- 8 PDF -->
+      <section class="screen" id="s-pdf">
+        <button class="back" onclick="show('s-home')">‹ Back</button>
+        <h1>Download started</h1>
+        <div class="big">📄</div>
+        <p class="center sub">Your PDF is identical to the one attached to the invoice email (R7). Available on open and paid invoices.</p>
+        <button class="btn ghost" onclick="show('s-pdf-err')">Simulate: PDF unavailable</button>
+        <button class="btn" onclick="show('s-home')">Back to invoices</button>
+      </section>
+
+      <!-- 8b PDF error -->
+      <section class="screen" id="s-pdf-err">
+        <div class="big">📄</div>
+        <h1 class="center">We couldn't produce that PDF</h1>
+        <p class="center sub">Please try again, or contact the firm for a copy.</p>
+        <div class="note bad">[G11] Error path — proposed, needs sign-off.</div>
+        <button class="btn" onclick="show('s-pdf')">Try again</button>
+      </section>
+
+      <!-- 2b All paid -->
+      <section class="screen" id="s-home-allpaid">
+        <h1>You're all paid up</h1>
+        <div class="big">🎉</div>
+        <p class="center sub">Nothing is due to Riverbank right now. Your paid invoices are below (R2).</p>
+        <div class="sectlabel">Paid — last 12 months</div>
+        <div class="row" onclick="show('s-pdf')"><div class="main"><div class="num">INV-1009 <span class="pill paid">Paid</span></div><div class="meta">Paid 04 Aug 2026</div></div><div class="amt">$900.00</div></div>
+        <div class="note warn">[G8] Empty-of-open state — proposed, needs sign-off.</div>
+      </section>
+
+      <!-- 2c Empty -->
+      <section class="screen" id="s-home-empty">
+        <h1>Nothing is outstanding</h1>
+        <div class="big">📭</div>
+        <p class="center sub">Your link is valid, but there are no invoices from Riverbank for you right now.</p>
+        <div class="note warn">[G8] True-empty state — proposed, needs sign-off.</div>
+      </section>
+
+    </div>
+    <p class="caption" style="max-width:390px">Tap rows and buttons to move through the flow, or jump to any screen or state from the left. Grey "Simulate:" buttons stand in for what the payments partner's hosted page would return.</p>
+  </div>
+</div>
+
+<footer class="legend">
+  <b>Legend.</b> Purple [Gn] notes mark gaps and decisions from <code>01-prd-gap-review.md</code> that are
+  <span class="flag">decision-needed before build</span>. R-numbers trace to requirements in the PRD.
+  All names, invoices, amounts and dates are <b>synthetic</b>. This prototype shows structure and flow, not visual design.
+</footer>
+
+<script>
+  function show(id){
+    document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+    var el=document.getElementById(id);
+    if(el){el.classList.add('active'); el.classList.remove('selectmode');}
+    window.scrollTo(0,0);
+  }
+  function enterSelect(){ show('s-select'); }
+</script>
+</body>
+</html>

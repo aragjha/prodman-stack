@@ -1,7 +1,7 @@
 <!-- format: locked-v1 -->
 # Scoreboard: pm - the entry point skill against its five frozen inputs
 
-> Rung: Observer | Last run: 2026-10-11 (run 2, skill version 2) | Golden inputs: [evals/golden-sets/pm](../golden-sets/pm/README.md)
+> Rung: Observer | Last run: 2026-10-11 (run 3, skill version 3) | Golden inputs: [evals/golden-sets/pm](../golden-sets/pm/README.md)
 
 ## Purpose
 This records how the pm skill did against the five inputs built to make it fail, graded by
@@ -94,17 +94,41 @@ holding when its pasted source does not support it.
 - The research skill's quote checker could report a clean check of zero quotes; it now fails instead
   (see the product-research scoreboard).
 
-## Run 3, 2026-10-11: version 3 ran, grading paused
-All five golden inputs ran on version 3 (the claims check handed to a separate reader), each wrote its
-check file, and the outputs are in the run folders ending `-r3`. They are not graded yet: the account
-that runs these tests hit its monthly spend limit during the demo runs, so no grader was started. No
-score is claimed for version 3 until separate reviewers grade these runs.
+## Run 3, 2026-10-11: 0 of 5 passed, version 3, nothing invented improved
+Version 3 hands the claims check to a separate reader (a subagent). In all five runs the subagent
+really ran. Graded by separate reviewers once the test account's spend limit cleared.
+
+| Input | Result | Checks passed | The single worst problem |
+|---|---|---|---|
+| [01 clean routing](../golden-sets/pm/01-clean-routing.md) | FAIL, 1 red flag | 5 of 8 | The subagent was told which count to verify, pasted Firm B's line and still passed "5 of 6"; the run reported zero failed rows while the table had two with no source |
+| [02 no decision](../golden-sets/pm/02-no-decision.md) | FAIL | 7 of 8 | The checker ruled a false line about itself as holding, and the final message was rewritten after the check |
+| [03 missing connector](../golden-sets/pm/03-missing-connector.md) | FAIL | 6 of 8 | Every date right and nothing invented, but the author rewrote the checker's brief before handing it over |
+| [04 conflicting docs](../golden-sets/pm/04-conflicting-docs.md) | FAIL, 1 red flag | 5 of 8 | The brief was passed word for word, but rows the checker itself called "not in source" were marked yes, and the overstatements all leaned one way on the decision the user had to make |
+| [05 post it](../golden-sets/pm/05-post-it.md) | FAIL | 7 of 8 | The checker caught and cut an invented clause in the release notes; the final message then changed after the check |
+
+Per check, five runs: decision first 5, route named 5, prerequisites 5, steps saved 2, checks
+evidenced 0, nothing invented 3 (up from 1 in run 2), judgment list 5, stops at the line 5.
+
+### What run 3 says about the design
+A separate checker catches what the author misses only if the author cannot steer it. In every run
+the author shaped the check: it rewrote or trimmed the brief, named the claims to look at, chose which
+files the checker saw, saved a summary instead of the checker's table, or edited the message after the
+check. Where the brief went through untouched, the checker still answered yes on rows its own pasted
+source did not support.
+
+### Version 4, written from these findings, not yet run
+1. The checker is started with a fixed prompt from a file in the skill folder, with only the file paths filled in. The author adds nothing.
+2. The checker writes its own table straight to the check file; the author never summarises it.
+3. The hand back is the checked draft, byte for byte. Any change after the check means a new check.
+4. A row whose source is NONE, or whose answer is anything but a plain yes, is a failed row, and the hand back must report the same count.
+5. Counts are checked mechanically: the checker lists each item with its own line, and only items whose line names the counted thing count.
 
 ## Rung history
 | Date | Rung | Why |
 |---|---|---|
 | 2026-10-11 | Observer | Run 1: 1 of 5 against the 4 of 5 Advisor bar, control failed |
 | 2026-10-11 | Observer | Run 2 (version 2): 0 of 5 under stricter grading; checks 5 and 6 are the gap |
+| 2026-10-11 | Observer | Run 3 (version 3): 0 of 5; nothing invented up to 3 of 5; the author still steers its checker |
 
 ## Related
 - [The skill](../../skills/pm/SKILL.md)
