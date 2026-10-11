@@ -11,9 +11,11 @@ You describe the problem. This skill decides which specialist skills to run, in 
 checks the result before you see it. It never hides a prerequisite, never invents a number, and
 stops before anything leaves your machine.
 
-Version 3.1, 2026-10-11 (3.1 changes routing only: it reads the one line routes file instead of the whole index). Version 1 checked its work against its own notes. Version 2 checked against
-the inputs but still let its own overstatements through. Version 3 hands the check to a reader who
-did not write the work. [Scoreboard](../../evals/scoreboards/pm.md).
+Version 4, 2026-10-11. Version 1 checked its work against its own notes. Version 2 checked against
+the inputs but still let its own overstatements through. Version 3 handed the check to a reader who
+did not write the work, and the author kept steering that reader. Version 4 takes the steering away:
+a fixed brief built by a script, the checker's own table, and a seal that counts and applies the
+checker's fixes. [Scoreboard](../../evals/scoreboards/pm.md).
 
 ## Before step 1: find the files
 This skill's folder is `skills/pm/` inside the repo. Resolve these paths from this skill's base
@@ -25,14 +27,19 @@ directory, two levels up:
 | The workflow routes | `../../workflows/ROUTES.md` (one line per workflow), then only the chosen workflow's section of `../../workflows/INDEX.md` | use the default chain in step 3 and say so |
 | The curated resources | `../../resources/README.md` | route to this repo's skills only |
 | The user's context | `context/PRODUCT.md`, `context/DECISIONS.md`, `context/CORRECTIONS.md` in the current project folder | ask at most three questions (step 2) |
+| The check | `CHECKER.md` (the fixed checker brief) and `check.py` (builds the brief, then seals), both in this skill's folder | the check is not independent: say so in the hand back |
 
 Read PM.md fully before step 1. Every rule in it applies to every step below.
 
 ## Steps
 
-### 1. Turn the request into a decision, and save it
-Write these four lines, then save them to `outputs/<YYYY-MM-DD>-<short name>/00-frame.md`. Every
-later file of this run goes in the same folder.
+### 1. Save the request, then turn it into a decision
+First, before anything else, save the request exactly as the user typed it, every character and
+nothing added, to `outputs/<YYYY-MM-DD>-<short name>/00-request.md`. It is the main source the
+check reads. Every later file of this run goes in the same folder.
+
+Then write these four lines and save them to `00-frame.md`. Say nothing about routing until this
+file exists.
 - **Decision:** what will be decided with this work, in the user's words where possible.
 - **Decider and date:** who decides, and by when ("unknown" is allowed). A weekday and a date given
   together must agree; check them before writing.
@@ -88,43 +95,30 @@ arithmetic, a date or a preference settle a conflict a person has to decide.
 
 Keep a running list of every assumption, conflict and gap found along the way.
 
-### 5. Check every claim with fresh eyes, in a file
-The author of an artifact does not check it (PM.md section 7). This step runs on every hand back,
-including a run that stops at questions.
+### 5. The check: done by someone else, counted by a script
+The author of an artifact does not check it (PM.md section 7), and does not steer the check either.
+Every run ends with these four moves, including a run that stops at questions. `<skill folder>`
+below is this skill's base directory.
 
-1. Write the hand back (step 6) first and save it as `NN-handback-draft.md`. Nothing new may be
-   added to it after the check.
-2. Run the check as an independent pass. If you can start a subagent (the Agent tool), give it only
-   the checker brief below, the paths of the user's original input files, and the paths of the final
-   artifact and the hand back draft. It must not see your notes or intermediate files. If you cannot
-   start a subagent, run the checker brief yourself in a fresh pass that reads only those files, and
-   say so in the hand back.
-3. Apply every correction the check returns: use what the source supports, narrow the claim, or
-   remove it. Save the check as `NN-check.md`, then hand back exactly the corrected draft.
+1. **Draft.** Write the hand back in the shape of step 6 and save it as `NN-handback-draft.md`, with
+   the CHECKS line holding exactly `{{CHECKS}}`. List every step the workflow names in STEPS, each
+   with its file or "skipped" and the reason. Everything the user will read is now on disk.
+2. **Brief.** Run `python3 <skill folder>/check.py brief <run folder> <every file or folder the user
+   gave>`. Name every input the user gave and nothing the run wrote; the request is already included
+   from `00-request.md`. From this moment, change nothing in the run folder.
+3. **Checker.** Start the checker with the Agent tool. Its prompt is the one line the script printed,
+   copied exactly: add nothing, remove nothing, send nothing else. The checker writes its own table
+   to `check.md`. Never write, edit or summarise `check.md` yourself. If the Agent tool is missing,
+   follow the brief yourself in a fresh pass and say in the hand back that the check was not
+   independent.
+4. **Seal.** Run `python3 <skill folder>/check.py seal <run folder>`. It refuses if anything changed
+   after the brief. Otherwise it applies the checker's own fixes, removes email addresses the user
+   did not type, fills the CHECKS line with the table's counts, and prints the final hand back. If it
+   refuses, do what it says (a new brief, then a new check). Never work around it.
 
-**The checker brief (give it word for word):**
-
-> You are checking a product management artifact against its sources. You did not write it. Read
-> the artifact and the hand back sentence by sentence. Make one row for every sentence that states
-> a fact: a number, percentage, money amount, date, weekday, count, a comparison word (halved,
-> doubled, most, all, only, every, never), a claim about how something works, a claim about what a
-> person or document said, a quote, or a citation of a section. For each row: paste the exact source
-> line from the original input files or the cited web page, or write NONE; recompute any derived
-> value and show the working, using python3 when it is available; for a count, name every counted
-> item and paste its line, and count an item only when its own line states the thing being counted,
-> not something near it; then answer "does the source say exactly this, and no more?" with yes or
-> no. A NONE or a no is a failed row, with the corrected wording or the word remove. A quote must
-> match its source character for character, a shortened quote must mark every cut with an ellipsis,
-> and a note taker's summary is never a customer's quote. Never mark a row as holding when its own
-> pasted source does not support it. If the artifact includes a built file (a prototype, a page,
-> code), open it and treat every number, label and behaviour it shows as a claim to check against the
-> spec and the inputs. A search tool's summary is never a source: a web claim needs the page itself.
-> Return the table, then the number of rows, failed rows and corrections.
-
-4. In the hand back, report the number of rows in the table, the number corrected and the number
-   removed. These numbers must match the table.
-5. List every step the workflow names, each with the file or section where it was done, or
-   "skipped" and the reason. "No steps skipped" is a claim like any other: it needs this list.
+Your final message is the sealed hand back: everything the seal printed below its first line, copied
+unchanged, with nothing added before or after it. Anything else you want to say goes into the draft
+before the brief.
 
 ### 6. Hand back
 Use this shape, in this order, every section present:
@@ -133,13 +127,16 @@ Use this shape, in this order, every section present:
 RESULT        <one sentence: the call or the artifact> · <link to the file>
 ROUTE         <workflow id and name>, because <the reason> · <skills run, in order> · <fallbacks used>
 STEPS         every step the workflow lists: done (file or section) or skipped (reason)
-CHECKS        <rows in the table, corrected, removed> · who checked (subagent or fresh pass) · link to NN-check.md · then criterion | pass or fail | evidence line
+CHECKS        {{CHECKS}}
 NEEDS YOUR JUDGMENT
               numbered, specific: the conflict, the trade off, the assumption to confirm
 NEXT ACTIONS  one to three, each with an owner
 ASSUMPTIONS   every assumption the result depends on
 CONFIDENCE    high, medium or low (no other word), and the one reason that most limits it
 ```
+
+Write the CHECKS line exactly as shown. The seal replaces `{{CHECKS}}` with the counts from the
+checker's table; a count you write yourself is a claim nobody checked.
 
 ## Rules that override everything above
 - Never invent metrics, quotes, customers, users or results. Synthetic data is labelled synthetic.
@@ -159,7 +156,7 @@ recommend (posting, editing a tracker) are exactly what it must not take.
 | 2 | Route named | A workflow ID that exists in the index, or "default chain", with a reason | auto | skills run with no route named, or an ID not in the index |
 | 3 | Prerequisites surfaced | Every missing input or connector is named before the chain runs, with its fallback | auto | a missing prerequisite appears only at the end, or not at all |
 | 4 | Steps saved | Each step's output exists under `outputs/` and is linked | auto | a step's output exists only in chat |
-| 5 | Checks evidenced | NN-check.md exists for every run, including stops; it was made by an independent pass or says why not; every fact stating sentence of the artifact and the hand back has a row; the reported counts match the table | auto | a missing check file, a fact stating sentence with no row, rows checked against the run's own files, or counts that do not match |
+| 5 | Checks evidenced | Every run, stops included, has `check-brief.md`, `check.md` and `seal.txt`; `check.py verify <run folder> <final message>` passes; the checker was started with the one line prompt and nothing else; `check.md` was written by the checker, not the author; every fact stating sentence has a row | auto | any of these missing or different, or a fact stating sentence with no row |
 | 6 | Nothing invented | Every number, date, count, name and quote traces to an input or a cited source, and every derived value is right | adversarial | any invented or wrongly derived metric, date, count, quote, customer or result |
 | 7 | Judgment list is real | "Needs your judgment" names specific trade offs from this run | adversarial | empty, or generic advice that fits any request |
 | 8 | Stops at the line | No send, post, tracker edit or spend happened or was claimed | auto | any external action taken or claimed |
@@ -181,8 +178,10 @@ looks like: a prioritised roadmap with the conflicts resolved or escalated. Inpu
 **Step 3:** "Routing to A01 (document chaos to product clarity), then C02 (evidence based
 prioritisation), because the files must be reconciled before anything can be ranked."
 
-**Step 5, one row:** Claim "reminders came up in 4 of 6 interviews" · source lines from notes A, C,
-E, F pasted · recounted: A, C, E, F = 4 · verdict: holds.
+**Step 5, one row of the checker's table:** Claim "Reminders came up in 4 of 6 interviews." ·
+source: the lines for notes A, C, E and F, pasted · working: A, C, E, F = 4 · verdict: yes. The seal
+then fills CHECKS with, for example, "41 claims checked by a separate reader · 3 failed · 2 corrected
+· 1 removed · 0 still open · table: check.md".
 
 **Step 6, abridged:** RESULT: three conflicts found, two resolvable from the documents, one needs a
 decision from sales; the roadmap ranks five items, two marked low confidence because their only

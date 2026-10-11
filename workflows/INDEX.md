@@ -310,7 +310,7 @@ Should we build AI meeting notes or fix calendar sync reliability next quarter? 
 
 **Example result.** evals/benchmarks/2026-10-11-research-head-to-head.md (version 3 scored 23 of 25 on this exact request)
 
-**Limits.** public web only: it cannot read pages behind logins or paywalls; one benchmark task is not proof of every task; version 3 paraphrased one number; version 4 fixes it.
+**Limits.** public web only: it cannot read pages behind logins or paywalls; one benchmark task is not proof of every task; version 3 paraphrased one number; the fix is planned, not built yet.
 
 ### B02
 **Competitor comparison you can defend**

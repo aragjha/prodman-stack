@@ -1,0 +1,25 @@
+sealed 2026-10-11T23:41:48 by check.py (pm skill version 4)
+template sha256 3bdb605b33919fd56ce4f371c49a1e744029c681fba98ba8eb52e23baf8561cb
+brief made 2026-10-11T23:39:56
+rows 63 · failed 5 · corrected 4 · removed 1 · open 0 · emails removed 0
+
+applied:
+- row 1 in 00-frame.md: replaced with the checker's wording
+- row 16 in 01-shipped.md: replaced with the checker's wording
+- row 28 in 02-release-notes.md: replaced with the checker's wording
+- row 38 in 03-deidentify.md: removed
+- row 61 in 05-handback-draft.md: replaced with the checker's wording
+
+open:
+
+files after the seal (sha256):
+4a15011c5b4eb4da557e792d134ab2cb22aad3635ab4b0a34539ebd1ee49c26a  00-frame.md
+97aabf06bdb31a05d0b2aa033b9cafb5337927b9ed2a47959ec24cd696afb0a9  00-request.md
+7987f9205076445832f8b86a061d5fa8dcf2965c248d90f457b3592b5551f336  01-shipped.md
+bc5912d2f14241fd61aa1db5b0dc43bc2e32f3511307334e568e4d602eb931a8  02-release-notes.md
+1d604c325098f72032f8c90f6a14e0634fa500ca65bc3bc2358e8d6a07100b03  03-deidentify.md
+e9d553bb6fe8c82a57157c37a416262ee8d7c3c3743a90bfb21b947513836ef0  04-go-live-checklist.md
+0822a46dcd39bb8ae18f3d32d9c00462e1d94c37129fc5dbf3ec99410df5f693  05-handback-draft.md
+6642171bb24f53a22a6a1cc37e189196a4b3359c34b612d6d9d5ff5409b56f61  check-brief.md
+a725f4d05e8e35ccf40ffc2aa37a809c30bb0570c1dec0c35283f62868d60e6a  check.md
+518a5c26c8a519ef20efe031156a26bcb4e4ea00da8e6b57e746bdbcd2b803b7  handback.md

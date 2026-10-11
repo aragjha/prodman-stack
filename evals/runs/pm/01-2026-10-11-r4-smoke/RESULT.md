@@ -1,0 +1,28 @@
+# Run pm-golden-01-r4
+
+| Field | Value |
+|---|---|
+| Wall clock | 350 s |
+| Turns | 19 |
+| Tokens (all, incl. cache) | 773,636 |
+| Cost reported by the CLI | 2.3547312500000004 |
+| Error | False |
+
+## Final message, unedited
+
+-----BEGIN HANDBACK-----
+RESULT        Build automatic payment reminders next quarter — the only candidate with 3 of 6 interviews behind it, including one firm already paying a rival for it · outputs/2026-10-11-build-next-quarter/03-decision-brief.md
+ROUTE         B04 (Interview synthesis) → C02 (Evidence based prioritisation), because the six notes must be counted into themes before any candidate can be ranked and a call made · skills run: pm → (fallback for interview-snapshot and synthesize-research, both not installed) → pm · fallbacks: pm-skill summarising/counting in place of the two uninstalled outside skills
+STEPS         B04-1 restate question/decision: done (01-interview-synthesis.md) · B04-2 summarise each interview: done (01, per-interview table) · B04-3 themes + counts: done (01) · B04-4 label <3-interview themes weak: done (01) · B04-5 segment differences + against-plan findings: done (01) · B04-6 write synthesis: done (01) · B04-7 check quotes vs transcript: done (quotes verified against 00-request.md) · C02-1 restate metric: done (02-prioritisation.md) · C02-2 attach evidence + confidence: done (02) · C02-3 score impact/confidence/effort: done (02, effort=unknown, must come from eng) · C02-4 rank + close calls: done (02) · C02-5 check ranking vs criteria: done (handed to independent checker below)
+CHECKS        65 claims checked by a separate reader · 5 failed · 2 corrected · 3 removed · 0 still open · table: check.md
+NEEDS YOUR JUDGMENT
+              1. Price vs collections (the reversal). Firm D, the only firm signalling it may leave, complains about price per seat, not reminders. Reminders will not retain it. Before planning, check billing data: if seat churn is driven by price, a pricing decision may beat any feature this quarter. This is yours/leadership's call, not something six interviews can settle.
+              2. Reminders vs status-visibility ordering. Firm C's pain ("copying payment status into a spreadsheet") is the "who to chase" view; reminders likely depend on it. Decide whether to ship that view as the explicit first increment.
+              3. The sample. Six synthetic interviews — confirm you're comfortable making a quarter's bet on patterns (not proportions) from six firms out of ~300, or whether to run a few more before committing.
+              4. Success metric + baseline. No metrics file exists. Confirm which number this serves (seat retention vs expansion) and that someone pulls the baseline from billing before build.
+NEXT ACTIONS  1. You: pull last 2–4 quarters of seat/logo churn from billing to test the price-vs-collections reversal — before ~2026-10-25.
+              2. You + engineering: get an effort estimate for reminders (and the unpaid-invoice slice) for planning.
+              3. You: take the decision brief to the planning meeting as the recommended bet.
+ASSUMPTIONS   1. Continued on stated assumptions with no PRODUCT.md/context files (only templates exist); no answers came back in-session. 2. The interview notes are the complete evidence; no analytics/connector data was available. 3. "Planning in two weeks" from today (2026-10-11) ≈ 2026-10-25; no exact date was given. 4. The business watches a per-seat retention/expansion metric — inferred from "billed per seat," not confirmed.
+CONFIDENCE    medium — the direction (reminders) is consistent and unusually well-supported for the count, but it rests on six synthetic interviews, so proportions across the ~300 firms are unknown.
+-----END HANDBACK-----

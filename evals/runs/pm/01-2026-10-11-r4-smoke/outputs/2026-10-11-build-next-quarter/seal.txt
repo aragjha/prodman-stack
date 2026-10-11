@@ -1,0 +1,24 @@
+sealed 2026-10-11T23:36:03 by check.py (pm skill version 4)
+template sha256 da2568b19208f81bacd146c18e270351a6eac7a3c27361c7fc05b07b29003db1
+brief made 2026-10-11T23:33:59
+rows 65 · failed 5 · corrected 2 · removed 3 · open 0 · emails removed 0
+
+applied:
+- row 5 in 00-frame.md: removed
+- row 7 in 00-frame.md: removed
+- row 29 in 01-interview-synthesis.md: replaced with the checker's wording
+- row 36 in 02-prioritisation.md: removed
+- row 48 in 03-decision-brief.md: replaced with the checker's wording
+
+open:
+
+files after the seal (sha256):
+533b118e6208a324be706ceab3756cb2bfd74c909d88c38afc92c5916c4bd1ad  00-frame.md
+e2eeeb105a90a25a075ff7f64e132037c404cc80b9303e713fe302a07ef33723  00-request.md
+7bc494557bd461a8b01e1fd8b7558c456ff906bdabe53f164e3a22901b743f8d  01-interview-synthesis.md
+b12efcc4f783d89b462c02b7f6a34ea3dd2bfc6c9ad5b236fa305222db8b96a9  02-prioritisation.md
+9e26351622bc304deaae2e36a200fa9cb0e01924c4dd4bb72c27829204385f74  03-decision-brief.md
+582533e19f7884c0ce2286590946a70df4c84dd403d915c66dbf4db64b7e37e0  04-handback-draft.md
+9f462298cfce7409d0abc52e93264b0ed01e6f5ba0f5f02e240031aac851a02d  check-brief.md
+525068a481ef3c5669a98491fec47bf70b5eb686d26cf64f697f53d5cdeaa09b  check.md
+8e7b9b4d51fab46569270805edd1a20e62e3eeb026217afa54c10a875566ce93  handback.md

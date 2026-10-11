@@ -16,3 +16,5 @@ __pycache__/
 evals/runs/**/transcript.jsonl
 # every run transcript, demos included (2026-10-11: demo transcripts were missed by the rule above)
 **/transcript.jsonl
+# the checker subagent transcripts of pm runs (version 4 on): local paths inside, same rule
+**/subagents/*.jsonl

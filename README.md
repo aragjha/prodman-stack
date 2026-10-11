@@ -87,7 +87,7 @@ Stated plainly, because you will hit these by day three and they are not bugs.
 |---|---|
 | **It does not remember you across projects on its own** | Your context files help inside one folder. Anything you do not write down is forgotten when the session closes |
 | **It cannot reach your tools unless you connect them** | Workflows that need Jira, Linear or analytics data say so before they start, and work only from what you give them |
-| **Its checks are not a reviewer** | The pm skill grades its own output for quality. A score you publish should come from someone else |
+| **Its check is not a reviewer** | A separate reader checks the result against your inputs and a script seals it, but it is the same model, and graded runs show it still misses things ([scoreboard](evals/scoreboards/pm.md)). A score you publish should come from someone else |
 | **It does not save time you have not measured** | We cover tasks. We do not claim hours saved, because nobody has measured them yet |
 
 The paid [ProdMan OS](https://prodman.ai/os) is where memory across projects and

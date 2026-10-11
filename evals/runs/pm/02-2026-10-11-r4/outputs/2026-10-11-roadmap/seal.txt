@@ -1,0 +1,28 @@
+sealed 2026-10-11T23:40:43 by check.py (pm skill version 4)
+template sha256 3bdb605b33919fd56ce4f371c49a1e744029c681fba98ba8eb52e23baf8561cb
+brief made 2026-10-11T23:39:15
+rows 37 · failed 12 · corrected 4 · removed 3 · open 5 · emails removed 0
+
+applied:
+- row 8 in 00-frame.md: replaced with the checker's wording
+- row 9 in 00-frame.md: removed
+- row 11 in 00-frame.md: replaced with the checker's wording
+- row 12 in 00-frame.md: removed
+- row 13 in 00-frame.md: removed
+- row 35 in 01-handback-draft.md: replaced with the checker's wording
+- row 37 in 01-handback-draft.md: replaced with the checker's wording
+
+open:
+- row 25 (01-handback-draft.md): no fix given
+- row 28 (01-handback-draft.md): no fix given
+- row 29 (01-handback-draft.md): no fix given
+- row 30 (01-handback-draft.md): no fix given
+- row 33 (01-handback-draft.md): no fix given
+
+files after the seal (sha256):
+71abeaf248768e9fb2c1478c6097f24044f2339c9c13039d24eb9b9cb0987051  00-frame.md
+0ca13db0e5d89f1d6c8f622036c7c64ab6f9a099547f75dcbd6e51bd72ca7e32  00-request.md
+cfe3eceba0c2f2753937fac58f208441fc2a26f9d3ae519a06b74996636034b4  01-handback-draft.md
+749f814acf9817937c4cd84993da6c432ed6b0c09781574c1810523db8481e1f  check-brief.md
+13ff6ad2f1738b9128d91db7206538be3094865a0c56e8cfc9e36e06274d6480  check.md
+329ee8b80ba7bd6b0cb8c228230a6b616d842d92082455aaec72c864ea7ffdf3  handback.md

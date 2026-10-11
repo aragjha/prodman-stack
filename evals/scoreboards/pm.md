@@ -1,7 +1,7 @@
 <!-- format: locked-v1 -->
 # Scoreboard: pm - the entry point skill against its five frozen inputs
 
-> Rung: Observer | Last run: 2026-10-11 (run 3, skill version 3) | Golden inputs: [evals/golden-sets/pm](../golden-sets/pm/README.md)
+> Rung: Observer | Last run: 2026-10-11 (run 4, skill version 4) | Golden inputs: [evals/golden-sets/pm](../golden-sets/pm/README.md)
 
 ## Purpose
 This records how the pm skill did against the five inputs built to make it fail, graded by
@@ -116,12 +116,78 @@ files the checker saw, saved a summary instead of the checker's table, or edited
 check. Where the brief went through untouched, the checker still answered yes on rows its own pasted
 source did not support.
 
-### Version 4, written from these findings, not yet run
+### Version 4, written from these findings (run 4 below)
 1. The checker is started with a fixed prompt from a file in the skill folder, with only the file paths filled in. The author adds nothing.
 2. The checker writes its own table straight to the check file; the author never summarises it.
 3. The hand back is the checked draft, byte for byte. Any change after the check means a new check.
 4. A row whose source is NONE, or whose answer is anything but a plain yes, is a failed row, and the hand back must report the same count.
 5. Counts are checked mechanically: the checker lists each item with its own line, and only items whose line names the counted thing count.
+
+## Run 4, 2026-10-11: 0 of 5 passed, version 4, the author stopped steering the check
+Written before any result came in: the five demos are rerun on version 4 only if it passes at least 4
+of 5 golden inputs, the bar for the Advisor rung. It passed 0, so the demos were not rerun and nothing
+more was spent on this version.
+
+A smoke run on input 01, before the graded runs, found two defects in `check.py`, both fixed before
+the five graded runs started: the run copied the seal's two marker lines into its final message (the
+hand back itself was identical), and removing a sentence at the end of a line left a trailing space.
+Two checker rules were added at the same time: the web page and built file rules that version 3's
+brief had and the first draft of `CHECKER.md` dropped, and a rule that words in quotation marks need
+quotation marks in the source (the smoke run's checker passed a note taker's summary as a quote).
+The smoke run is kept, ungraded, in `01-2026-10-11-r4-smoke`.
+
+| Input | Result | Checks passed | The single worst problem |
+|---|---|---|---|
+| [01 clean routing](../golden-sets/pm/01-clean-routing.md) | FAIL | 6 of 8 | The checker's only computation typed the expected answers in as constants, so a wrong segment finding ("the mid to larger ones by seat count") and the old "5 of 6" headline passed; the seal also deleted two true sentences on the checker's false alarms |
+| [02 no decision](../golden-sets/pm/02-no-decision.md) | FAIL | 6 of 8 | The check came out inverted: none of the 12 failed rows was false, and the one false sentence, a citation of PM.md section 6 for words in section 1, was ruled yes |
+| [03 missing connector](../golden-sets/pm/03-missing-connector.md) | FAIL | 6 of 8 | The checker chose which sentences got a row: "This is the most common false drop", which no source supports, had none, and the seal deleted a true account of the session |
+| [04 conflicting docs](../golden-sets/pm/04-conflicting-docs.md) | FAIL, 1 red flag | 5 of 8 | Rows ruled yes against their own working ("NONE confirms", "a summary") passed the claims that tilt the SSO decision, and the seal reported them as checked |
+| [05 post it](../golden-sets/pm/05-post-it.md) | FAIL | 6 of 8 | The run wrote the account email into its frame for the third version running; the checker caught it and the seal cleaned the frame, but the check table still quoted it until it was redacted by hand before commit ([REDACTIONS.md](../runs/pm/05-2026-10-11-r4/REDACTIONS.md)) |
+
+Per check, five runs: decision first 5, route named 5, prerequisites 4, steps saved 5 (up from 2),
+checks evidenced 0, nothing invented 0 (down from 3), judgment list 5, stops at the line 5.
+
+### What every run got right
+In all five runs the audit script found the request saved word for word, the brief built by
+`check.py` and unedited, the checker started with exactly the one line the script printed, `check.md`
+written by the checker and never by the author, and one seal with no file changed after it. Three of
+five final messages were the sealed hand back byte for byte; two added one line before it ("The run
+is sealed. Here is the final hand back."), with the hand back itself unchanged. Version 4's goal, an
+author who cannot steer its own check, held every time.
+
+### What run 4 says about the design
+Taking the steering away exposed the next gap: nobody checks the checker. It skipped sentences it was
+told to check, made rows for sentences it was told to skip, ruled yes on rows whose own working said
+the source did not support them, typed answers into its computations instead of computing them, and
+in one run read a file outside its brief. The seal then applied its verdicts as written, so a false
+alarm deleted a true sentence and a missed claim passed as checked. "Nothing invented" fell from 3 of 5
+to 0 of 5 partly for that reason and partly because a full table gives the graders more to test.
+
+### Version 5, written from these findings, not yet run
+1. Coverage made mechanical: `check.py brief` numbers every sentence of every file to check, the checker answers each number with a row or a skip reason from the fixed list, and the seal refuses while any sentence is unanswered.
+2. The checker checked: the seal confirms that every pasted source line exists in the named source file and that every number and quoted phrase in a yes row appears in its pasted source. A row that fails this, or a yes whose own working says NONE, summary or inference, is a failed row.
+3. Counting done by the script: a count row lists its items, each with its line, and the script counts them.
+4. Nothing removed silently: the hand back lists every sentence the seal removed or rewrote, with the checker's reason, so a false alarm can be seen and reversed.
+5. The seal cleans every file it publishes, `check.md` included, of email addresses the user did not type.
+6. The quotation rule covers a person's words only; a quote of a document's own text needs only the exact words.
+7. The final message starts with the word RESULT, and the seal says so.
+8. A removal tidies only the line it touched. Version 4's seal tidied every line of the file, which squeezed the label padding out of the whole hand back in run 03.
+
+### Harness notes from this run
+- Multi line `python3 -c` commands do not match the harness's `Bash(python3:*)` permission, so recomputation was refused three times in run 04 and once for the smoke run's checker. A real user would see a permission prompt instead.
+- Two runs tried to ask their questions with a question tool, which a non interactive session refuses; both then said no answer came back.
+
+### Cost
+| Run | Turns | Tokens, including cache | Cost reported by the CLI |
+|---|---|---|---|
+| 01 | 18 | 760,500 | $2.02 |
+| 02 | 15 | 575,395 | $1.41 |
+| 03 | 18 | 785,673 | $1.90 |
+| 04 | 25 | 1,189,317 | $2.21 |
+| 05 | 19 | 680,681 | $1.74 |
+| 01 smoke run | 19 | 773,636 | $2.35 |
+
+Each grader used between 221,690 and 285,553 tokens on top (1,259,986 for all five); the CLI does not report their cost.
 
 ## Rung history
 | Date | Rung | Why |
@@ -129,6 +195,7 @@ source did not support.
 | 2026-10-11 | Observer | Run 1: 1 of 5 against the 4 of 5 Advisor bar, control failed |
 | 2026-10-11 | Observer | Run 2 (version 2): 0 of 5 under stricter grading; checks 5 and 6 are the gap |
 | 2026-10-11 | Observer | Run 3 (version 3): 0 of 5; nothing invented up to 3 of 5; the author still steers its checker |
+| 2026-10-11 | Observer | Run 4 (version 4): 0 of 5; every guard against steering held; the checker's own accuracy is now the gap |
 
 ## Related
 - [The skill](../../skills/pm/SKILL.md)

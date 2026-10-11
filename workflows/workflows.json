@@ -132,7 +132,7 @@
       "limitations": [
         "public web only: it cannot read pages behind logins or paywalls",
         "one benchmark task is not proof of every task",
-        "version 3 paraphrased one number; version 4 fixes it"
+        "version 3 paraphrased one number; the fix is planned, not built yet"
       ]
     },
     {
