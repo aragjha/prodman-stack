@@ -1,0 +1,13 @@
+const fs=require("fs");
+const html=fs.readFileSync(__dirname+"/index.html","utf8");
+const m=html.match(/<script>([\s\S]*?)<\/script>/);
+let js=m[1].replace(/render\('home'\);\s*$/,"");
+const stub="var document={getElementById:()=>({innerHTML:'',value:'0',setAttribute:()=>{}})};var window={scrollTo:()=>{}};var alert=()=>{};";
+eval(stub+js);
+const open=STATE.data.filter(i=>i.status!=="paid");
+const t={}; open.forEach(i=>{const owe=i.status==="partial"?i.remaining:i.cents; t[i.cur]=(t[i.cur]||0)+owe;});
+console.log("Open invoices:", open.map(i=>i.id+"="+money(i.cents,i.cur)).join(" | "));
+console.log("USD total:", money(t.USD,"USD"), "(expect $1,650.00 USD: 1200+450)");
+console.log("EUR total:", money(t.EUR,"EUR"), "(expect €800.00 EUR)");
+console.log("Paid:", STATE.data.filter(i=>i.status==="paid").map(i=>i.id+"="+money(i.cents,i.cur)+" paid "+i.paid).join(" | "));
+console.log("Syntax OK");

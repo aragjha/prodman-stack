@@ -25,7 +25,9 @@ misleading metric, the date that cannot be met. What it does not yet do is check
 strictly as it checks the inputs. Every run failed the same two checks: claims that said slightly more
 than their source, and a self check that let them through.
 
-Version 3 hands that check to a separate reader. Its runs will be added here, graded the same way.
+Version 3 hands that check to a separate reader. Its demo runs are in the folders ending `-v3`: E01 and
+G01 finished; A01, C01 and D01 were cut off when the test account hit its monthly spend limit. None of
+them is graded yet, so no result is claimed for version 3.
 
 ## How to run one yourself
 ```text

@@ -1,6 +1,6 @@
 ---
 name: pm
-description: The ProdMan.AI PM SuperSkill, one entry point for product management work. Describe a PM problem in plain words (messy documents, a feature decision, a roadmap, metrics, a PRD, a release, a portfolio) and it turns the request into a decision, picks the matching workflow from the index, runs the specialist skills in order, checks every number and quote in the result against your inputs, and lists what still needs your judgment. Use whenever someone describes a product management task without naming a specific skill.
+description: The ProdMan.AI entry skill, one entry point for product management work. Describe a PM problem in plain words (messy documents, a feature decision, a roadmap, metrics, a PRD, a release, a portfolio) and it turns the request into a decision, picks the matching workflow from the index, runs the specialist skills in order, checks every number and quote in the result against your inputs, and lists what still needs your judgment. Use whenever someone describes a product management task without naming a specific skill.
 disable-model-invocation: false
 user-invocable: true
 ---
@@ -11,8 +11,9 @@ You describe the problem. This skill decides which specialist skills to run, in 
 checks the result before you see it. It never hides a prerequisite, never invents a number, and
 stops before anything leaves your machine.
 
-Version 2, 2026-10-11. Version 1 scored 1 of 5 on its golden set: its self check trusted its own
-notes instead of the inputs. Step 5 below is the fix. [Scoreboard](../../evals/scoreboards/pm.md).
+Version 3.1, 2026-10-11 (3.1 changes routing only: it reads the one line routes file instead of the whole index). Version 1 checked its work against its own notes. Version 2 checked against
+the inputs but still let its own overstatements through. Version 3 hands the check to a reader who
+did not write the work. [Scoreboard](../../evals/scoreboards/pm.md).
 
 ## Before step 1: find the files
 This skill's folder is `skills/pm/` inside the repo. Resolve these paths from this skill's base
@@ -21,7 +22,7 @@ directory, two levels up:
 | File | Path | If missing |
 |---|---|---|
 | The PM standards | `PM.md` in the user's current project folder if one exists, otherwise `../../PM.md` | say so and continue with the rules in this file |
-| The workflow index | `../../workflows/INDEX.md` | use the default chain in step 3 and say so |
+| The workflow routes | `../../workflows/ROUTES.md` (one line per workflow), then only the chosen workflow's section of `../../workflows/INDEX.md` | use the default chain in step 3 and say so |
 | The curated resources | `../../resources/README.md` | route to this repo's skills only |
 | The user's context | `context/PRODUCT.md`, `context/DECISIONS.md`, `context/CORRECTIONS.md` in the current project folder | ask at most three questions (step 2) |
 
@@ -52,14 +53,14 @@ If no answer can come back (a non interactive session, or the user says go ahead
 Never write that you asked as if you had been answered.
 
 ### 3. Route, only after the decision exists
-Open the workflow index and pick the workflow whose problem and required inputs match the decision
+Open the routes file and pick the workflow whose problem and required inputs match the decision
 from step 1, not the nouns in the request. Say which one in a single line, with the reason, for
 example: "Routing to A01, document chaos to product clarity, because you have 20 files and need a
 prioritised plan."
 - If two workflows fit in sequence, run both and say so. Never more than two.
 - If none fits, use the default chain from PM.md section 4 (frame, gather, decide, produce,
   check) and say "no workflow matched; default chain".
-- Never invent a workflow ID that is not in the index.
+- Never invent a workflow ID that is not in the routes file. Then read that workflow's full section in INDEX.md, and only that section.
 
 Then check the workflow's prerequisites against step 1's inputs. For every missing one, say
 exactly what is missing, what it blocks, and the fallback, before running anything. A missing
@@ -76,7 +77,10 @@ For each skill and step the workflow lists, in order:
    candidates on impact, confidence and effort, every candidate gets all three, with "unknown"
    where you do not know.
 4. Save the step's output as the next numbered file in the run folder and carry forward only what
-   the next step needs.
+   the next step needs. Every file starts with the line `DRAFT, not reviewed by a person` (PM.md
+   section 10) until the user approves it.
+5. If a step builds something (a prototype, a page, code), read it back after writing it and check
+   it against the spec it came from: every number, label and behaviour it shows is a claim.
 
 When two sources conflict and the conflict decides the plan, write the plan under each side of the
 conflict, side by side, and put the conflict first in the judgment list. Never let your own
@@ -84,43 +88,57 @@ arithmetic, a date or a preference settle a conflict a person has to decide.
 
 Keep a running list of every assumption, conflict and gap found along the way.
 
-### 5. Check every claim against the inputs, in a file
-Write `NN-check.md` in the run folder before handing back. It has two parts.
+### 5. Check every claim with fresh eyes, in a file
+The author of an artifact does not check it (PM.md section 7). This step runs on every hand back,
+including a run that stops at questions.
 
-**Part A, the claims table.** List every number, percentage, money amount, date, weekday, count
-("4 of 6 firms"), named person or company, and quote in the final artifact. For each one:
+1. Write the hand back (step 6) first and save it as `NN-handback-draft.md`. Nothing new may be
+   added to it after the check.
+2. Run the check as an independent pass. If you can start a subagent (the Agent tool), give it only
+   the checker brief below, the paths of the user's original input files, and the paths of the final
+   artifact and the hand back draft. It must not see your notes or intermediate files. If you cannot
+   start a subagent, run the checker brief yourself in a fresh pass that reads only those files, and
+   say so in the hand back.
+3. Apply every correction the check returns: use what the source supports, narrow the claim, or
+   remove it. Save the check as `NN-check.md`, then hand back exactly the corrected draft.
 
-| Claim | Source line, pasted from the original input or cited page | Recomputed or recounted | Verdict |
-|---|---|---|---|
+**The checker brief (give it word for word):**
 
-- The source is always the user's original input or a cited page, never this run's own earlier
-  files. A claim with no source line is removed or relabelled as an assumption.
-- Recompute every derived value (sums, differences, percentages, capacity, the weekday of a date)
-  and show the working. Use `python3` when it is available.
-- Recount every count by naming the items ("firms A, C, E and F: 4").
-- Set every paraphrase of a person's words beside the original. If the paraphrase says more than
-  the source, use the source's words.
-- Every quote must match its source character for character.
+> You are checking a product management artifact against its sources. You did not write it. Read
+> the artifact and the hand back sentence by sentence. Make one row for every sentence that states
+> a fact: a number, percentage, money amount, date, weekday, count, a comparison word (halved,
+> doubled, most, all, only, every, never), a claim about how something works, a claim about what a
+> person or document said, a quote, or a citation of a section. For each row: paste the exact source
+> line from the original input files or the cited web page, or write NONE; recompute any derived
+> value and show the working, using python3 when it is available; for a count, name every counted
+> item and paste its line, and count an item only when its own line states the thing being counted,
+> not something near it; then answer "does the source say exactly this, and no more?" with yes or
+> no. A NONE or a no is a failed row, with the corrected wording or the word remove. A quote must
+> match its source character for character, a shortened quote must mark every cut with an ellipsis,
+> and a note taker's summary is never a customer's quote. Never mark a row as holding when its own
+> pasted source does not support it. If the artifact includes a built file (a prototype, a page,
+> code), open it and treat every number, label and behaviour it shows as a claim to check against the
+> spec and the inputs. A search tool's summary is never a source: a web claim needs the page itself.
+> Return the table, then the number of rows, failed rows and corrections.
 
-**Part B, the criteria.** Grade the artifact against the workflow's checks and the rubric in PM.md
-section 7. For each criterion write pass or fail and quote the line of the artifact that proves it.
-If anything fails, fix it once and check again. If it still fails, report it as failed. Never
-present a failed check as passed.
-
-This is a self check for quality, not a score for publication (PM.md section 7).
+4. In the hand back, report the number of rows in the table, the number corrected and the number
+   removed. These numbers must match the table.
+5. List every step the workflow names, each with the file or section where it was done, or
+   "skipped" and the reason. "No steps skipped" is a claim like any other: it needs this list.
 
 ### 6. Hand back
 Use this shape, in this order, every section present:
 
 ```text
 RESULT        <one sentence: the call or the artifact> · <link to the file>
-ROUTE         <workflow id and name> · <skills run, in order> · <fallbacks used> · <steps skipped and why>
-CHECKS        <claims checked, fixed, removed> · link to NN-check.md · then criterion | pass or fail | evidence line
+ROUTE         <workflow id and name>, because <the reason> · <skills run, in order> · <fallbacks used>
+STEPS         every step the workflow lists: done (file or section) or skipped (reason)
+CHECKS        <rows in the table, corrected, removed> · who checked (subagent or fresh pass) · link to NN-check.md · then criterion | pass or fail | evidence line
 NEEDS YOUR JUDGMENT
               numbered, specific: the conflict, the trade off, the assumption to confirm
 NEXT ACTIONS  one to three, each with an owner
 ASSUMPTIONS   every assumption the result depends on
-CONFIDENCE    high, medium or low, and the one reason that most limits it
+CONFIDENCE    high, medium or low (no other word), and the one reason that most limits it
 ```
 
 ## Rules that override everything above
@@ -128,6 +146,8 @@ CONFIDENCE    high, medium or low, and the one reason that most limits it
 - Stop before sending, posting, publishing, sharing, editing a real tracker or spending money. Draft it and ask.
 - Conflicting sources are shown side by side with both citations. Never pick one silently.
 - Plain language. A term a new PM would not know (ARPU, churn, gross revenue retention) gets one plain sentence the first time it appears.
+- Never write the user's email address, name or account details into any file unless the user typed them in the request.
+- Never describe something the user did that did not happen. If no answer came back, say that, not "you declined".
 
 ## VERIFY
 **Rung:** Observer · **Irreversible?** no. Every output is a local file. The actions it might
@@ -139,7 +159,7 @@ recommend (posting, editing a tracker) are exactly what it must not take.
 | 2 | Route named | A workflow ID that exists in the index, or "default chain", with a reason | auto | skills run with no route named, or an ID not in the index |
 | 3 | Prerequisites surfaced | Every missing input or connector is named before the chain runs, with its fallback | auto | a missing prerequisite appears only at the end, or not at all |
 | 4 | Steps saved | Each step's output exists under `outputs/` and is linked | auto | a step's output exists only in chat |
-| 5 | Checks evidenced | NN-check.md has a claims table sourced from the original inputs, and every criterion cites a line | auto | a check is asserted without evidence, or claims are checked against the run's own files |
+| 5 | Checks evidenced | NN-check.md exists for every run, including stops; it was made by an independent pass or says why not; every fact stating sentence of the artifact and the hand back has a row; the reported counts match the table | auto | a missing check file, a fact stating sentence with no row, rows checked against the run's own files, or counts that do not match |
 | 6 | Nothing invented | Every number, date, count, name and quote traces to an input or a cited source, and every derived value is right | adversarial | any invented or wrongly derived metric, date, count, quote, customer or result |
 | 7 | Judgment list is real | "Needs your judgment" names specific trade offs from this run | adversarial | empty, or generic advice that fits any request |
 | 8 | Stops at the line | No send, post, tracker edit or spend happened or was claimed | auto | any external action taken or claimed |

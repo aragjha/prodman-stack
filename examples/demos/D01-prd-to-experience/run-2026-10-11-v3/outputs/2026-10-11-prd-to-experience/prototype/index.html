@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Client payment portal — clickable prototype (SYNTHETIC)</title>
+<style>
+  :root{
+    --brand:#1f6f5c;            /* firm brand colour (R10) — checked for contrast */
+    --brand-ink:#ffffff;
+    --bg:#f4f5f7; --card:#fff; --ink:#1a1d1f; --muted:#5b6166;
+    --line:#e3e6ea; --ok:#1f7a3f; --warn:#8a5a00; --err:#b3261e;
+    --radius:12px;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font:16px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--ink)}
+  a{color:var(--brand)}
+  .wrap{max-width:420px;margin:0 auto;background:var(--card);min-height:100vh;box-shadow:0 0 40px rgba(0,0,0,.06)}
+  /* Walkthrough controls — NOT part of the product */
+  .devbar{background:#111;color:#eee;font-size:12px;padding:8px 12px;position:sticky;top:0;z-index:50}
+  .devbar b{color:#fff}
+  .devbar .row{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+  .devbar button{font-size:12px;padding:4px 8px;border:1px solid #444;background:#222;color:#eee;border-radius:6px;cursor:pointer}
+  .devbar button[aria-pressed="true"]{background:var(--brand);border-color:var(--brand);color:#fff}
+  .synthetic{background:#fff6d6;color:#6b5500;font-size:11px;text-align:center;padding:4px;border-bottom:1px solid #eadfa8}
+  /* Firm header (R10) */
+  header.firm{background:var(--brand);color:var(--brand-ink);padding:16px;display:flex;align-items:center;gap:12px}
+  header.firm .logo{width:36px;height:36px;border-radius:8px;background:var(--brand-ink);color:var(--brand);display:grid;place-items:center;font-weight:700}
+  header.firm .title{font-size:14px;opacity:.95}
+  header.firm .title b{display:block;font-size:17px}
+  main{padding:16px}
+  h2{font-size:18px;margin:4px 0 12px}
+  .muted{color:var(--muted)}
+  .totals{display:flex;flex-direction:column;gap:8px;margin:0 0 16px}
+  .totalcard{border:1px solid var(--line);border-radius:var(--radius);padding:12px 14px;background:#fbfdfc}
+  .totalcard .amt{font-size:22px;font-weight:700}
+  .section-label{font-size:12px;letter-spacing:.04em;text-transform:uppercase;color:var(--muted);margin:18px 0 8px}
+  ul.invoices{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
+  .inv{border:1px solid var(--line);border-radius:var(--radius);padding:12px;display:flex;gap:10px;align-items:flex-start;width:100%;text-align:left;background:#fff;cursor:pointer}
+  .inv:focus-visible,button:focus-visible,a:focus-visible{outline:3px solid #2b6cff;outline-offset:2px}
+  .inv .meta{flex:1;min-width:0}
+  .inv .num{font-weight:600}
+  .inv .amt{font-weight:700;white-space:nowrap}
+  .inv .dates{font-size:13px;color:var(--muted)}
+  .badge{display:inline-flex;align-items:center;gap:4px;font-size:12px;font-weight:600;padding:2px 8px;border-radius:999px;border:1px solid}
+  .badge.open{color:#334;border-color:#cdd3da;background:#f3f5f8}
+  .badge.overdue{color:var(--err);border-color:#eccac7;background:#fdecea}
+  .badge.paid{color:var(--ok);border-color:#c5e3cf;background:#eef7f1}
+  .badge.processing{color:var(--warn);border-color:#ead9b0;background:#fbf4e2}
+  .badge.await{color:var(--warn);border-color:#ead9b0;background:#fbf4e2}
+  .badge.partial{color:#1b4f72;border-color:#bcd4e6;background:#eaf2f8}
+  .btn{display:block;width:100%;text-align:center;padding:12px;border-radius:10px;border:1px solid var(--brand);background:var(--brand);color:#fff;font-weight:600;font-size:16px;cursor:pointer;min-height:44px}
+  .btn.secondary{background:#fff;color:var(--brand)}
+  .btn.ghost{background:#fff;color:var(--ink);border-color:var(--line)}
+  .btn+.btn{margin-top:8px}
+  .stack{display:flex;flex-direction:column;gap:8px;margin-top:16px}
+  .back{background:none;border:0;color:var(--brand);font-size:14px;cursor:pointer;padding:6px 0;min-height:44px}
+  .notice{border-radius:10px;padding:12px;font-size:14px;margin:12px 0;border:1px solid}
+  .notice.err{background:#fdecea;border-color:#eccac7;color:#7a1c16}
+  .notice.ok{background:#eef7f1;border-color:#c5e3cf;color:#145c2c}
+  .notice.info{background:#eaf2f8;border-color:#bcd4e6;color:#1b4f72}
+  .notice.warn{background:#fbf4e2;border-color:#ead9b0;color:#6b4800}
+  .empty{text-align:center;padding:40px 16px;color:var(--muted)}
+  .empty .big{font-size:40px}
+  .stickybar{position:sticky;bottom:0;background:#fff;border-top:1px solid var(--line);padding:12px;display:flex;gap:10px;align-items:center}
+  .stickybar .t{flex:1}.stickybar .t b{font-size:18px}
+  .hosted{background:#0b2545;color:#dbe7ff;min-height:100vh}
+  .hosted .panel{max-width:420px;margin:0 auto;padding:24px 16px}
+  .hosted h2{color:#fff}
+  .hosted .fakefield{background:#13335c;border:1px solid #27508a;border-radius:8px;padding:12px;margin:8px 0;color:#9fb8e0}
+  .pill{display:inline-block;font-size:11px;border:1px solid #27508a;border-radius:999px;padding:2px 8px;color:#9fb8e0;margin-bottom:12px}
+  .field{margin:12px 0}
+  .field label{display:block;font-size:13px;color:var(--muted);margin-bottom:4px}
+  .field input{width:100%;padding:12px;border:1px solid var(--line);border-radius:8px;font-size:16px}
+  .rowmenu{font-size:13px;margin-top:8px;display:flex;gap:14px}
+  .rowmenu button{background:none;border:0;color:var(--brand);cursor:pointer;padding:4px 0;font-size:13px;min-height:44px}
+  .check{width:22px;height:22px;flex:none;border:2px solid var(--brand);border-radius:6px;display:grid;place-items:center;margin-top:2px}
+  .check[aria-checked="true"]{background:var(--brand);color:#fff}
+  .disabledrow{opacity:.5}
+  .hint{font-size:12px;color:var(--muted);margin-top:4px}
+  .kv{display:flex;justify-content:space-between;border-bottom:1px dashed var(--line);padding:8px 0;font-size:14px}
+  .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <!-- ================= WALKTHROUGH CONTROLS (not part of the product) ================= -->
+  <div class="devbar" role="region" aria-label="Walkthrough controls, not part of the product">
+    <b>Walkthrough controls</b> — not part of the product. Firm:
+    <span class="row">
+      <button id="m-card" aria-pressed="true" onclick="setFirm('card')">Card + transfer firm</button>
+      <button id="m-bank" aria-pressed="false" onclick="setFirm('bank')">Bank-transfer-only firm (common)</button>
+    </span>
+    <span class="row">Scenario:
+      <button onclick="go('home')">Normal</button>
+      <button onclick="go('allpaid')">All paid up</button>
+      <button onclick="go('empty')">Nothing yet</button>
+      <button onclick="go('expired')">Expired link</button>
+    </span>
+  </div>
+  <div class="synthetic">SYNTHETIC demo data — no real company, person or customer. Prototype of the spec in 04-screen-state-spec.md.</div>
+
+  <div id="app" aria-live="polite"></div>
+</div>
+
+<script>
+/* ---------------- SYNTHETIC data model ----------------
+   Amounts are in minor units (cents) to keep money math exact.
+   Totals shown on screen are COMPUTED from this data, never hand-typed. */
+const FIRM = { name:"Riverbank Books", initials:"RB" };   // synthetic
+const TODAY = "2026-10-11";
+function invoices(){ return [
+  {id:"INV-1042", issue:"2026-09-15", due:"2026-09-30", cents:120000, cur:"USD", status:"open", allowPartial:false},
+  {id:"INV-1051", issue:"2026-09-28", due:"2026-10-15", cents:45000,  cur:"USD", status:"open", allowPartial:true },
+  {id:"INV-1067", issue:"2026-10-02", due:"2026-10-20", cents:80000,  cur:"EUR", status:"open", allowPartial:false},
+  {id:"INV-0988", issue:"2026-08-01", due:"2026-08-15", cents:60000,  cur:"USD", status:"paid", paid:"2026-08-14"},
+]; }
+const SYM = {USD:"$", EUR:"€", CAD:"$", GBP:"£"};
+function money(cents,cur){ return SYM[cur] + (cents/100).toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2}) + " " + cur; }
+function isOverdue(inv){ return inv.status==="open" && inv.due < TODAY; }
+
+let STATE = { firm:"card", scenario:"home", data:invoices(), selecting:false, selected:new Set(), paySet:[], outcome:null };
+
+function setFirm(mode){
+  STATE.firm = mode;
+  document.getElementById("m-card").setAttribute("aria-pressed", mode==="card");
+  document.getElementById("m-bank").setAttribute("aria-pressed", mode==="bank");
+  go(STATE.scenario==="expired"||STATE.scenario==="empty"||STATE.scenario==="allpaid"?STATE.scenario:"home");
+}
+function go(scenario){ STATE.scenario=scenario; STATE.selecting=false; STATE.selected=new Set();
+  if(scenario==="allpaid"){ STATE.data=invoices().map(i=>({...i,status:"paid",paid:i.paid||"2026-10-01"})); }
+  else if(scenario==="empty"){ STATE.data=[]; }
+  else { STATE.data=invoices(); }
+  render(scenario==="expired"?"expired":"home");
+}
+
+/* ---------------- Screen router ---------------- */
+let SCREEN="home", CTX={};
+function render(screen, ctx){ if(screen){SCREEN=screen; CTX=ctx||{};} const el=document.getElementById("app"); el.innerHTML = SCREENS[SCREEN](CTX); window.scrollTo(0,0); }
+
+function firmHeader(sub){ return `<header class="firm"><div class="logo" aria-hidden="true">${FIRM.initials}</div>
+  <div class="title">${sub||"Your invoices from"}<b>${FIRM.name}</b></div></header>`; }
+
+function openInvoices(){ return STATE.data.filter(i=>i.status!=="paid"); }
+function paidInvoices(){ return STATE.data.filter(i=>i.status==="paid"); }
+function totalsByCurrency(){ const t={}; openInvoices().forEach(i=>{ const owe = i.status==="partial" ? i.remaining : i.cents; t[i.cur]=(t[i.cur]||0)+owe; }); return t; }
+
+function badge(inv){
+  if(inv.status==="paid") return `<span class="badge paid">✓ Paid ${inv.paid?("· "+inv.paid):""}</span>`;
+  if(inv.status==="processing") return `<span class="badge processing">⏳ Processing</span>`;
+  if(inv.status==="await") return `<span class="badge await">⏳ Awaiting transfer</span>`;
+  if(inv.status==="partial") return `<span class="badge partial">◑ Partially paid · ${money(inv.remaining,inv.cur)} left</span>`;
+  if(isOverdue(inv)) return `<span class="badge overdue">● Overdue</span>`;
+  return `<span class="badge open">Open</span>`;
+}
+
+const SCREENS = {
+/* S0 expired */
+expired(){ return firmHeader("A secure link from") + `<main>
+  <div class="notice warn" role="alert"><b>This link has expired.</b><br>For your security, invoice links stop working after 30 days.</div>
+  <p class="muted">No problem — we can send you a fresh one to the email this invoice was sent to.</p>
+  <button class="btn" onclick="render('expired_sent')">Email me a new link</button>
+  <p class="hint">Mechanism/owner for sending the new link is undefined in the PRD (see 01-C).</p>
+</main>`; },
+expired_sent(){ return firmHeader("A secure link from") + `<main>
+  <div class="notice ok" role="status"><b>A new link is on its way.</b><br>Check the inbox where you received this invoice.</div>
+</main>`; },
+
+/* S1 home + variants */
+home(){
+  if(STATE.data.length===0) return firmHeader() + `<main><div class="empty"><div class="big" aria-hidden="true">📭</div>
+    <h2>Nothing here yet</h2><p class="muted">When ${FIRM.name} sends you an invoice, it will show up here.</p></div></main>`;
+  const open=openInvoices();
+  const totals=totalsByCurrency();
+  const allPaid = open.length===0;
+  let totalsHtml;
+  if(allPaid){ totalsHtml = `<div class="notice ok" role="status"><b>You're all paid up 🎉</b><br>Nothing owed to ${FIRM.name} right now.</div>`; }
+  else {
+    const cards = Object.keys(totals).map(cur=>`<div class="totalcard"><div class="muted">You owe</div>
+      <div class="amt" aria-label="${(totals[cur]/100).toFixed(2)} ${cur}">${money(totals[cur],cur)}</div></div>`).join("");
+    totalsHtml = `<div class="totals">${cards}</div>
+      ${Object.keys(totals).length>1?`<p class="hint">Totals are shown per currency — one combined number can't mix USD and EUR (see 01-A). This is Plan A, an assumption to confirm.</p>`:""}`;
+  }
+  const selectBtn = (!STATE.selecting && open.length>1 && STATE.firm==="card") ?
+    `<button class="btn ghost" onclick="startSelect()">Select several to pay together</button>` : "";
+  const openList = open.length? `<div class="section-label">Open — due soonest first</div>
+    <ul class="invoices">${open.map(rowHome).join("")}</ul>` : "";
+  const paid=paidInvoices();
+  const paidList = paid.length? `<div class="section-label">Paid · last 12 months</div>
+    <ul class="invoices">${paid.map(rowHome).join("")}</ul>` : "";
+  const stickyTotal = STATE.selecting ? selectionBar() : "";
+  return firmHeader() + `<main>
+    <h2>Your invoices</h2>${totalsHtml}${selectBtn}${openList}${paidList}
+    <p class="hint">Opening this page records a “Viewed” event for your accountant (R9).</p>
+  </main>${stickyTotal}`;
+},
+
+/* S2 detail */
+detail(ctx){ const inv=STATE.data.find(i=>i.id===ctx.id);
+  const canCard = STATE.firm==="card" && (inv.status==="open"||inv.status==="partial");
+  const owe = inv.status==="partial"?inv.remaining:inv.cents;
+  let actions="";
+  if(inv.status==="paid"){ actions=`<div class="notice ok" role="status">This invoice is paid${inv.paid?(" · "+inv.paid):""}.</div>`; }
+  else if(inv.status==="await"){ actions=`<div class="notice warn">Awaiting your bank transfer. It still counts as owed until ${FIRM.name} confirms it.</div>`; }
+  else {
+    if(canCard) actions+=`<button class="btn" onclick="toReview({ids:['${inv.id}'],cur:'${inv.cur}',cents:${owe}})">Pay by card</button>`;
+    actions+=`<button class="btn secondary" onclick="toBank({ids:['${inv.id}'],cur:'${inv.cur}',cents:${owe}})">Pay by bank transfer</button>`;
+    if(inv.allowPartial && canCard) actions+=`<button class="btn ghost" onclick="toPartial('${inv.id}')">Pay part of this invoice</button>`;
+  }
+  return firmHeader() + `<main>
+    <button class="back" onclick="render('home')">← Back</button>
+    <h2>${inv.id}</h2>
+    <div style="margin:6px 0 12px">${badge(inv)}</div>
+    <div class="kv"><span>Issued</span><b>${inv.issue}</b></div>
+    <div class="kv"><span>Due</span><b>${inv.due}</b></div>
+    <div class="kv"><span>${inv.status==="partial"?"Remaining":"Amount"}</span><b>${money(owe,inv.cur)}</b></div>
+    <p class="hint">Same number and amount as your email and PDF — so you can match them.</p>
+    <div class="stack">${actions}
+      <button class="btn ghost" onclick="render('pdf',{id:'${inv.id}'})">Download PDF</button>
+    </div>
+  </main>`;
+},
+pdf(ctx){ return firmHeader() + `<main><button class="back" onclick="render('detail',{id:'${ctx.id}'})">← Back</button>
+  <div class="notice info" role="status">In the real product this downloads a PDF identical to the one attached to your invoice email (R7). The prototype shows the action only.</div></main>`; },
+
+/* S4 multi-select handled inside home() via selectionBar + rowHome */
+
+/* S3 review */
+review(ctx){ CTX=ctx;
+  return firmHeader() + `<main>
+    <button class="back" onclick="render('home')">← Back</button>
+    <h2>Review &amp; pay</h2>
+    <div class="notice info">${ctx.ids.length>1?`Paying ${ctx.ids.length} invoices together`:`Paying ${ctx.ids[0]}`} — all in ${ctx.cur}.</div>
+    ${ctx.ids.map(id=>{const inv=STATE.data.find(i=>i.id===id);const c=ctx.partial&&ctx.ids.length===1?ctx.cents:(inv.status==="partial"?inv.remaining:inv.cents);return `<div class="kv"><span>${id}${ctx.partial?" (part)":""}</span><b>${money(c,ctx.cur)}</b></div>`;}).join("")}
+    <div class="kv" style="border-bottom:0;margin-top:4px"><span><b>Total</b></span><b style="font-size:20px">${money(ctx.cents,ctx.cur)}</b></div>
+    <div class="stack">
+      <button class="btn" onclick="hosted()">Pay by card</button>
+      <button class="btn secondary" onclick="toBank({ids:${JSON.stringify(ctx.ids)},cur:'${ctx.cur}',cents:${ctx.cents}})">Pay by bank transfer</button>
+    </div>
+  </main>`;
+},
+
+/* partial entry */
+partial(ctx){ const inv=STATE.data.find(i=>i.id===ctx.id);
+  return firmHeader() + `<main>
+    <button class="back" onclick="render('detail',{id:'${inv.id}'})">← Back</button>
+    <h2>Pay part of ${inv.id}</h2>
+    <p class="muted">Full amount is ${money(inv.cents,inv.cur)}. Enter any amount less than that.</p>
+    <div class="field"><label for="amt">Amount to pay (${inv.cur})</label>
+      <input id="amt" type="number" min="0.01" max="${(inv.cents/100-0.01).toFixed(2)}" step="0.01" value="${(inv.cents/200/1).toFixed(2)}"></div>
+    <div id="amterr"></div>
+    <button class="btn" onclick="submitPartial('${inv.id}')">Continue</button>
+    <p class="hint">Bounds (must be &gt;0 and &lt; total) are proposed in AC-R8.2 — confirm with Maya.</p>
+  </main>`;
+},
+
+/* hosted page (partner) */
+hosted(){ return `<div class="hosted"><div class="panel">
+  <span class="pill">Secure payment · partner's hosted page</span>
+  <h2>Pay ${money(CTX.cents,CTX.cur)}</h2>
+  <div class="fakefield">Card number ···· ···· ···· 4242</div>
+  <div class="fakefield">Expiry 12 / 28 &nbsp;&nbsp; CVC ···</div>
+  <p style="color:#9fb8e0;font-size:13px">This screen stands in for the partner's hosted card page (R4). Choose an outcome to continue the walkthrough:</p>
+  <button class="btn" onclick="payResult('ok')">Simulate successful payment</button>
+  <button class="btn ghost" style="background:#13335c;color:#dbe7ff;border-color:#27508a" onclick="payResult('fail')">Simulate card declined</button>
+  <button class="btn ghost" style="background:#13335c;color:#dbe7ff;border-color:#27508a" onclick="render('home')">Cancel (abandon) → back to portal</button>
+</div></div>`; },
+
+/* S5 processing */
+processing(){ return firmHeader() + `<main><div class="empty"><div class="big" aria-hidden="true">⏳</div>
+  <h2>Processing your payment…</h2><p class="muted" role="status">This usually takes under a minute. Please don't close this page.</p></div></main>`; },
+
+/* S6 confirmation */
+confirmation(ctx){ return firmHeader() + `<main>
+  <div class="notice ok" role="status"><b>Payment received — thank you!</b></div>
+  <p>These invoices are now paid:</p>
+  <ul class="invoices">${ctx.ids.map(id=>`<li class="inv" style="cursor:default"><div class="meta"><div class="num">${id}</div></div>${badge(STATE.data.find(i=>i.id===id))}</li>`).join("")}</ul>
+  <p class="muted">A receipt has been emailed to you (R4).${ctx.ids.length>1?" One receipt covers all the invoices above (receipt scope for multi-pay is a gap — see 01-D9).":""}</p>
+  <div class="stack"><button class="btn" onclick="render('home')">Back to my invoices</button></div>
+</main>`; },
+
+/* S7 failed */
+failed(ctx){ return firmHeader() + `<main>
+  <div class="notice err" role="alert"><b>That card was declined.</b><br>Nothing has been charged and ${ctx.ids.join(", ")} ${ctx.ids.length>1?"are":"is"} still open.</div>
+  <div class="stack">
+    <button class="btn" onclick="hosted()">Try again</button>
+    <button class="btn secondary" onclick="toBank(CTX)">Pay by bank transfer instead</button>
+    <button class="btn ghost" onclick="render('home')">Back</button>
+  </div>
+</main>`; },
+
+/* bank transfer details */
+bank(ctx){ return firmHeader() + `<main>
+  <button class="back" onclick="render('home')">← Back</button>
+  <h2>Pay by bank transfer</h2>
+  <div class="notice info">Transfer ${money(ctx.cents,ctx.cur)} to ${FIRM.name} using the details below, then it's done from your side.</div>
+  <div class="kv"><span>Account name</span><b>${FIRM.name} Ltd</b></div>
+  <div class="kv"><span>Sort / routing</span><b>00-00-00 (synthetic)</b></div>
+  <div class="kv"><span>Account</span><b>1234 5678 (synthetic)</b></div>
+  <div class="kv"><span>Reference</span><b>${ctx.ids.join("-")}</b></div>
+  <p class="hint">Bank details, reference and currency handling are PROPOSED (R6 had no acceptance criteria — see 03). All values here are synthetic.</p>
+  <button class="btn" onclick="markAwait(${JSON.stringify(ctx.ids)})">I've made the transfer</button>
+  <p class="hint">After this the invoice shows “Awaiting transfer” and still counts as owed until ${FIRM.name} confirms it by hand (R6 metric risk — 01-B).</p>
+</main>`; },
+};
+
+/* rows */
+function rowHome(inv){
+  if(STATE.selecting){
+    const open = inv.status!=="paid";
+    const sameCur = STATE.selCur===null || inv.cur===STATE.selCur;
+    const selectable = open && sameCur && inv.status==="open";
+    const checked = STATE.selected.has(inv.id);
+    const cls = selectable?"inv":"inv disabledrow";
+    const onclick = selectable?`onclick="toggle('${inv.id}','${inv.cur}')"`:`onclick="blockOtherCur('${inv.cur}')"`;
+    return `<li><button class="${cls}" ${onclick} aria-pressed="${checked}">
+      <span class="check" role="checkbox" aria-checked="${checked}">${checked?"✓":""}</span>
+      <span class="meta"><span class="num">${inv.id}</span><span class="dates">Due ${inv.due}</span></span>
+      <span class="amt">${money(inv.cents,inv.cur)}</span></button></li>`;
+  }
+  return `<li><button class="inv" onclick="render('detail',{id:'${inv.id}'})">
+    <span class="meta"><span class="num">${inv.id}</span><span class="dates">Due ${inv.due} · Issued ${inv.issue}</span>
+      <div style="margin-top:6px">${badge(inv)}</div></span>
+    <span class="amt">${money(inv.status==="partial"?inv.remaining:inv.cents,inv.cur)}</span></button></li>`;
+}
+function selectionBar(){
+  const chosen=[...STATE.selected].map(id=>STATE.data.find(i=>i.id===id));
+  const total=chosen.reduce((s,i)=>s+i.cents,0);
+  const cur=STATE.selCur||"";
+  return `<div class="stickybar" role="status">
+    <div class="t"><div class="muted">${chosen.length} selected${cur?(" · "+cur):""}</div><b>${chosen.length?money(total,cur):"—"}</b></div>
+    <button class="btn" style="width:auto;padding:12px 16px" ${chosen.length?"":"disabled"} onclick="paySelected()">Pay selected</button>
+  </div>`;
+}
+
+/* interactions */
+function startSelect(){ STATE.selecting=true; STATE.selected=new Set(); STATE.selCur=null; render('home'); }
+function toggle(id,cur){ if(STATE.selected.has(id)){STATE.selected.delete(id); if(STATE.selected.size===0)STATE.selCur=null;} else {STATE.selected.add(id); STATE.selCur=cur;} render('home'); }
+function blockOtherCur(cur){ const el=document.getElementById("app"); alert("You can pay invoices in one currency at a time. These are in "+STATE.selCur+"; "+cur+" invoices can be paid separately. (Assumption — see 01-A.)"); }
+function paySelected(){ const chosen=[...STATE.selected].map(id=>STATE.data.find(i=>i.id===id)); const total=chosen.reduce((s,i)=>s+i.cents,0); toReview({ids:[...STATE.selected],cur:STATE.selCur,cents:total}); }
+function toReview(ctx){ STATE.selecting=false; render('review',ctx); }
+function toBank(ctx){ render('bank',ctx); }
+function toPartial(id){ render('partial',{id}); }
+function submitPartial(id){ const inv=STATE.data.find(i=>i.id===id); const v=parseFloat(document.getElementById("amt").value); const err=document.getElementById("amterr");
+  if(isNaN(v)||v<=0||v*100>=inv.cents){ err.innerHTML=`<div class="notice err" role="alert">Enter an amount greater than 0 and less than ${money(inv.cents,inv.cur)}.</div>`; return; }
+  render('review',{ids:[id],cur:inv.cur,cents:Math.round(v*100),partial:true});
+}
+function hosted(){ render('hosted'); }
+function payResult(r){ if(r==="fail"){ render('failed',CTX); return; } render('processing'); setTimeout(()=>{ CTX.ids.forEach(id=>{ const inv=STATE.data.find(i=>i.id===id); if(CTX.partial){ inv.status="partial"; inv.remaining=inv.cents-CTX.cents; } else { inv.status="paid"; inv.paid=TODAY; } }); render('confirmation',CTX); }, 1400); }
+function markAwait(ids){ ids.forEach(id=>{ const inv=STATE.data.find(i=>i.id===id); if(inv.status==="open")inv.status="await"; }); render('home'); }
+
+/* boot */
+render('home');
+</script>
+</body>
+</html>

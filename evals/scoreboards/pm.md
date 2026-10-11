@@ -94,6 +94,12 @@ holding when its pasted source does not support it.
 - The research skill's quote checker could report a clean check of zero quotes; it now fails instead
   (see the product-research scoreboard).
 
+## Run 3, 2026-10-11: version 3 ran, grading paused
+All five golden inputs ran on version 3 (the claims check handed to a separate reader), each wrote its
+check file, and the outputs are in the run folders ending `-r3`. They are not graded yet: the account
+that runs these tests hit its monthly spend limit during the demo runs, so no grader was started. No
+score is claimed for version 3 until separate reviewers grade these runs.
+
 ## Rung history
 | Date | Rung | Why |
 |---|---|---|
