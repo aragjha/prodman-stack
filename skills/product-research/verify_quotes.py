@@ -41,14 +41,19 @@ def page_text(url: str) -> str | None:
 
 
 def rows(path: str):
-    lines = [l for l in open(path, encoding="utf-8") if l.startswith("|")]
-    header = [c.strip().lower() for c in lines[0].strip().strip("|").split("|")]
-    col = {name: i for i, name in enumerate(header)}
-    for l in lines[2:]:
-        c = [x.strip() for x in l.strip().strip("|").split("|")]
-        if len(c) < len(header) or not re.match(r"^S\d+$", c[0]):
+    """Yield (id, quote cell, url cell, mark). Works for v1 tables (header row with Verbatim/URL/Mark)
+    and v2 evidence lines: S# | angle | exact quote | URL | date read | how checked."""
+    for l in open(path, encoding="utf-8"):
+        s = l.strip().strip("|").strip()
+        c = [x.strip() for x in s.split("|")]
+        if not c or not re.match(r"^S\d+$", c[0]) or len(c) < 4:
             continue
-        yield c[0], c[col.get("verbatim", 2)], c[col.get("url", 3)], c[col.get("mark", len(c) - 1)].upper()
+        mark = c[-1].upper()
+        if "READ ON THE PAGE" in mark: mark = "HIGH"
+        elif "SECOND HAND" in mark: mark = "MEDIUM"
+        url_i = next((i for i, x in enumerate(c) if re.search(r"https?://", x)), 3)
+        quote = max((c[i] for i in range(1, len(c)) if i != url_i), key=lambda x: x.count('"') * 1000 + len(x))
+        yield c[0], quote, c[url_i], mark
 
 
 def main(path: str) -> int:
