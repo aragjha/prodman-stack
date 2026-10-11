@@ -113,4 +113,9 @@ def crosscheck(doc: str, sources: str) -> int:
 if __name__ == "__main__":
     if sys.argv[1] == "--crosscheck":
         sys.exit(crosscheck(sys.argv[2], sys.argv[3]))
+    # one command for both checks: verify_quotes.py EVIDENCE.md --report REPORT.md
+    if len(sys.argv) > 3 and sys.argv[2] == "--report":
+        a = main(sys.argv[1])
+        b = crosscheck(sys.argv[3], sys.argv[1])
+        sys.exit(1 if (a or b) else 0)
     sys.exit(main(sys.argv[1]))

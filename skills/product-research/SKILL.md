@@ -1,129 +1,123 @@
 ---
 name: product-research
-description: Research a product decision and tell the PM what to do. Writes down the decision, the belief and what would change the PM's mind before searching, looks for the evidence against the belief first, checks every quote against the real page, and returns a short plain report that makes the call and names the test that would reverse it. Use before a feature, a roadmap bet, a positioning call or a build or buy decision.
+description: Research a product decision and tell the PM what to do. Writes down the decision, the belief and what would change the PM's mind before searching, looks for the evidence against the belief first, checks every quote against the real page, and returns a short plain report that makes the call, shows how sure each finding is, and names the test that would reverse it. Use before a feature, a roadmap bet, a positioning call or a build or buy decision.
 disable-model-invocation: false
 user-invocable: true
 ---
 
 # /product-research · makes the call, and argues against you first
 
-Most research ends in "themes" and changes nothing. Most AI research also agrees with you: tell a
-model what you believe and it leans your way (Wang et al., arXiv 2508.02087: "first-person prompts
-(``I believe...'') consistently induce higher sycophancy rates than third-person framings (``They
-believe...'')"). This skill does the opposite, and stays short.
+Most research ends in "themes" and changes nothing. Most AI research also agrees with you: written
+"I believe…", a belief makes a model lean your way (arXiv 2508.02087). This skill writes the belief in
+the third person, hunts for evidence against it first, and makes a call.
 
-**You get two files.** `REPORT.md` is what the PM reads: plain words, under 1,000 words, links inline.
-`EVIDENCE.md` is the audit trail: the starting position, every source with how it was checked, the
-quote check, and the sweep. The PM never has to open it; anyone who doubts the report can.
+**Output:** `REPORT.md` (what the PM reads, plain, under 900 words, links inline) and `EVIDENCE.md`
+(the audit trail). Nothing else.
 
-## Inputs
-- The question and the decision it feeds. **If there is no decision, ask once and wait.** Everything
-  else (belief, goal number, what would change their mind) you may draft, marked *not confirmed*.
+## Work lean: this skill has a budget
+Every extra step costs tokens and time, so:
+- **Batch.** Send all searches in one turn, as parallel calls. Fetch pages in at most two parallel batches.
+- **At most 8 searches and 10 page reads.** Stop earlier if each part of the plan has an answer.
+- **Read narrowly.** Use WebFetch with a prompt asking for the exact sentences or numbers you need.
+  Never pull a whole page into the conversation with curl.
+- **Write each file once.** No drafts, no rereading your own files.
+- **Do not open FRAMEWORKS.md** unless a framework you need is missing from the card below.
+- **Check quotes in one command** at the end (step 5).
 
 ## Steps
 
-### 1. Write the starting position, before any search
-At the top of `EVIDENCE.md`, with the time:
-- **Decision:** what will be chosen differently depending on the answer.
-- **Goal:** the number the decision should move. From the PM, never from the web.
-- **Belief:** written in the third person ("The PM believes ops leads want notes"), never "I believe".
-  Split a two part belief into B1 and B2.
-- **What would change their mind:** the finding that would make the PM drop the belief.
+### 1. First turn: starting position plus all searches, together
+In one turn, in parallel:
+- **Write `EVIDENCE.md`** with the time and the starting position:
+  **Decision** (what changes depending on the answer) · **Goal** (the number; from the PM, never the
+  web) · **Belief** in the third person ("The PM believes…"), split into B1 and B2 if it has two parts ·
+  **What would change their mind**. If the decision is missing, ask once and stop.
+- **Run every search.** Cover four things: the alternatives and their prices; real usage or failure
+  of the idea where it has shipped; the affected users' own words; and any limits (rules, platforms,
+  cost). **Put the searches that could prove the belief wrong first** ("<feature> nobody used",
+  "<feature> shut down", "why we stopped <X>").
 
-If the PM wants only supporting evidence, say once that the report will still show what goes against
-the belief, then carry on.
+### 2. Second turn: read the best pages, in one parallel batch
+Pick the 6 to 10 results most likely to change the call. Fetch them together with narrow prompts.
+A search snippet is not a source; if a page will not open, say so and move on.
 
-### 2. Plan five angles
-1. **Goal and limits:** what the number is, and what constrains the options (rules, platforms, cost).
-2. **The alternatives:** who already solves this, how, at what price, and whether people actually use it.
-3. **The users' own words:** how the people affected describe the problem, unprompted.
-4. **What the PM books predict:** see the short card below. A framework is a prediction to test, never
-   evidence.
-5. **Reach:** where the users are, only if the decision depends on it.
+### 3. Decide, using the PM books as predictions
+Write down, for yourself, every finding that **weakens** the belief, judged by what it says. Then use
+two or three frameworks from the card as predictions to test, never as evidence. Then make the call.
+Make it even if the evidence is thin, and say how thin.
 
-Write the search keys for each angle, **the ones that could prove the belief wrong first**
-("<feature> nobody used", "<feature> shut down", "why we stopped <X>").
+**Never write "only", "first", "nobody" or "cannot be copied"** unless you searched for the
+counterexample. If you did, say what you searched.
 
-### 3. Search and open
-- Open the page. A search snippet is not a source.
-- Stop at about 15 sources, or when every angle has an answer. More is not better.
-- Record each source in `EVIDENCE.md`, one line: `S# | angle | exact quote | URL | date read | how checked`
-  where how checked is **read on the page**, **second hand** (a credible report of it), **not checked**
-  (could not open), **searched, nothing found** (give the search), or **from the PM**.
-- Quotes are copied character for character. A cut is shown with "…", only between whole sentences.
+### 4. Write both files, once each
+**`EVIDENCE.md`** (overwrite, keeping the starting position and its time): one line per source,
+`S# | exact quote | URL | how checked`, where how checked is **read on the page**, **vendor's own
+number**, **second hand**, **searched, nothing found** (give the search) or **from the PM**. Copy quotes
+character for character; show cuts with "…" only between whole sentences. Then list the sources that
+weaken the belief, and for each: where it appears in the report, or why it was dropped.
 
-### 4. Prove the quotes
-Run `python3 verify_quotes.py EVIDENCE.md`. Fix every line it flags, or downgrade that source to
-second hand. Then run `python3 verify_quotes.py --crosscheck REPORT.md EVIDENCE.md` once the report is
-written: every quote in the report must appear exactly in the evidence file.
-
-### 5. Sweep, then decide
-In `EVIDENCE.md`, list every source that **weakens** the belief, judging by what it says, not by what
-you hoped. Every one of them must appear in the report, or be listed as dropped with a reason.
-Then decide.
-
-### 6. Write REPORT.md
-Plain sentences. No source codes, no internal labels, no tables of tables. Links go inline next to the
-claim. Never use the words "falsifier", "angle" or "sweep" in the report. No dashes as connectors.
+**`REPORT.md`**, plain words, no source codes, no dashes as connectors:
 
 ```markdown
 # <the question, in the PM's words>
 
 ## The call
-<One or two sentences: what to do. Make the call even if the evidence is thin; say how thin.>
+<One or two sentences: what to do, and how strong the evidence is.>
 
 ## What would change this call
-<The one test, with a number, that would reverse it, and where to get it. Example: "If 3 of the 5 QBR
-accounts name a new person who would need a seat for notes, revisit this.">
+<One test with a number, and where to get the answer.>
 
-## What you believed, and what the evidence did to it
-- **<belief, plain>:** held / did not hold / still unknown. <one line why, with a link>
+## What you believed, and what happened to it
+- **<belief>:** held / did not hold / still unknown. <one line, with a link>
 
 ## What we found
-1. **<insight as a short claim>** <one or two lines of evidence with the link inline>
-   *What it changes:* <one line>
-(4 or 5 of these, ordered by how much they move the goal)
+| What we found | The evidence | How sure |
+|---|---|---|
+| <short claim> | <one line with the link inline> | checked on the page / vendor's own number / one source only |
+(4 to 6 rows, ordered by how much they move the goal)
+
+**What it changes:** <two or three short lines, one per key row>
 
 ## What the PM books predict
-- **<framework>:** predicts <x> here. The evidence <agreed / disagreed / could not say>.
-(two or three only, the ones that bear on this decision)
+- **<framework>:** predicts <x> here; the evidence <agreed / disagreed / could not say>.
 
 ## What we could not check
-- <each thing the PM should know is unverified, in one line>
+- <one line each>
 
 ## Next step
 <one sentence>
 ```
 
-### 7. Hand back
-Show the PM the call, the test that would change it, and the path to both files. Nothing else.
+### 5. Check the quotes, once
+`python3 verify_quotes.py EVIDENCE.md --report REPORT.md`
+Fix anything it flags with a single edit, or downgrade that source to second hand. Then hand back:
+the call, the test that would change it, and the two file paths.
 
-## The short PM books card
-| Framework | Predicts | Misuse to avoid |
+## The PM books card
+| Framework | Predicts | Do not |
 |---|---|---|
-| Jobs to be Done (Christensen) | what people really hire a product to get done, and what they fire for it | listing features as jobs |
-| Kano | whether shipping a feature earns anything or only stops losses | judging from competitor counts; Kano needs customer answers |
-| The four big risks (Cagan) | which of value, usability, feasibility, viability is still open | filing legal or platform rules under feasibility (they are viability); treating rivals' adoption as proof of your value |
-| Obviously Awesome (Dunford) | what to position on: the thing alternatives cannot do | citing it for numbers |
-| Opportunity solution tree (Torres) | whether the solution came before the problem was mapped | name dropping it |
-| The Mom Test (Fitzpatrick) | how to get honest evidence: ask about past behaviour | treating it as a theory of markets |
-| Crossing the Chasm (Moore) | whether you are selling to early adopters or the pragmatic majority | calling an existing customer base a beachhead |
-
-`FRAMEWORKS.md` in this folder has the longer version if a decision needs a framework not listed.
+| Jobs to be Done (Christensen) | what people really hire a product for, and what they fire to hire it | list features as jobs |
+| Kano | whether shipping it earns anything or only stops losses | judge from competitor counts; Kano needs customer answers |
+| The four big risks (Cagan) | which of value, usability, feasibility, viability is still open | file legal or platform rules under feasibility (they are viability); treat rivals' adoption as proof of your value |
+| Obviously Awesome (Dunford) | what to position on: what alternatives cannot do | cite it for numbers |
+| Opportunity solution tree (Torres) | whether the solution came before the problem was mapped | name drop it |
+| The Mom Test (Fitzpatrick) | how to get honest evidence: ask about past behaviour | treat it as a theory of markets |
+| Crossing the Chasm (Moore) | early adopters or the pragmatic majority | call an existing customer base a beachhead |
 
 ## VERIFY
 **Rung:** Observer, earned only from the scoreboard · **Irreversible?** no.
 
 | # | Check | How | Type | Fails if |
 |---:|---|---|---|---|
-| 1 | Starting position first | Decision, belief and what would change the PM's mind are timed earlier than the first source | auto | missing or later |
-| 2 | Every source recorded with how it was checked | Each `EVIDENCE.md` line has a URL or a search and a how checked value | auto | any line missing either |
-| 3 | Quotes exact | `verify_quotes.py` and the crosscheck report nothing to fix | auto | anything flagged and left |
-| 4 | Report is short and plain | `REPORT.md` under 1,000 words, no source codes, no internal labels | auto | over, or codes present |
-| 5 | Every weakening source in the report | The sweep list in the evidence file is fully covered in the report or dropped with a reason | adversarial | a weakening source silently missing |
-| 6 | Makes the call and names the reversing test | The call is a choice; the test has a number and a place to get it | adversarial | no call, or a test with no number |
-| 7 | Books used as predictions | Each framework line says what it predicts and whether the evidence agreed; none counted as evidence | adversarial | name dropping, or a framework cited as proof |
-| 8 | A PM can read it in five minutes | A reader with no context understands the call and why | adversarial | the reader has to decode anything |
+| 1 | Starting position first | It is the first thing written, with a time | auto | missing |
+| 2 | Every source has a URL or search and a how checked value | Read `EVIDENCE.md` | auto | any line missing either |
+| 3 | Quotes exact | The one command reports nothing left to fix | auto | anything flagged and left |
+| 4 | Short and plain | `REPORT.md` under 900 words, no source codes | auto | over, or codes present |
+| 5 | Every finding shows how sure it is | Each row of the findings table has a how sure value | auto | any blank |
+| 6 | Every weakening source appears or is dropped with a reason | Compare the list in the evidence file with the report | adversarial | one silently missing |
+| 7 | Makes the call and names a test with a number | Read the first two sections | adversarial | no call, or a test with no number |
+| 8 | No unchecked "only", "first", "nobody" | Each such claim names the search behind it | adversarial | one unsupported |
+| 9 | Lean | Under 100,000 tokens for the run | auto | over |
 
 **Red flags (any one = rung 0):** an invented source, quote or number · searching before the starting
 position is written · raising a confidence to suit the request · getting past a login or a bot wall.
