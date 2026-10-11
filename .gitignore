@@ -14,3 +14,5 @@ context/*.md
 __pycache__/
 # Run transcripts carry local paths; they stay on the machine that ran them
 evals/runs/**/transcript.jsonl
+# every run transcript, demos included (2026-10-11: demo transcripts were missed by the rule above)
+**/transcript.jsonl
