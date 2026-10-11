@@ -46,9 +46,13 @@ def rows(path: str):
     for l in open(path, encoding="utf-8"):
         s = l.strip().strip("|").strip()
         c = [x.strip() for x in s.split("|")]
+        # accept "S1 | ...", "- S1 | ...", "- **S1** | ..." and "**S1 | ...": markdown bullets and bold
+        # used to make this skip the line silently, and the run reported a clean check of nothing
+        if c:
+            c[0] = re.sub(r"^[\s\-*>+]*", "", c[0]).strip("*` ")
         if not c or not re.match(r"^S\d+$", c[0]) or len(c) < 4:
             continue
-        mark = c[-1].upper()
+        mark = c[-1].strip("*` ").upper()
         if "READ ON THE PAGE" in mark: mark = "HIGH"
         elif "SECOND HAND" in mark: mark = "MEDIUM"
         url_i = next((i for i, x in enumerate(c) if re.search(r"https?://", x)), 3)
@@ -58,6 +62,7 @@ def rows(path: str):
 
 def main(path: str) -> int:
     bad = 0
+    checked = 0
     cache: dict[str, str | None] = {}
     for sid, verbatim, url_cell, mark in rows(path):
         # a real quote never starts or ends with whitespace; segments that do are the gaps between two quotes
@@ -69,6 +74,7 @@ def main(path: str) -> int:
             cache[url] = page_text(url)
         text = cache[url]
         for q in quotes:
+            checked += 1
             if text is None:
                 print(f"{sid}\t{mark}\tUNREACHABLE\t{url}")
                 bad += mark == "HIGH"
@@ -91,7 +97,12 @@ def main(path: str) -> int:
                     status = "CUT" + ("-START" if lead else "") + ("-END" if tail else "")
             print(f"{sid}\t{mark}\t{status}\t{q[:70]}")
             bad += status != "OK" and mark == "HIGH"
-    print(f"\n{bad} HIGH row(s) need fixing or downgrading")
+    if checked == 0:
+        # Guard by behaviour, not by the absence of complaints: a check of nothing is a failure.
+        print("\n0 quotes checked. The evidence file has no line this script can read: each source line must "
+              "start with its ID (S1, S2 ...), then | angle | \"exact quote\" | URL | date | how checked. Fix the format and re-run.")
+        return 2
+    print(f"\n{checked} quote(s) checked; {bad} HIGH row(s) need fixing or downgrading")
     return 1 if bad else 0
 
 

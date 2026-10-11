@@ -90,7 +90,7 @@ Stated plainly, because you will hit these by day three and they are not bugs.
 | **Its checks are not a reviewer** | The pm skill grades its own output for quality. A score you publish should come from someone else |
 | **It does not save time you have not measured** | We cover tasks. We do not claim hours saved, because nobody has measured them yet |
 
-The paid [PM Second Brain](https://prodman.ai/second-brain) is where memory across projects and
+The paid [ProdMan OS](https://prodman.ai/os) is where memory across projects and
 scored runs on your own work are being built. This repo stays free under MIT either way.
 
 ---

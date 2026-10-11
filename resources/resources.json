@@ -1582,7 +1582,7 @@
       "scores": {
         "real_world_pm_usefulness": {
           "score": 3,
-          "why": "Reads design context, draws FigJam diagrams and turns a PRD into a project plan board, but many PMs hold View or Collab seats capped at 6 calls a month."
+          "why": "Reads design context, draws FigJam diagrams and turns a PRD into a project plan board, but a PM on a View or Collab seat, or on the Starter plan, gets 6 tool calls a month."
         },
         "quality_of_output": {
           "score": null,

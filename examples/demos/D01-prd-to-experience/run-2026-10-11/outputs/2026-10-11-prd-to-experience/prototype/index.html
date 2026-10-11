@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Client payment portal — low-fi clickable prototype (SYNTHETIC)</title>
+<style>
+  :root{
+    --brand:#2d5ba7;        /* firm "brand" colour, stand-in */
+    --accent:#1b8a5a;
+    --ink:#1b1f24; --mut:#5b6670; --line:#dce1e6; --bg:#eef1f4;
+    --ok:#1b8a5a; --warn:#b36b00; --bad:#b3261e; --pend:#6a4fb3;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font:16px/1.45 -apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;color:var(--ink);background:var(--bg)}
+  .banner{background:#2b2f36;color:#fff;padding:8px 14px;font-size:13px;text-align:center}
+  .wrap{max-width:860px;margin:0 auto;padding:16px;display:grid;grid-template-columns:230px 1fr;gap:16px}
+  @media(max-width:720px){.wrap{grid-template-columns:1fr}}
+  .nav{background:#fff;border:1px solid var(--line);border-radius:10px;padding:12px;height:fit-content;position:sticky;top:12px}
+  .nav h2{font-size:12px;text-transform:uppercase;letter-spacing:.05em;color:var(--mut);margin:0 0 8px}
+  .nav button{display:block;width:100%;text-align:left;border:0;background:none;padding:7px 8px;border-radius:7px;cursor:pointer;font-size:13px;color:var(--ink)}
+  .nav button:hover{background:var(--bg)}
+  .nav button.on{background:var(--brand);color:#fff}
+  /* phone frame */
+  .phone{background:#fff;border:1px solid var(--line);border-radius:18px;max-width:390px;margin:0 auto;overflow:hidden;box-shadow:0 6px 24px rgba(0,0,0,.08)}
+  .screen{display:none;min-height:560px;flex-direction:column}
+  .screen.on{display:flex}
+  .hdr{background:var(--brand);color:#fff;padding:14px 16px;display:flex;align-items:center;gap:10px}
+  .logo{width:26px;height:26px;border-radius:6px;background:#fff;color:var(--brand);display:grid;place-items:center;font-weight:700;font-size:13px}
+  .hdr small{display:block;opacity:.85;font-size:11px;font-weight:400}
+  .body{padding:16px;flex:1}
+  .owe{background:#f3f6fb;border:1px solid #d9e2f0;border-radius:10px;padding:12px;margin-bottom:14px}
+  .owe b{font-size:20px}
+  .row{border:1px solid var(--line);border-radius:10px;padding:11px 12px;margin-bottom:10px;display:flex;gap:10px;align-items:flex-start}
+  .row .amt{margin-left:auto;text-align:right;white-space:nowrap}
+  .num{font-weight:600}
+  .meta{font-size:12px;color:var(--mut)}
+  .chk{margin-top:3px}
+  .tag{font-size:11px;font-weight:600;padding:2px 7px;border-radius:20px;display:inline-block}
+  .t-open{background:#eef1f4;color:var(--mut)} .t-over{background:#fbecea;color:var(--bad)}
+  .t-part{background:#efeafb;color:var(--pend)} .t-pend{background:#fff4e2;color:var(--warn)}
+  .t-paid{background:#e7f5ee;color:var(--ok)}
+  h3{margin:2px 0 10px;font-size:16px}
+  .sub{color:var(--mut);font-size:12px;text-transform:uppercase;letter-spacing:.04em;margin:16px 0 8px}
+  .btn{display:block;width:100%;border:0;border-radius:9px;padding:12px;font-size:15px;font-weight:600;cursor:pointer;margin-top:8px;text-align:center}
+  .btn-p{background:var(--accent);color:#fff}
+  .btn-s{background:#fff;color:var(--brand);border:1px solid var(--brand)}
+  .btn-g{background:#fff;color:var(--mut);border:1px solid var(--line)}
+  .selbar{background:#1b1f24;color:#fff;padding:12px 16px;display:flex;align-items:center;gap:10px}
+  .selbar b{margin-left:auto}
+  .center{display:grid;place-items:center;text-align:center;flex:1;padding:24px}
+  .big{font-size:40px;margin-bottom:8px}
+  .note{font-size:13px;color:var(--mut);margin-top:10px}
+  .pill{font-size:11px;background:#fff4e2;color:var(--warn);border:1px solid #f0dcb4;padding:2px 8px;border-radius:20px}
+  .partner{background:#101418;color:#cfd6dd}
+  .partner .body{display:flex;flex-direction:column;justify-content:center}
+  .field{border:1px solid var(--line);border-radius:9px;padding:10px;margin:8px 0;color:var(--mut);font-size:14px;background:#fff}
+  .caption{font-size:12px;color:var(--mut);margin-top:6px}
+  .state-links{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+  .state-links button{font-size:11px;border:1px dashed var(--line);background:#fff;border-radius:7px;padding:4px 8px;cursor:pointer;color:var(--mut)}
+  .bank{background:#f3f6fb;border:1px solid #d9e2f0;border-radius:10px;padding:12px;font-size:14px}
+  .bank div{display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px solid #e3e9f2}
+  .bank div:last-child{border:0}
+  input.amt-in{width:100%;padding:11px;border:1px solid var(--line);border-radius:9px;font-size:16px}
+  .err{color:var(--bad);font-size:13px;margin-top:6px}
+  a.back{font-size:13px;color:var(--brand);text-decoration:none;display:inline-block;margin:10px 16px 0;cursor:pointer}
+</style>
+</head>
+<body>
+<div class="banner">⚠ SYNTHETIC low-fidelity prototype · grey-box, not visual design · amounts and firm are fictional · built 2026-10-11 for the D01 demo</div>
+<div class="wrap">
+  <nav class="nav" aria-label="Screens">
+    <h2>Walk the flow</h2>
+    <button data-go="s1" class="on">S1 · Portal home</button>
+    <button data-go="s1empty">S1 · Empty (all paid)</button>
+    <button data-go="s1bank">S1 · Bank-only firm</button>
+    <button data-go="s2">S2 · Invoice detail</button>
+    <button data-go="s3">S3 · Card (partner page)</button>
+    <button data-go="s4">S4 · Confirmation</button>
+    <button data-go="s5">S5 · Bank transfer</button>
+    <button data-go="s7">S7 · Partial payment</button>
+    <button data-go="s6">S6 · Link expired</button>
+    <button data-go="s6bad">S6 · Link invalid</button>
+    <h2 style="margin-top:14px">Unhappy paths</h2>
+    <button data-go="s3dec">Card declined</button>
+    <button data-go="s3to">Partner timeout</button>
+  </nav>
+
+  <div>
+    <div class="phone">
+
+      <!-- S1 home -->
+      <section id="s1" class="screen on">
+        <div class="hdr"><span class="logo">N</span><div><b>Northwind & Co</b><small>Invoices from your firm · secure link</small></div></div>
+        <div class="body">
+          <div class="owe">You owe this firm<br><b>$1,240.00 USD</b> · <b>€300.00 EUR</b>
+            <div class="caption">Shown per currency — totals are never mixed.</div></div>
+          <div class="sub">Open invoices</div>
+          <div class="row"><input class="chk" type="checkbox"><div><div class="num">INV-1043</div><div class="meta">Issued 20 Sep · Due 5 Oct</div><span class="tag t-over">Overdue</span></div><div class="amt">$640.00<br><button class="btn btn-s" style="padding:6px 10px;margin-top:6px;font-size:12px" data-go="s2">Pay</button></div></div>
+          <div class="row"><input class="chk" type="checkbox"><div><div class="num">INV-1051</div><div class="meta">Issued 1 Oct · Due 15 Oct</div><span class="tag t-open">Open</span></div><div class="amt">$600.00<br><button class="btn btn-s" style="padding:6px 10px;margin-top:6px;font-size:12px" data-go="s2">Pay</button></div></div>
+          <div class="row"><input class="chk" type="checkbox"><div><div class="num">INV-1049</div><div class="meta">Issued 28 Sep · Due 12 Oct</div><span class="tag t-part">Partially paid · €150 left</span></div><div class="amt">€300.00<br><button class="btn btn-s" style="padding:6px 10px;margin-top:6px;font-size:12px" data-go="s2">Pay</button></div></div>
+          <div class="sub">Paid · last 12 months</div>
+          <div class="row"><div style="width:18px"></div><div><div class="num">INV-1030</div><div class="meta">Paid 2 Sep</div><span class="tag t-paid">Paid</span></div><div class="amt">$480.00<br><button class="btn btn-g" style="padding:6px 10px;margin-top:6px;font-size:12px">PDF</button></div></div>
+        </div>
+        <div class="selbar">Pay several (same currency) <b>Select rows ▲</b></div>
+        <div class="state-links" style="padding:0 16px 14px">
+          <button data-go="s1empty">→ empty state</button>
+          <button data-go="s1bank">→ bank-only firm</button>
+        </div>
+      </section>
+
+      <!-- S1 empty -->
+      <section id="s1empty" class="screen">
+        <div class="hdr"><span class="logo">N</span><div><b>Northwind & Co</b><small>Invoices from your firm</small></div></div>
+        <div class="center"><div class="big">✓</div><h3>You're all paid up</h3><div class="note">Nothing is due right now. Paid invoices stay here for 12 months.</div>
+          <button class="btn btn-g" style="max-width:200px;margin-top:16px">View paid invoices</button></div>
+      </section>
+
+      <!-- S1 bank only -->
+      <section id="s1bank" class="screen">
+        <div class="hdr"><span class="logo">B</span><div><b>Baytree Books</b><small>Bank transfer only</small></div></div>
+        <div class="body">
+          <div class="owe">You owe this firm<br><b>£820.00 GBP</b></div>
+          <div class="pill">This firm accepts bank transfer only — no card option shown.</div>
+          <div class="sub" style="margin-top:14px">Open invoices</div>
+          <div class="row"><div style="width:4px"></div><div><div class="num">INV-2210</div><div class="meta">Due 18 Oct</div><span class="tag t-open">Open</span></div><div class="amt">£820.00<br><button class="btn btn-s" style="padding:6px 10px;margin-top:6px;font-size:12px" data-go="s5">Bank transfer</button></div></div>
+        </div>
+      </section>
+
+      <!-- S2 detail -->
+      <section id="s2" class="screen">
+        <div class="hdr"><span class="logo">N</span><div><b>INV-1043</b><small>Northwind & Co</small></div></div>
+        <div class="body">
+          <span class="tag t-over">Overdue</span>
+          <h3 style="margin-top:10px">$640.00 USD</h3>
+          <div class="meta">Issued 20 Sep 2026 · Due 5 Oct 2026</div>
+          <button class="btn btn-p" data-go="s3">Pay by card</button>
+          <button class="btn btn-s" data-go="s5">Pay by bank transfer</button>
+          <button class="btn btn-s" data-go="s7">Pay part of this</button>
+          <button class="btn btn-g">Download PDF</button>
+          <div class="caption">"Pay part of this" shows only when your firm allows partial payment.</div>
+        </div>
+        <a class="back" data-go="s1">← Back to invoices</a>
+      </section>
+
+      <!-- S3 partner -->
+      <section id="s3" class="screen partner">
+        <div class="hdr" style="background:#0b0e11"><div><b>Secure payment</b><small>Payments partner · hosted page</small></div></div>
+        <div class="body">
+          <div style="color:#8b96a1;font-size:12px">You're paying <b style="color:#fff">Northwind & Co</b></div>
+          <h3 style="color:#fff">$640.00 USD</h3>
+          <div class="field">Card number</div><div class="field">Expiry · CVC</div>
+          <button class="btn btn-p" data-go="s4">Pay $640.00</button>
+          <div class="caption" style="color:#8b96a1">This page is owned by the payments partner, not the portal.</div>
+          <div class="state-links">
+            <button data-go="s3dec">simulate declined</button>
+            <button data-go="s3to">simulate timeout</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- S3 declined -->
+      <section id="s3dec" class="screen">
+        <div class="hdr"><span class="logo">N</span><div><b>Payment not completed</b><small>Northwind & Co</small></div></div>
+        <div class="center"><div class="big" style="color:var(--bad)">✕</div><h3>Card declined</h3>
+          <div class="note">INV-1043 is still <b>Open</b>. Nothing was charged.</div>
+          <button class="btn btn-p" style="max-width:220px" data-go="s3">Try again</button>
+          <button class="btn btn-g" style="max-width:220px" data-go="s1">Back to invoices</button></div>
+      </section>
+
+      <!-- S3 timeout -->
+      <section id="s3to" class="screen">
+        <div class="hdr"><span class="logo">N</span><div><b>Couldn't reach payment</b><small>Northwind & Co</small></div></div>
+        <div class="center"><div class="big" style="color:var(--warn)">!</div><h3>We couldn't reach the payment page</h3>
+          <div class="note">INV-1043 is still <b>Open</b>. Please try again.</div>
+          <button class="btn btn-p" style="max-width:220px" data-go="s3">Try again</button>
+          <button class="btn btn-g" style="max-width:220px" data-go="s1">Back to invoices</button></div>
+      </section>
+
+      <!-- S4 confirm -->
+      <section id="s4" class="screen">
+        <div class="hdr" style="background:var(--accent)"><span class="logo" style="color:var(--accent)">✓</span><div><b>Payment received</b><small>Northwind & Co</small></div></div>
+        <div class="center"><div class="big" style="color:var(--ok)">✓</div><h3>$640.00 paid</h3>
+          <div class="note">INV-1043 is now <b>Paid</b>. A receipt is on its way to your email.</div>
+          <button class="btn btn-g" style="max-width:220px;margin-top:16px">Download PDF</button>
+          <button class="btn btn-s" style="max-width:220px" data-go="s1">Back to invoices</button></div>
+      </section>
+
+      <!-- S5 bank -->
+      <section id="s5" class="screen">
+        <div class="hdr"><span class="logo">N</span><div><b>Bank transfer</b><small>Northwind & Co</small></div></div>
+        <div class="body">
+          <p style="margin-top:0">Transfer <b>$640.00 USD</b> using the details below and quote the reference.</p>
+          <div class="bank">
+            <div><span>Account name</span><b>Northwind &amp; Co</b></div>
+            <div><span>Sort / routing</span><b>•• ••• ••</b></div>
+            <div><span>Account no.</span><b>•••• ••21</b></div>
+            <div><span>Reference</span><b>INV-1043</b></div>
+          </div>
+          <div class="pill" style="margin-top:12px">Invoice is now <b>Payment pending</b>. Your firm will confirm once the transfer arrives.</div>
+          <button class="btn btn-s" data-go="s1">Back to invoices</button>
+          <div class="caption">Bank transfers aren't marked paid automatically — the firm reconciles them by hand.</div>
+        </div>
+      </section>
+
+      <!-- S7 partial -->
+      <section id="s7" class="screen">
+        <div class="hdr"><span class="logo">N</span><div><b>Pay part of INV-1043</b><small>Northwind & Co</small></div></div>
+        <div class="body">
+          <div class="meta">Remaining balance: <b>$640.00 USD</b></div>
+          <label class="sub" for="pa">Amount to pay now</label>
+          <input id="pa" class="amt-in" type="text" value="$200.00">
+          <div class="err" id="paerr" style="display:none">Enter an amount between $0.01 and $639.99.</div>
+          <button class="btn btn-p" data-go="s3">Continue to card</button>
+          <a class="back" data-go="s2">← Back</a>
+          <div class="caption">After paying, the invoice shows <b>Partially paid</b> and the balance stays payable.</div>
+        </div>
+      </section>
+
+      <!-- S6 expired -->
+      <section id="s6" class="screen">
+        <div class="hdr"><span class="logo">N</span><div><b>Link expired</b><small>Northwind & Co</small></div></div>
+        <div class="center"><div class="big">⏱</div><h3>This link has expired</h3>
+          <div class="note">Portal links expire after 30 days for your security. We can send a fresh one to your email.</div>
+          <button class="btn btn-p" style="max-width:240px;margin-top:16px" onclick="document.getElementById('s6sent').style.display='block'">Email me a new link</button>
+          <div id="s6sent" style="display:none" class="pill">A new link is on its way to your email.</div></div>
+      </section>
+
+      <!-- S6 invalid -->
+      <section id="s6bad" class="screen">
+        <div class="hdr"><span class="logo">N</span><div><b>Link unavailable</b><small>Northwind & Co</small></div></div>
+        <div class="center"><div class="big">🔒</div><h3>This link isn't available</h3>
+          <div class="note">The link may be incorrect, or your firm has turned the portal off. Please contact Northwind &amp; Co for a copy of your invoice.</div></div>
+      </section>
+
+    </div>
+    <p style="max-width:390px;margin:12px auto;font-size:12px;color:#5b6670;text-align:center">
+      Grey-box prototype. Spec: <code>04-screen-state-spec.md</code>. Open questions that change these
+      screens: <code>05-open-questions.md</code>.</p>
+  </div>
+</div>
+
+<script>
+  function go(id){
+    document.querySelectorAll('.screen').forEach(s=>s.classList.toggle('on',s.id===id));
+    document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('on',b.dataset.go===id));
+    document.querySelector('.phone').scrollIntoView({behavior:'smooth',block:'nearest'});
+  }
+  document.addEventListener('click',e=>{
+    const t=e.target.closest('[data-go]'); if(t){go(t.dataset.go);}
+  });
+  // tiny partial-payment validation demo
+  const pa=document.getElementById('pa');
+  if(pa){pa.addEventListener('input',()=>{
+    const v=parseFloat(pa.value.replace(/[^0-9.]/g,''));
+    document.getElementById('paerr').style.display=(!(v>0&&v<640))?'block':'none';
+  });}
+</script>
+</body>
+</html>

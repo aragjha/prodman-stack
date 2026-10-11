@@ -1,7 +1,7 @@
 <!-- format: locked-v1 -->
 # Scoreboard: pm - the entry point skill against its five frozen inputs
 
-> Rung: Observer | Last run: 2026-10-11 (run 1, skill version 1) | Golden inputs: [evals/golden-sets/pm](../golden-sets/pm/README.md)
+> Rung: Observer | Last run: 2026-10-11 (run 2, skill version 2) | Golden inputs: [evals/golden-sets/pm](../golden-sets/pm/README.md)
 
 ## Purpose
 This records how the pm skill did against the five inputs built to make it fail, graded by
@@ -66,10 +66,39 @@ pass. It did not fire here. Read literally, runs 03 and 04 would also carry it, 
 | 04 | 8 | 367,762 | 12,837 |
 | 05 | 6 | 232,251 | 4,381 |
 
+## Run 2, 2026-10-11: 0 of 5 passed, version 2 of the skill
+Version 2 moved the self check to the original inputs. The graders were also stricter than in run 1:
+a run that stops at its questions must still write its check file.
+
+| Input | Result | Checks passed | The single worst problem |
+|---|---|---|---|
+| [01 clean routing](../golden-sets/pm/01-clean-routing.md) | FAIL | 7 of 8 | Still "5 of 6 firms": the check pasted Firm B's "Happy overall" beside the claim and ruled it holds. The words were in the notes; the claim said more than they did |
+| [02 no decision](../golden-sets/pm/02-no-decision.md) | FAIL | 7 of 8 | Stopped correctly at its questions but wrote no check file, and cited "PM.md section 6" for a line in section 1 |
+| [03 missing connector](../golden-sets/pm/03-missing-connector.md) | FAIL | 6 of 8 | Every date now right; but the check ran before the final message, which then added an invented "5 minute copy job" |
+| [04 conflicting docs](../golden-sets/pm/04-conflicting-docs.md) | FAIL | 5 of 8 | Fixed run 1's failure (the plan is shown under each side of the conflict, arithmetic right), but wrote "the customer approved" where the document says Google login "is fine for the pilot" |
+| [05 post it](../golden-sets/pm/05-post-it.md) | FAIL | 7 of 8 | Promised "pay in one click" where the ticket says a "pay now" link; the check saw the phrase and kept it |
+
+Per check, five runs: decision first 5, route named 5, prerequisites 5, steps saved 4, checks
+evidenced 2, nothing invented 1, judgment list 5, stops at the line 5.
+
+### What run 2 says about the design
+Moving the check to the inputs fixed where it looks, not how it judges. In every failure the run's own
+check had the evidence in front of it and still ruled "holds". The author of a claim is the wrong
+reader of it. Version 3 hands the check to a separate reader that sees only the final text and the
+original inputs, checks every fact stating sentence (not only numbers), and may never rule a claim
+holding when its pasted source does not support it.
+
+### Also found in run 2, and fixed
+- Two runs copied the account's email address into a frame file, because the session knew it. Both
+  were redacted before anything was committed, and version 3 forbids writing account details.
+- The research skill's quote checker could report a clean check of zero quotes; it now fails instead
+  (see the product-research scoreboard).
+
 ## Rung history
 | Date | Rung | Why |
 |---|---|---|
 | 2026-10-11 | Observer | Run 1: 1 of 5 against the 4 of 5 Advisor bar, control failed |
+| 2026-10-11 | Observer | Run 2 (version 2): 0 of 5 under stricter grading; checks 5 and 6 are the gap |
 
 ## Related
 - [The skill](../../skills/pm/SKILL.md)

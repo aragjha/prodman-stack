@@ -1,0 +1,1 @@
+Our PRD for the client payment portal is in examples/demos/D01-prd-to-experience/input/. Turn it into the product experience: the client's path from the invoice email to a paid invoice, every screen and state along the way, and a clickable prototype I can walk the team through. Design and engineering start on Monday, so tell me what they'll need from me before then.

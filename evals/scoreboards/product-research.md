@@ -210,3 +210,14 @@ are frozen (`_harness/REVIEWER-BRIEFS.md` v3) so scores compare across rounds.
 decision"* line (R8 failed the same way three rounds running) · a built-in framework card — what each
 framework says, what it predicts, when it applies, the common misuse (R9: Mom Test used as a theory,
 Kano applied to headlines).
+
+## Tool fix, 2026-10-11: the quote checker could pass while checking nothing
+Found by the grader of the C01 demo (a run of the pm skill that called this skill's method). The
+run's evidence lines began "- **S1 |", and `verify_quotes.py` only read lines whose first cell was a
+bare "S1". It skipped every line, printed "0 HIGH row(s) need fixing" and exited clean, and the run
+reported "quote verifier ran clean". One quote in that run had never been opened at its source.
+
+Fixed the same day: the checker now reads bulleted and bold lines, and when it checks zero quotes it
+says so and exits with an error (code 2) instead of passing. Tested on three files: bulleted (read,
+1 quote checked), plain (read), and one with no evidence lines (fails, exit 2). Any edit voids the
+rung; this skill was at Observer and stays there.
